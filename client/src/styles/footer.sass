@@ -11,6 +11,9 @@
   justify-content: space-between
   align-items: center
   width: -webkit-fill-available
+  gap: 24px
+  @media (max-width: 550px)
+    flex-direction: column
 
 .github__list
   list-style: none
@@ -18,6 +21,10 @@
   margin: 0
   display: flex
   gap: 24px
+  @media (max-width: 550px)
+    flex-direction: column
+    align-items: center
+    gap: 5px
 
 .github__item
   display: flex
@@ -32,6 +39,10 @@
   color: $cadet-blue
   text-decoration: none
   transition: all 0.3s ease
+  @media (max-width: 550px)
+    padding-left: 25px
+    background-size: 20px
+    line-height: 30px
 
   &:hover,
   &:active,
@@ -48,6 +59,9 @@
   background-repeat: no-repeat
   background-position: left center
   padding-right: 110px
+  @media (max-width: 550px)
+    height: 20px
+    padding-right: 70px
 
 .rss-year
   position: absolute
@@ -59,6 +73,9 @@
   line-height: 0.7
   font-weight: bold
   transition: 0.3s
+  @media (max-width: 550px)
+    font-size: 16px
+    line-height: 0.7
 
 .rss:hover .rss-year
   right: -5px
