@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import { Main } from './pages/main/main.tsx';
 
 const App: React.FC = () => (
-  <div className="app_container">
+  <div className="app-container">
     <Header />
     <Switch>
       <Route exact path="/" component={Main} />

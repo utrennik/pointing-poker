@@ -3,13 +3,13 @@ import '@styles/footer.sass';
 
 export const Footer: React.FC = () => (
   <footer className="footer">
-    <div className="container footer__wrapper">
-      <div className="footer__github">
-        <ul className="github__list">
+    <div className="container footer-wrapper">
+      <div className="footer-github">
+        <ul className="github-list">
           <li>
             <a
               href="https://github.com/utrennik"
-              className="github__item"
+              className="github-item"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -19,7 +19,7 @@ export const Footer: React.FC = () => (
           <li>
             <a
               href="https://github.com/RealOneReal"
-              className="github__item"
+              className="github-item"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -29,7 +29,7 @@ export const Footer: React.FC = () => (
           <li>
             <a
               href="https://github.com/HelenBassa"
-              className="github__item"
+              className="github-item"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -38,7 +38,7 @@ export const Footer: React.FC = () => (
           </li>
         </ul>
       </div>
-      <div className="footer__rsschool">
+      <div className="footer-rsschool">
         <a
           href="https://rs.school/react/"
           className="rss"
