@@ -1,8 +1,11 @@
-import '@styles/main.sass';
+import { Route, Switch } from 'react-router-dom';
+
 import { Header } from '@components/header/header';
 import { Footer } from '@components/footer/footer';
-import { Route, Switch } from 'react-router-dom';
+
 import { Main } from './pages/main/main.tsx';
+
+import '@styles/main.sass';
 
 const App = () => (
   <div className="app-container">
