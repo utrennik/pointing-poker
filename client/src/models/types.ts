@@ -5,3 +5,8 @@ export interface IWebLink {
   style: string;
   children: string | ReactNode;
 }
+
+export interface IInputButtonProps {
+  buttonText: string;
+  valueHandler: Function;
+}

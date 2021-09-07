@@ -1,0 +1,59 @@
+@import '@styles/variables'
+.welcome-page
+  margin: 0 auto
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+
+.welcome-logo-container
+  display: flex
+  align-items: center
+  justify-content: center
+  margin-bottom: 45px
+
+.welcome-logo
+  margin-right: 20px
+  img
+    width: 300px
+    @media (max-width: 840px)
+      width: 250px
+    @media (max-width: 700px)
+      width: 200px  
+    @media (max-width: 600px)
+      width: 170px  
+
+.welcome-title
+  font-size: 70px
+  font-weight: 900
+  letter-spacing: -3px
+  line-height: 1
+  @media (max-width: 840px)
+    font-size: 60px
+  @media (max-width: 700px)
+    font-size: 50px  
+  @media (max-width: 600px)
+    font-size: 40px  
+
+.welcome-header
+  font-size: 48px
+  font-weight: 700
+  color: $cadet-blue
+  margin-bottom: 50px
+  @media (max-width: 700px)
+    font-size: 40px
+
+.action-title
+  font-size: 22px
+  font-size: 23px
+  font-weight: 300
+  span
+    font-weight: 700
+    color: $cadet-blue
+
+.start-game-container
+  display: flex
+  align-items: center
+  justify-content: space-between
+  margin-bottom: 40px
+  width: 330px
