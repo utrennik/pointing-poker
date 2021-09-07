@@ -1,45 +1,29 @@
+import { WebLink } from '@components/webLink/webLink';
+import { footerData } from '@components/footer/footerData';
+
 import '@styles/footer.sass';
 
 export const Footer = () => {
-  const team = [
-    {
-      name: 'utrennik',
-      github: 'https://github.com/utrennik',
-    },
-    {
-      name: 'RealOneReal',
-      github: 'https://github.com/RealOneReal',
-    },
-    {
-      name: 'HelenBassa',
-      github: 'https://github.com/HelenBassa',
-    },
-  ];
-
-  const data = {
-    style: 'github-item',
-    target: '_blank',
-    rel: 'noopener noreferrer',
-  };
+  const { team, rss, style } = footerData;
 
   return (
     <footer className="footer">
       <div className="container footer-wrapper">
         <div className="footer-github">
           <ul className="github-list">
-            {team.map((item) => (
+            {team.map(({ name, link }) => (
               <li>
-                <a href={item.github} className={data.style} target={data.target} rel={data.rel}>
-                  {item.name}
-                </a>
+                <WebLink link={link} style={style.github}>
+                  {name}
+                </WebLink>
               </li>
             ))}
           </ul>
         </div>
         <div className="footer-rsschool">
-          <a href="https://rs.school/react/" className="rss" target={data.target} rel={data.rel}>
-            <span className="rss-year">'21</span>
-          </a>
+          <WebLink link={rss.link} style={style.rss}>
+            <span className="rss-year">{rss.year}</span>
+          </WebLink>
         </div>
       </div>
     </footer>
