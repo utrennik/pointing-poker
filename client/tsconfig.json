@@ -2,10 +2,10 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "moduleResolution": "node",
     "strict": true,
-    "allowJs": true,
+    "allowJs": false,
     "sourceMap": true,
     "rootDir": "./src",
     "baseUrl": "./",

@@ -1,15 +1,19 @@
-import React from 'react';
-import '@styles/main.sass';
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
+import { Route, Switch } from 'react-router-dom';
 
-const App: React.FC = () => (
-  <div className="_container">
-    <h3>
-      Hello, pointing poker!
-      <Icon color="primary">star</Icon>
-    </h3>
-    <Button variant="contained">Hello!</Button>
+import { Header } from '@components/header/header';
+import { Footer } from '@components/footer/footer';
+
+import { Main } from './pages/main/main.tsx';
+
+import '@styles/main.sass';
+
+const App = () => (
+  <div className="app-container">
+    <Header />
+    <Switch>
+      <Route exact path="/" component={Main} />
+    </Switch>
+    <Footer />
   </div>
 );
 
