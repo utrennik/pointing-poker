@@ -5,7 +5,7 @@
     "jsx": "react",
     "moduleResolution": "node",
     "strict": true,
-    // "allowJs": true,
+    "allowJs": true,
     "sourceMap": true,
     "rootDir": "./src",
     "baseUrl": "./",
