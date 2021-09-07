@@ -1,7 +1,6 @@
-import React from 'react';
 import '@styles/footer.sass';
 
-export const Footer: React.FC = () => {
+export const Footer = () => {
   const team = [
     {
       name: 'utrennik',

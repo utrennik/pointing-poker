@@ -1,8 +1,7 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
 import '@styles/header.sass';
 
-export const Header: React.FC = () => (
+export const Header = () => (
   <header className="header">
     <div className="header-up">
       <div className="container chat-wrapper">
