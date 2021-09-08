@@ -4,7 +4,7 @@ import pokerLogo from '@assets/images/poker.svg';
 import './welcome-page.sass';
 
 const WelcomePage = () => (
-  <div className="_container">
+  <div className="container">
     <div className="welcome-page">
       <div className="welcome-logo-container">
         <div className="welcome-logo">
