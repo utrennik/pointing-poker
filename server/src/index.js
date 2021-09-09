@@ -2,7 +2,8 @@ import express from "express";
 import { createServer } from "http";
 import cors from "cors";
 import { Server } from "socket.io";
-import { addUser, deleteUser, getUser, getUsers } from "./users.js";
+import { addUser, deleteUser, getUser, getUsers } from "./usersRepository.js";
+import { deleteIssue, getIssues, updateIssue,addIssue } from "./issuesRepository.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -16,15 +17,15 @@ io.on("connection", (socket) => {
   console.log(`Socket connect ${socket.id}`);
   socket.on(
     "user:join",
-    ({ firstName, role, room, lastName, jobPosition, img }) => {
+    ({ firstName, room, role, lastName, jobPosition, avatar }) => {
       const { user, error } = addUser(
         socket.id,
         firstName,
-        room = socket.id,
-        role = scrumMaster,
+        room,
         lastName,
         jobPosition,
-        img
+        avatar,
+        role
       );
       socket.join(user.room);
       socket.in(user.room).emit("notification", {
@@ -36,7 +37,7 @@ io.on("connection", (socket) => {
   );
 
   socket.on("disconnect", () => {
-    console.log("user disconnected")
+    console.log("user disconnected");
     const user = deleteUser(socket.id);
     if (user) {
       io.in(user.room).emit("notification", {
@@ -55,6 +56,20 @@ io.on("connection", (socket) => {
       text: message,
     });
   });
+
+  socket.on("issue:add",({name,room,priority,isActive,score}) => {
+    addIssue(name,room,priority,isActive,score);
+    io.in(room).emit("issues",getIssues(room))
+  });
+
+  socket.on("issue:delete",({name,room}) => {
+    deleteIssue(name,room);
+    io.in(room).emit("issues",getIssues)
+  })
+  socket.on("issue:update",({data,room}) => {
+    updateIssue(data,room);
+    io.in(room).emit("issues",getIssues)
+  })
 });
 
 app.get("/", (req, res) => {
