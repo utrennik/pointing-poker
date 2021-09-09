@@ -7,6 +7,12 @@ export interface IWebLink {
 }
 
 export interface IInputButtonProps {
+  /*
+   * the text of the button
+   */
   buttonText: string;
-  valueHandler: Function;
+  /*
+   * The action will be called on submit event
+   */
+  valueHandler: (arg0: string) => void;
 }

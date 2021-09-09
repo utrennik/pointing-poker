@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { IInputButtonProps } from '@models/types';
 import './input-button.sass';
