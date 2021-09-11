@@ -96,3 +96,17 @@ export interface IConnectModalErrors {
    */
   firstNameError?: boolean;
 }
+export interface IIssueCard {
+  /*
+   * Name of the issue card
+   */
+  name: string;
+  /*
+   * Ppriority of the issue in sprint
+   */
+  priority: string;
+  /*
+   * Select card in estimate mode
+   */
+  isSelected?: boolean;
+}

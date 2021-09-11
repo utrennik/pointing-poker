@@ -7,7 +7,9 @@ import routes from '@components/router/routes';
 
 import config from './config.json';
 
+
 import '@styles/main.sass';
+import { Test } from './pages/main/test.tsx';
 
 const App = () => {
   const location = useLocation();
