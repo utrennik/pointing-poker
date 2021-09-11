@@ -7,6 +7,7 @@ import routes from '@components/router/routes';
 
 import config from './config.json';
 
+
 import '@styles/main.sass';
 
 const App = () => {
@@ -29,6 +30,10 @@ const App = () => {
           <Switch location={location}>{routeComponents}</Switch>
         </CSSTransition>
       </TransitionGroup>
+    <Switch>
+      <Route exact path="/" component={WelcomePage} />
+      <Route exact path="/" component={Test} />
+    </Switch>
 
       <Footer />
     </div>
