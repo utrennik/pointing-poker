@@ -3,7 +3,7 @@ import { footerData } from '@components/footer/footerData';
 
 import '@styles/footer.sass';
 
-export const Footer = () => {
+const Footer = () => {
   const { team, rss, style } = footerData;
 
   return (
@@ -12,7 +12,7 @@ export const Footer = () => {
         <div className="footer-github">
           <ul className="github-list">
             {team.map(({ name, link }) => (
-              <li>
+              <li key={name}>
                 <WebLink link={link} style={style.github}>
                   {name}
                 </WebLink>
@@ -29,3 +29,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export default Footer;
