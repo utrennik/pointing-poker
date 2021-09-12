@@ -14,5 +14,5 @@ export interface IInputButtonProps {
   /*
    * The action will be called on submit event
    */
-  valueHandler: (arg0: string) => void;
+  valueHandler: (value: string) => void;
 }
