@@ -13,7 +13,8 @@
       "@components/*": ["src/components/*"],
       "@styles/*": ["src/styles/*"],
       "@assets/*": ["src/assets/*"],
-      "@models/*": ["src/models/*"]
+      "@models/*": ["src/models/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "downlevelIteration": true,
     "noImplicitAny": true,

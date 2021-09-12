@@ -9,7 +9,7 @@ export const Test = () => (
       style={{ display: 'flex', flexDirection: 'column', rowGap: '20px', alignItems: 'center' }}
     >
       <IssueCard name="Drink Beer" priority="low"></IssueCard>
-      <IssueCard name="Drink Whiskey" priority="high" isSelected></IssueCard>
+      <IssueCard name="Drink Whiskdsfsdfsdfdsf" priority="high" isSelected></IssueCard>
       <IssueCard name="Drink wine" priority="medium"></IssueCard>
       <IssueCardCreate></IssueCardCreate>
     </div>

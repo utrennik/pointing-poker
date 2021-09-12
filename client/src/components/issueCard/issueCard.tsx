@@ -1,6 +1,7 @@
+import React from 'react';
 import { Card, CardHeader, IconButton } from '@material-ui/core';
 import { IIssueCard } from '@models/types';
-import React from 'react';
+import { truncateString } from '@utils/stringUtils';
 import './issueCard.sass';
 
 export const IssueCard = ({ name, priority, isSelected }: IIssueCard) => {
@@ -20,7 +21,12 @@ export const IssueCard = ({ name, priority, isSelected }: IIssueCard) => {
 
   return (
     <Card className="issue-card" style={isSelected ? { backgroundColor: '#60DABF75' } : {}}>
-      <CardHeader className="issue-card-header" title={name} subheader={priority} />
+      <CardHeader
+        className="issue-card-header"
+        title={truncateString(name)}
+        subheader={truncateString(priority)}
+        subheaderTypographyProps={{ variant: 'subtitle1' }}
+      />
       {isGame ? (
         <IconButton className="issue-card-close-btn" onClick={handleClose} />
       ) : (
