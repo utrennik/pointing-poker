@@ -1,10 +1,18 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
 import { TextField } from '@material-ui/core';
 import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
 import './connect-modal.sass';
 
 const ConnectModal = ({ isOpen, onClose }) => {
   const [firstName, setFirstName] = useState('');
+
+  const clearForm = () => {
+    setFirstName('');
+  };
+
+  useEffect(() => {
+    if (!isOpen) clearForm();
+  }, [isOpen]);
 
   const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const inputName = e.target.name;
@@ -19,9 +27,12 @@ const ConnectModal = ({ isOpen, onClose }) => {
     }
   };
 
+  const confirmHandler = () => {
+    console.log('confirm');
+  };
+
   const modalBody = (
     <div>
-      <h2 className="header-modal">Connect to lobby</h2>
       <div className="input-modal">
         <TextField
           label="First name"
@@ -37,7 +48,12 @@ const ConnectModal = ({ isOpen, onClose }) => {
   );
 
   return (
-    <ModalWrapper isOpen={isOpen} onClose={onClose}>
+    <ModalWrapper
+      isOpen={isOpen}
+      onClose={onClose}
+      onConfirm={confirmHandler}
+      title="Connect to lobby"
+    >
       {modalBody}
     </ModalWrapper>
   );
