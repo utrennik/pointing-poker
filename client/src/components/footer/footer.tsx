@@ -12,7 +12,7 @@ export const Footer = () => {
         <div className="footer-github">
           <ul className="github-list">
             {team.map(({ name, link }) => (
-              <li>
+              <li key={name}>
                 <WebLink link={link} style={style.github}>
                   {name}
                 </WebLink>
