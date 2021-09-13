@@ -7,7 +7,9 @@ div
 .app-container
   display: flex
   flex-direction: column
-
+  height: 100%
+  justify-content: space-between
+  
 .container
   max-width: 1440px
   margin: 0 auto
@@ -24,3 +26,14 @@ div
   &-active
     opacity: 1
     transition: opacity 0.3s ease-in
+    
+.error-down
+  position: relative
+  
+.error-container
+  position: absolute
+  left: 0
+  bottom: -30px
+  font-size: 14px
+  font-weight: 700
+  color: $red
