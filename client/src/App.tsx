@@ -5,6 +5,8 @@ import Header from '@components/header/header';
 import Footer from '@components/footer/footer';
 import routes from '@components/router/routes';
 
+import config from './config.json';
+
 import '@styles/main.sass';
 
 const App = () => {
@@ -19,7 +21,11 @@ const App = () => {
       <Header />
 
       <TransitionGroup exit={false}>
-        <CSSTransition timeout={300} classNames="transition" key={location.key}>
+        <CSSTransition
+          timeout={config.transition.timeout}
+          classNames="transition"
+          key={location.key}
+        >
           <Switch location={location}>{routeComponents}</Switch>
         </CSSTransition>
       </TransitionGroup>
