@@ -38,6 +38,10 @@ export interface IModalWrapper {
    * modal content
    */
   children: ReactElement;
+  /*
+   * disable confirm button
+   */
+  disableConfirm: boolean;
 }
 
 export interface IModalButtons {
@@ -58,4 +62,30 @@ export interface IModalButtons {
    * modal confirm handler
    */
   onConfirm: () => void;
+  /*
+   * disable confirm button
+   */
+  disableConfirm: boolean;
+}
+
+export interface ICustomAvatar {
+  /*
+   * first name of User
+   */
+  firstName: string;
+  /*
+   * last name of User
+   */
+  lastName?: string;
+  /*
+   * avatar image
+   */
+  avatarImage?: string;
+}
+
+export interface IConnectModalErrors {
+  /*
+   * first name of User error
+   */
+  firstNameError?: boolean;
 }

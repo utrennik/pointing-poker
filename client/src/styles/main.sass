@@ -43,11 +43,14 @@ div
   max-width: 600px
   border: 1px solid $lightgrey
   outline: none
-  top: 30%
-  left: 50%
-  transform: translateX(-50%) translateY(-50%)
-  position: relative
   padding: 30px
+  position: relative
+  top: 40%
+  left: 50%
+  transform: translate(-50%, -40%)
+  @media (max-width: 600px)
+    max-width: 400px
+
   @media (max-width: 700px)
     max-width: 450px
 
@@ -60,4 +63,13 @@ div
     font-size: 30px
 
 .input-modal
-  margin-bottom: 10px
+  margin-bottom: 20px
+
+.switch-modal
+  margin-bottom: 20px
+  display: flex
+  align-items: center
+  &-switch
+    margin-right: 5px
+  &-label
+    color: $text-color
