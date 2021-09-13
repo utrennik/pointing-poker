@@ -96,9 +96,36 @@ export interface IConnectModalErrors {
    */
   firstNameError?: boolean;
 }
-  export interface IMemberCard {
+export interface IMemberCard {
+  /*
+   * first name of User
+   */
   firstName: string;
+  /*
+   * last name of User
+   */
   lastName?: string;
+  /*
+   * role in the team
+   */
   role: string;
+  /*
+   * avatar image
+   */
+  avatarImage?: string;
+}
+
+export interface ICustomAvatar {
+  /*
+   * first name of User
+   */
+  firstName: string;
+  /*
+   * last name of User
+   */
+  lastName?: string;
+  /*
+   * avatar image
+   */
   avatarImage?: string;
 }

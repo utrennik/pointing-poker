@@ -30,10 +30,6 @@ const App = () => {
           <Switch location={location}>{routeComponents}</Switch>
         </CSSTransition>
       </TransitionGroup>
-    <Switch>
-      <Route exact path="/" component={WelcomePage} />
-      <Route exact path="/" component={Test} />
-    </Switch>
 
       <Footer />
     </div>
