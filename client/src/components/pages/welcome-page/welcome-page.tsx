@@ -2,19 +2,28 @@ import { useState } from 'react';
 import { Button } from '@material-ui/core';
 import InputButton from '@components/ui/input-button/input-button';
 import ConnectModal from '@components/modals/connect-modal/connect-modal';
+import StartModal from '@components/modals/start-modal/start-modal';
 import pokerLogo from '@assets/images/poker.svg';
 import '@styles/page.sass';
 import './welcome-page.sass';
 
 const WelcomePage = () => {
   const [connectModalOpen, setConnectModalOpen] = useState(false);
+  const [startModalOpen, setStartModalOpen] = useState(false);
 
-  const handleOpen = () => {
+  const handleConnectModalOpen = () => {
     setConnectModalOpen(true);
   };
 
-  const handleClose = () => {
+  const handleConnectModalClose = () => {
     setConnectModalOpen(false);
+  };
+  const handleStartModalOpen = () => {
+    setStartModalOpen(true);
+  };
+
+  const handleStartModalClose = () => {
+    setStartModalOpen(false);
   };
 
   return (
@@ -32,7 +41,12 @@ const WelcomePage = () => {
 
           <div className="start-game-container error-down">
             <div className="action-title">Create session:</div>
-            <Button variant="contained" size="medium" color="primary">
+            <Button
+              variant="contained"
+              size="medium"
+              color="primary"
+              onClick={handleStartModalOpen}
+            >
               Start new game
             </Button>
             <div className="error-container">Error! The session cannot be created!</div>
@@ -47,7 +61,7 @@ const WelcomePage = () => {
             <InputButton
               buttonText="Connect"
               valueHandler={() => {
-                handleOpen();
+                handleConnectModalOpen();
               }}
             />
             <div className="error-container">Error! Connection failure!</div>
@@ -55,7 +69,8 @@ const WelcomePage = () => {
         </div>
       </div>
 
-      <ConnectModal isOpen={connectModalOpen} onClose={handleClose} />
+      <ConnectModal isOpen={connectModalOpen} onClose={handleConnectModalClose} />
+      <StartModal isOpen={startModalOpen} onClose={handleStartModalClose} />
     </div>
   );
 };

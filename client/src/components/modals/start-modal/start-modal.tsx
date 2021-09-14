@@ -1,16 +1,14 @@
 import { ChangeEvent, useState, useEffect } from 'react';
 import { TextField, Button } from '@material-ui/core';
-import Switch from '@material-ui/core/Switch';
 import { CustomAvatar } from '@components/ui/customAvatar/customAvatar';
 import { IConnectModalErrors } from '@models/types';
 import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
-import './connect-modal.sass';
+import '../connect-modal/connect-modal.sass';
 
-const ConnectModal = ({ isOpen, onClose }) => {
+const StartModal = ({ isOpen, onClose }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [jobPosition, setJobPosition] = useState('');
-  const [connectAsObs, setConnectAsObs] = useState(false);
   const [avatar, setAvatar] = useState('');
   const [errors, setErrors] = useState({} as IConnectModalErrors);
 
@@ -18,7 +16,6 @@ const ConnectModal = ({ isOpen, onClose }) => {
     setFirstName('');
     setLastName('');
     setJobPosition('');
-    setConnectAsObs(false);
     setErrors({} as IConnectModalErrors);
   };
 
@@ -38,7 +35,7 @@ const ConnectModal = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     validate();
-  }, [firstName, lastName, jobPosition, connectAsObs, avatar, isOpen]);
+  }, [firstName, lastName, jobPosition, avatar, isOpen]);
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     const inputName = e.target.name;
@@ -140,18 +137,6 @@ const ConnectModal = ({ isOpen, onClose }) => {
           </label>
         </div>
       </div>
-
-      <div className="switch-modal">
-        <div className="switch-modal-switch">
-          <Switch
-            id="connect-as-obs-switch"
-            checked={connectAsObs}
-            color="primary"
-            onChange={() => setConnectAsObs(!connectAsObs)}
-          />
-        </div>
-        <div className="switch-modal-label">Connect as Observer</div>
-      </div>
     </div>
   );
 
@@ -160,7 +145,7 @@ const ConnectModal = ({ isOpen, onClose }) => {
       isOpen={isOpen}
       onClose={onClose}
       onConfirm={handleConfirm}
-      title="Connect to lobby"
+      title="Start new game"
       disableConfirm={!!Object.keys(errors).length}
     >
       {modalBody}
@@ -168,4 +153,4 @@ const ConnectModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default ConnectModal;
+export default StartModal;
