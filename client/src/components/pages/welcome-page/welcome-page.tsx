@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import InputButton from '@components/ui/input-button/input-button';
 import ConnectModal from '@components/modals/connect-modal/connect-modal';
@@ -25,6 +26,8 @@ const WelcomePage = () => {
   const handleStartModalClose = () => {
     setStartModalOpen(false);
   };
+
+  const { id } = useParams<{ id: string }>();
 
   return (
     <div className="container">
@@ -56,10 +59,12 @@ const WelcomePage = () => {
 
           <div className="connect-container error-down">
             <div className="action-title">
-              Connect to lobby by <span>URL</span>:
+              Connect to lobby by <span>ID</span>:
             </div>
             <InputButton
               buttonText="Connect"
+              initialValue={id}
+              inputLabel="ID"
               valueHandler={() => {
                 handleConnectModalOpen();
               }}

@@ -15,6 +15,14 @@ export interface IInputButtonProps {
    * The action will be called on submit event
    */
   valueHandler: (value: string) => void;
+  /*
+   * input initial value
+   */
+  initialValue?: string;
+  /*
+   * input label
+   */
+  inputLabel?: string;
 }
 
 export interface IModalWrapper {
