@@ -3,7 +3,7 @@ import { footerData } from '@components/footer/footerData';
 
 import '@styles/footer.sass';
 
-export const Footer = () => {
+const Footer = () => {
   const { team, rss, style } = footerData;
 
   return (
@@ -29,3 +29,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export default Footer;

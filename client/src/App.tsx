@@ -1,19 +1,38 @@
-import { Route, Switch } from 'react-router-dom';
-import { Header } from '@components/header/header';
-import { Footer } from '@components/footer/footer';
-import WelcomePage from '@components/pages/welcome-page/welcome-page';
+import { Route, Switch, useLocation } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
+import Header from '@components/header/header';
+import Footer from '@components/footer/footer';
+import routes from '@components/router/routes';
+
+import config from './config.json';
+
 import '@styles/main.sass';
 
-const App = () => (
-  <div className="app-container">
-    <Header />
+const App = () => {
+  const location = useLocation();
 
-    <Switch>
-      <Route exact path="/" component={WelcomePage} />
-    </Switch>
+  const routeComponents = routes.map(({ path, component }, key) => (
+    <Route exact path={path} component={component} key={key} />
+  ));
 
-    <Footer />
-  </div>
-);
+  return (
+    <div className="app-container">
+      <Header />
+
+      <TransitionGroup exit={false}>
+        <CSSTransition
+          timeout={config.transition.timeout}
+          classNames="transition"
+          key={location.key}
+        >
+          <Switch location={location}>{routeComponents}</Switch>
+        </CSSTransition>
+      </TransitionGroup>
+
+      <Footer />
+    </div>
+  );
+};
 
 export default App;

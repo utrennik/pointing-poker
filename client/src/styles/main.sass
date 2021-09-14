@@ -1,21 +1,32 @@
 @import 'config'
 @import 'variables'
 
+div
+  height: 100%
+
 .app-container
   display: flex
   flex-direction: column
   height: 100%
   justify-content: space-between
-
+  
 .container
   max-width: 1440px
   margin: 0 auto
   padding: 0 30px
+  width: 100%
   @media (max-width: 760px)
     padding: 0 20px
   @media (max-width: 450px)
     padding: 0 10px
 
+.transition-enter
+  opacity: 0
+
+  &-active
+    opacity: 1
+    transition: opacity 0.3s ease-in
+    
 .error-down
   position: relative
   
