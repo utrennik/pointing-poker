@@ -25,4 +25,8 @@ export default [
     path: '/test',
     component: TestPage,
   },
+  {
+    path: '/link/:id',
+    component: WelcomePage,
+  },
 ];

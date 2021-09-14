@@ -3,8 +3,13 @@ import { Button, TextField } from '@material-ui/core';
 import { IInputButtonProps } from '@models/types';
 import './input-button.sass';
 
-const InputButton = ({ buttonText, valueHandler }: IInputButtonProps) => {
-  const [inputValue, setInputValue] = useState('');
+const InputButton = ({
+  buttonText,
+  valueHandler,
+  inputLabel = '',
+  initialValue = '',
+}: IInputButtonProps) => {
+  const [inputValue, setInputValue] = useState(initialValue);
 
   const inputHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
@@ -19,7 +24,12 @@ const InputButton = ({ buttonText, valueHandler }: IInputButtonProps) => {
   return (
     <form className="input-button-form" onSubmit={submitHandler}>
       <div className="input-button-input">
-        <TextField label="URL" variant="outlined" value={inputValue} onChange={inputHandler} />
+        <TextField
+          label={inputLabel}
+          variant="outlined"
+          value={inputValue}
+          onChange={inputHandler}
+        />
       </div>
       <div className="input-button-button">
         <Button variant="contained" size="medium" color="primary" type="submit">

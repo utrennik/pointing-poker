@@ -1,9 +1,6 @@
 @import 'config'
 @import 'variables'
 
-div
-  height: 100%
-
 .app-container
   display: flex
   flex-direction: column
@@ -37,3 +34,42 @@ div
   font-size: 14px
   font-weight: 700
   color: $red
+
+.body-modal
+  background-color: #fff
+  max-width: 600px
+  border: 1px solid $lightgrey
+  outline: none
+  padding: 30px
+  position: relative
+  top: 40%
+  left: 50%
+  transform: translate(-50%, -40%)
+  @media (max-width: 600px)
+    max-width: 400px
+
+  @media (max-width: 700px)
+    max-width: 450px
+
+.header-modal
+  font-size: 36px
+  font-weight: 700
+  margin-bottom: 20px
+  color: $text-color
+  @media (max-width: 700px)
+    font-size: 30px
+
+.input-modal
+  margin-bottom: 20px
+
+.switch-modal
+  margin-bottom: 20px
+  display: flex
+  align-items: center
+  &-switch
+    margin-right: 5px
+  &-label
+    color: $text-color
+
+.invisible
+  display: none !important
