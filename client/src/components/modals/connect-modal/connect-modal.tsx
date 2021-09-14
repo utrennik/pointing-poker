@@ -127,10 +127,10 @@ const ConnectModal = ({ isOpen, onClose }) => {
         <div className="avatar-input">
           <input
             id="avatar-upload"
+            className="invisible"
             accept="image/*"
             name="avatar-image"
             type="file"
-            style={{ display: 'none' }}
             onInput={handleInput}
           />
           <label htmlFor="avatar-upload">

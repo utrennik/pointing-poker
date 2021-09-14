@@ -127,7 +127,7 @@ const StartModal = ({ isOpen, onClose }) => {
             accept="image/*"
             name="avatar-image"
             type="file"
-            style={{ display: 'none' }}
+            className="invisible"
             onInput={handleInput}
           />
           <label htmlFor="avatar-upload">
