@@ -1,5 +1,6 @@
 import { Avatar } from '@material-ui/core';
 import { ICustomAvatar } from '@models/types';
+import './customAvatar.sass';
 
 export const CustomAvatar = ({ lastName, firstName, avatarImage }: ICustomAvatar) => {
   const avatarName = lastName
@@ -8,7 +9,7 @@ export const CustomAvatar = ({ lastName, firstName, avatarImage }: ICustomAvatar
 
   return (
     <Avatar
-      style={{ backgroundColor: '#60DABF', width: '50px', height: '50px' }}
+      className="custom-avatar"
       alt={lastName ? `${firstName} ${lastName}` : firstName}
       src={avatarImage}
     >

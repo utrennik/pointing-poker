@@ -57,7 +57,6 @@ export interface IModalButtons {
    * modal close handler
    */
   onClose: () => void;
-
   /*
    * modal confirm handler
    */

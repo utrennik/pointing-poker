@@ -46,9 +46,8 @@ const WelcomePage = () => {
             </div>
             <InputButton
               buttonText="Connect"
-              valueHandler={(value: string) => {
+              valueHandler={() => {
                 handleOpen();
-                console.log(value);
               }}
             />
             <div className="error-container">Error! Connection failure!</div>

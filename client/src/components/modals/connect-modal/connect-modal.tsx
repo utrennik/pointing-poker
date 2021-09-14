@@ -94,6 +94,7 @@ const ConnectModal = ({ isOpen, onClose }) => {
             value={firstName}
             onChange={handleInput}
             error={errors.firstNameError === true}
+            required
           />
         </div>
 
@@ -122,7 +123,7 @@ const ConnectModal = ({ isOpen, onClose }) => {
 
       <div className="avatar-modal">
         <div className="avatar-image">
-          <CustomAvatar firstName={firstName || 'N'} lastName={lastName} avatarImage={avatar} />
+          <CustomAvatar firstName={firstName || 'NA'} lastName={lastName} avatarImage={avatar} />
         </div>
 
         <div className="avatar-input">
