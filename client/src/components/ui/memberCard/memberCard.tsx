@@ -7,14 +7,27 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  makeStyles,
 } from '@material-ui/core';
 import { IMemberCard } from '@models/types';
 import React from 'react';
 import { CustomAvatar } from '../customAvatar/customAvatar.tsx';
 import './memberCard.sass';
 
+const useStyles = makeStyles({
+  dialogTitle: {
+    textAlign: 'center',
+  },
+  dialogActions: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+});
+
 export const MemberCard = ({ firstName, lastName, role, avatarImage }: IMemberCard) => {
   const [deleteUser, setDeleteUser] = React.useState<boolean>(false);
+
+  const classes = useStyles();
 
   const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log(event);
@@ -32,24 +45,23 @@ export const MemberCard = ({ firstName, lastName, role, avatarImage }: IMemberCa
     <Card className="member-card">
       <CustomAvatar firstName={firstName} lastName={lastName} avatarImage={avatarImage} />
       <CardHeader
-        titleTypographyProps={{ variant: 'h6' }}
-        style={{ padding: '0' }}
         className="member-card-header"
         title={nameWithoutLastName}
         subheader={role}
+        subheaderTypographyProps={{ variant: 'subtitle1' }}
       />
       <IconButton className="member-card-delete-btn" onClick={handleDelete} />
       <Dialog open={deleteUser} onClose={handleDelete}>
-        <DialogTitle style={{ textAlign: 'center' }}>{'Kick player?'}</DialogTitle>
+        <DialogTitle className={classes.dialogTitle}>{'Kick player?'}</DialogTitle>
         <DialogContent>
           Are you really want to remove {nameWithoutLastName} from game session?
         </DialogContent>
-        <DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <DialogActions className={classes.dialogActions}>
           <Button variant="contained" onClick={handleDelete}>
-            Disagree
+            No
           </Button>
           <Button color="primary" variant="contained" onClick={handleDeleteAgree}>
-            Agree
+            Yes
           </Button>
         </DialogActions>
       </Dialog>

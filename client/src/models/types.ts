@@ -114,18 +114,3 @@ export interface IMemberCard {
    */
   avatarImage?: string;
 }
-
-export interface ICustomAvatar {
-  /*
-   * first name of User
-   */
-  firstName: string;
-  /*
-   * last name of User
-   */
-  lastName?: string;
-  /*
-   * avatar image
-   */
-  avatarImage?: string;
-}
