@@ -141,6 +141,31 @@ export interface IMemberCard {
    * avatar image
    */
   avatarImage?: string;
+export interface IUser {
+  /*
+   * User first name
+   */
+  firstName: string;
+  /*
+   * Game room
+   */
+  room: string;
+  /*
+   * User last name
+   */
+  lastName?: string;
+  /*
+   * User job position
+   */
+  jobPosition?: string;
+  /*
+   * User avatar (BASE64)
+   */
+  avatar?: string;
+  /*
+   * User role
+   */
+  role: 'scrumMaster' | 'teamMember' | 'observer';
 }
 
 export interface IScramMasterCard {
