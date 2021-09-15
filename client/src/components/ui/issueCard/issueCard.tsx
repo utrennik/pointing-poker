@@ -1,12 +1,20 @@
 import React from 'react';
-import { Card, CardHeader, IconButton } from '@material-ui/core';
+import { Card, CardHeader, IconButton, makeStyles } from '@material-ui/core';
 import { IIssueCard } from '@models/types';
-import { truncateString } from '@utils/stringUtils';
 import './issueCard.sass';
+import { truncateString } from '@utils/stringUtils';
 
-export const IssueCard = ({ name, priority, isSelected }: IIssueCard) => {
-  const isGame = false;
+interface StyleProps {
+  isSelected: boolean;
+}
 
+const useStyles = makeStyles({
+  card: {
+    backgroundColor: ({ isSelected }: StyleProps) => (isSelected ? '#60DABF' : '#fff'),
+  },
+});
+
+export const IssueCard = ({ name, priority, isSelected, isGame }: IIssueCard) => {
   const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log(event.target);
   };
@@ -19,8 +27,11 @@ export const IssueCard = ({ name, priority, isSelected }: IIssueCard) => {
     console.log(event.target);
   };
 
+  const classes = useStyles({ isSelected });
+  const isueCardStyles = `issue-card ${classes.card}`;
+
   return (
-    <Card className="issue-card" style={isSelected ? { backgroundColor: '#60DABF75' } : {}}>
+    <Card className={isueCardStyles}>
       <CardHeader
         className="issue-card-header"
         title={truncateString(name)}
@@ -30,9 +41,11 @@ export const IssueCard = ({ name, priority, isSelected }: IIssueCard) => {
       {isGame ? (
         <IconButton className="issue-card-close-btn" onClick={handleClose} />
       ) : (
-        <IconButton className="issue-card-edit-btn" onClick={handleEdit} />
+        [
+          <IconButton className="issue-card-edit-btn" onClick={handleEdit} />,
+          <IconButton className="issue-card-delete-btn" onClick={handleDelete} />,
+        ]
       )}
-      {!isGame && <IconButton className="issue-card-delete-btn" onClick={handleDelete} />}
     </Card>
   );
 };

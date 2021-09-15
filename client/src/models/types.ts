@@ -102,11 +102,15 @@ export interface IIssueCard {
    */
   name: string;
   /*
-   * Ppriority of the issue in sprint
+   * Priority of the issue in sprint
    */
-  priority: string;
+  priority: 'high' | 'normal' | 'low';
   /*
    * Select card in estimate mode
    */
-  isSelected?: boolean;
+  isSelected: boolean;
+  /*
+   * Select card in estimate mode
+   */
+  isGame: boolean;
 }

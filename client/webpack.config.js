@@ -100,6 +100,7 @@ module.exports = ({ development }) => ({
       '@assets': path.resolve(__dirname, 'src/assets'),
       '@models': path.resolve(__dirname, 'src/models'),
       '@src': path.resolve(__dirname, 'src'),
+      '@utils': path.resolve(__dirname,'src/utils')
     },
   },
 

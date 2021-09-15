@@ -7,7 +7,6 @@ import routes from '@components/router/routes';
 
 import config from './config.json';
 
-
 import '@styles/main.sass';
 
 const App = () => {
