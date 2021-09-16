@@ -50,3 +50,22 @@ export interface IMemberCard {
    */
   avatarImage?: string;
 }
+
+export interface IIssueCard {
+  /*
+   * Name of the issue card
+   */
+  name: string;
+  /*
+   * Priority of the issue in sprint
+   */
+  priority: 'high' | 'normal' | 'low';
+  /*
+   * Select card in estimate mode
+   */
+  isSelected: boolean;
+  /*
+   * Select card in estimate mode
+   */
+  isGame: boolean;
+}
