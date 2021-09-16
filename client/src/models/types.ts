@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 export interface IWebLink {
   link: string;
@@ -15,6 +15,64 @@ export interface IInputButtonProps {
    * The action will be called on submit event
    */
   valueHandler: (value: string) => void;
+  /*
+   * input initial value
+   */
+  initialValue?: string;
+  /*
+   * input label
+   */
+  inputLabel?: string;
+}
+
+export interface IModalWrapper {
+  /*
+   * state of the modal window
+   */
+  isOpen: boolean;
+  /*
+   * modal close handler
+   */
+  onClose: () => void;
+  /*
+   * modal confirm handler
+   */
+  onConfirm: () => void;
+  /*
+   * modal title
+   */
+  title: string;
+  /*
+   * modal content
+   */
+  children: ReactElement;
+  /*
+   * disable confirm button
+   */
+  disableConfirm: boolean;
+}
+
+export interface IModalButtons {
+  /*
+   * confirmation button text
+   */
+  okBtnText: string;
+  /*
+   * cancel button text
+   */
+  cancelBtnText: string;
+  /*
+   * modal close handler
+   */
+  onClose: () => void;
+  /*
+   * modal confirm handler
+   */
+  onConfirm: () => void;
+  /*
+   * disable confirm button
+   */
+  disableConfirm: boolean;
 }
 
 export interface ICustomAvatar {
@@ -30,6 +88,32 @@ export interface ICustomAvatar {
    * avatar image
    */
   avatarImage?: string;
+}
+
+export interface IConnectModalErrors {
+  /*
+   * first name of User error
+   */
+  firstNameError?: boolean;
+}
+
+export interface IIssueCard {
+  /*
+   * Name of the issue card
+   */
+  name: string;
+  /*
+   * Priority of the issue in sprint
+   */
+  priority: 'high' | 'normal' | 'low';
+  /*
+   * Select card in estimate mode
+   */
+  isSelected: boolean;
+  /*
+   * Select card in estimate mode
+   */
+  isGame: boolean;
 }
 
 export interface IMemberCard {
@@ -72,25 +156,6 @@ export interface IScramMasterCard {
    * avatar image
    */
   // isScramMasterLobby: boolean;
-}
-
-export interface IIssueCard {
-  /*
-   * Name of the issue card
-   */
-  name: string;
-  /*
-   * Priority of the issue in sprint
-   */
-  priority: 'high' | 'normal' | 'low';
-  /*
-   * Select card in estimate mode
-   */
-  isSelected: boolean;
-  /*
-   * Select card in estimate mode
-   */
-  isGame: boolean;
 }
 
 export interface ILobbyButtons {

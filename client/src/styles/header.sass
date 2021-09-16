@@ -12,13 +12,17 @@
     padding: 15px 0
     width: 100%
 
+    &-wrapper
+      display: flex
+      gap: 100px
+
   &-down
     background-color: $header-down-bg
-    height: 20px
     width: 100%
 
   .logo-wrapper
     position: relative
+    height: 20px
 
   .logo
     position: absolute
@@ -35,6 +39,7 @@
   .chat-wrapper
     display: flex
     justify-content: flex-end
+    align-items: center
     width: 100%
 
   .chat-icon
@@ -49,3 +54,29 @@
 
     &:hover
       transform: scale(1.15)
+
+  .nav-wrapper
+    display: flex
+    gap: 50px
+    list-style: none
+    padding: 0
+    margin: 0
+    margin-left: 200px
+
+  .nav-link
+    display: flex
+    justify-content: center
+    align-items: center
+    line-height: 40px
+    color: $header-down-bg
+    text-decoration: none
+    transition: all 0.3s ease
+
+    &:hover,
+    &:active,
+    &:focus
+      outline: 0
+      color: $active-link
+
+  .active
+    color: $active-link
