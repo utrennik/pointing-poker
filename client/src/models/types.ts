@@ -96,6 +96,7 @@ export interface IConnectModalErrors {
    */
   firstNameError?: boolean;
 }
+
 export interface IIssueCard {
   /*
    * Name of the issue card
@@ -113,4 +114,23 @@ export interface IIssueCard {
    * Select card in estimate mode
    */
   isGame: boolean;
+}
+
+export interface IMemberCard {
+  /*
+   * first name of User
+   */
+  firstName: string;
+  /*
+   * last name of User
+   */
+  lastName?: string;
+  /*
+   * role in the team
+   */
+  role: string;
+  /*
+   * avatar image
+   */
+  avatarImage?: string;
 }
