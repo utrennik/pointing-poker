@@ -2,16 +2,19 @@ import { types } from '../actions';
 
 export const gameReducer = (
   state = {
-    gameID: null,
     users: [],
+    title: '',
+    settings: {},
   },
   { type, payload }
 ) => {
   switch (type) {
-    case types.SET_GAME_ID: {
+    case types.SET_GAME: {
       return {
         ...state,
-        gameID: payload.gameID,
+        users: payload.users,
+        title: payload.title,
+        settings: payload.settings,
       };
     }
 

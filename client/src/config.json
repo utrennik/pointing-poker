@@ -1,7 +1,13 @@
 {
-  "REQUEST_USER_JOIN": "user:join",
-  "REQUEST_NEW_GAME": "request-new-game",
+  "REQ_START_GAME": "req-start-game",
+  "REQ_USER_JOIN": "req-user-join",
+  "RES_USER_JOINED": "res-user-joined",
+  "REQ_USER_DELETE": "req-user-delete",
+  "RES_USER_DELETED": "res-user-deleted",
+  "REQ_TITLE_CHANGE": "req-title-change",
+  "RES_TITLE_CHANGED": "res-title-changed",
   "SERVER_BASE_URL": "http://localhost:8080/",
+  "CONNECT_ERROR_MESSAGE": "Error! Server is not connected!",
   "transition": {
     "timeout": 300
   }

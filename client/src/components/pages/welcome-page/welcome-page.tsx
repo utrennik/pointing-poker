@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/redux/store';
 import { Button } from '@material-ui/core';
 import InputButton from '@components/ui/input-button/input-button';
 import ConnectModal from '@components/modals/connect-modal/connect-modal';
 import StartModal from '@components/modals/start-modal/start-modal';
 import pokerLogo from '@assets/images/poker.svg';
+import config from '@src/config.json';
 import '@styles/page.sass';
 import './welcome-page.sass';
 
@@ -29,6 +32,8 @@ const WelcomePage = () => {
 
   const { id } = useParams<{ id: string }>();
 
+  const isConnectionError = useSelector((state: RootState) => state.socketError);
+
   return (
     <div className="container">
       <div className="welcome-page">
@@ -52,7 +57,9 @@ const WelcomePage = () => {
             >
               Start new game
             </Button>
-            <div className="error-container">Error! The session cannot be created!</div>
+            <div className="error-container">
+              {isConnectionError ? config.CONNECT_ERROR_MESSAGE : ''}
+            </div>
           </div>
 
           <h2 className="welcome-header">OR</h2>
@@ -69,7 +76,9 @@ const WelcomePage = () => {
                 handleConnectModalOpen();
               }}
             />
-            <div className="error-container">Error! Connection failure!</div>
+            <div className="error-container">
+              {isConnectionError ? config.CONNECT_ERROR_MESSAGE : ''}
+            </div>
           </div>
         </div>
       </div>
