@@ -143,13 +143,17 @@ export interface IMemberCard {
   avatarImage?: string;
 export interface IUser {
   /*
+   * User ID
+   */
+  id: string;
+  /*
    * User first name
    */
   firstName: string;
   /*
    * Game room
    */
-  room: string;
+  room: string | null;
   /*
    * User last name
    */
@@ -165,7 +169,24 @@ export interface IUser {
   /*
    * User role
    */
-  role: 'scrumMaster' | 'teamMember' | 'observer';
+  role: 'dealer' | 'member' | 'observer';
+}
+
+export interface IUserDelete {
+  dealerID: string;
+  userID: string;
+  room: string;
+}
+
+export interface IGame {
+  /*
+   * Game users
+   */
+  users: IUser[];
+  /*
+   * Game title
+   */
+  title: string;
 }
 
 export interface IScramMasterCard {

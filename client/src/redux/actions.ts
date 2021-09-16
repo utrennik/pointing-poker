@@ -1,9 +1,10 @@
-import { IUser } from '../models/types';
+import { IUser, IGame } from '../models/types';
 
 export const types = {
   SOCKET_CONNECTED: 'SOCKET_CONNECTED',
   SOCKET_DISCONNECTED: 'SOCKET_DISCONNECTED',
-  SET_GAME_ID: 'SET_GAME_ID',
+  SET_CLIENT_USER: 'SET_CLIENT_USER',
+  SET_GAME: 'SET_GAME',
   ADD_USER: 'ADD_USER',
   REMOVE_USER: 'REMOVE_USER',
 };
@@ -16,9 +17,14 @@ export const setSocketDisconnected = () => ({
   type: types.SOCKET_DISCONNECTED,
 });
 
-export const setGameID = (gameID: string) => ({
-  type: types.SET_GAME_ID,
-  payload: { gameID },
+export const setClientUser = (user: IUser) => ({
+  type: types.SET_CLIENT_USER,
+  payload: { user },
+});
+
+export const setGame = (game: IGame) => ({
+  type: types.SET_GAME,
+  payload: { game },
 });
 
 export const addUser = (user: IUser) => ({

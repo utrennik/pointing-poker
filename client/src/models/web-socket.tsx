@@ -1,7 +1,14 @@
 import { createContext } from 'react';
-import { Socket, io } from 'socket.io-client';
 import { useDispatch } from 'react-redux';
-import { setSocketConnected, setSocketDisconnected } from '@src/redux/actions';
+import { useHistory } from 'react-router-dom';
+import { Socket, io } from 'socket.io-client';
+import {
+  setSocketConnected,
+  setSocketDisconnected,
+  setClientUser,
+  setGame,
+  addUser,
+} from '@src/redux/actions';
 import { IUser } from './types';
 import config from '../config.json';
 
@@ -12,6 +19,7 @@ export { WebSocketContext };
 export default ({ children }) => {
   const socket: Socket = io(config.SERVER_BASE_URL);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   socket.on('connect', () => {
     dispatch(setSocketConnected());
@@ -25,26 +33,28 @@ export default ({ children }) => {
     dispatch(setSocketDisconnected());
   });
 
-  const requestNewGame = (userData: IUser) => {
-    socket.emit(config.REQUEST_NEW_GAME, userData);
+  socket.on(config.RES_USER_JOINED, (user: IUser) => {
+    dispatch(addUser(user));
+  });
+
+  const requestStartGame = (userData: IUser) => {
+    socket.emit(config.REQ_START_GAME, userData, (res: IUser) => {
+      dispatch(setClientUser(res));
+      history.push('/lobby');
+    });
   };
 
-  const connectToGame = (userData: IUser) => {
-    socket.emit(config.REQUEST_USER_JOIN, userData);
+  const requestUserJoin = (userData: IUser) => {
+    socket.emit(config.REQUEST_USER_JOIN, userData, (res: IGame) => {
+      dispatch(setClientUser(userData));
+      dispatch(setGame(res));
+    });
   };
-
-  // if (!socket) {
-  //   socket = io.connect(SERVER_BASE_URL);
-
-  //   socket.on('event://get-message', (msg) => {
-  //     const payload = JSON.parse(msg);
-  //     dispatch(updateChatLog(payload));
-  //   });
 
   const ws: any = {
     socket,
-    requestNewGame,
-    connectToGame,
+    requestStartGame,
+    requestUserJoin,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

@@ -2,7 +2,7 @@ import { types } from '../actions';
 
 export const socketReducer = (
   state = {
-    socketConnected: false,
+    socketError: false,
   },
   { type }
 ) => {
@@ -10,14 +10,14 @@ export const socketReducer = (
     case types.SOCKET_CONNECTED: {
       return {
         ...state,
-        socketConnected: true,
+        socketError: false,
       };
     }
 
     case types.SOCKET_DISCONNECTED: {
       return {
         ...state,
-        socketConnected: false,
+        socketError: true,
       };
     }
 
