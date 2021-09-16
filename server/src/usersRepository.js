@@ -1,43 +1,46 @@
+import { getGame } from "./gameRepository.js";
 
-const users = [];
-
-
-// interface User {
-//   id: String;
-//   firstName: String;
-//   room: string ;
-//   lastName:String;
-//   jobPosition:String;
-//   avatar:String;
-//   role:String;
-// }
-
-export const addUser = (
+export const addUser = ({
   id,
   firstName,
   room,
+  role,
   lastName = "",
   jobPosition = "",
   avatar = "",
-  role = "scrumMaster"
-) => {
-  const existingUser = users.find((user) => user.firstName === firstName);
-  if (existingUser) return { error: "Username has already been taken" };
-  if (!firstName && !room) return { error: "Username and room are required" };
-  if (!firstName) return { error: "Username is required" };
-
+}) => {
+  if(!room) return {userError: new Error("User haven`t room ID")};
+  if(!id) return {userError: new Error("User haven`t ID")};
+  if (!firstName) return {userError: new Error ("Username are required")};
+  if (!role) return {userError: new Error("Role is required")};
+  const {currentGame,gameError} = getGame(room);
+  if (gameError) return gameError;
+  const existingUser = currentGame.users.find((user) => user.id === id);
+  if (existingUser) return {userError: new Error("User with current ID exist")};
   const user = { id, firstName, room, role, lastName, jobPosition, avatar };
-  users.push(user);
-  return { user };
-};
-export const getUser = (id) => {
-  let user = users.find((user) => user.id == id);
-  return user;
+  currentGame.users.push(user);
+  return {user,currentGame};
 };
 
-export const deleteUser = (id) => {
-  const index = users.findIndex((user) => user.id === id);
-  if (index !== -1) return users.splice(index, 1)[0];
+export const getUser = (room, id) => {
+  if(!room) return {userError: new Error("User haven`t room ID")};
+  if(!id) return {userError: new Error("User haven`t ID")};
+  const {currentGame,gameError} = getGame(room);
+  if(gameError) return gameError;
+  const user = currentGame.users.find((user) => user.id == id);
+  return {user};
 };
 
-export const getUsers = (room) => users.filter((user) => user.room === room);
+export const deleteUser = (room, id) => {
+  if(!room) return {userDeleteError: new Error("User haven`t room ID")};
+  if(!id) return {userDeleteError: new Error("User haven`t ID")};
+  const {currentGame,gameError} = getGame(room);
+  if(gameError) return gameError;
+  const index = currentGame.users.findIndex((user) => user.id === id);
+  if (index !== -1)  {
+    const deletedUser =  currentGame.users.splice(index, 1)[0];
+    return {deletedUser};
+  }
+};
+
+// export const getUsers = (room) => users.filter((user) => user.room === room);
