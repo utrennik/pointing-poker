@@ -54,13 +54,15 @@ const MembersSection = () => (
   <section className="lobby-content-members">
     <h3 className="section-header">Members:</h3>
     <div className="members-lobby">
-      {members.map(({ firstName, lastName, role, avatarImage }) => (
-        <MemberCard
-          firstName={firstName}
-          lastName={lastName}
-          role={role}
-          avatarImage={avatarImage}
-        />
+      {members.map(({ firstName, lastName, role, avatarImage }, index) => (
+        <div key={index}>
+          <MemberCard
+            firstName={firstName}
+            lastName={lastName}
+            role={role}
+            avatarImage={avatarImage}
+          />
+        </div>
       ))}
     </div>
   </section>

@@ -37,10 +37,12 @@ export const issues = [
 
 const IssuesSection = () => (
   <section className="lobby-content-issues">
-    <h3 className="section-header">Members:</h3>
+    <h3 className="section-header">Issues:</h3>
     <div className="issues-lobby">
-      {issues.map(({ name, priority, isSelected, isGame }) => (
-        <IssueCard name={name} priority={priority} isSelected={isSelected} isGame={isGame} />
+      {issues.map(({ name, priority, isSelected, isGame }, index) => (
+        <div key={index}>
+          <IssueCard name={name} priority={priority} isSelected={isSelected} isGame={isGame} />
+        </div>
       ))}
       <IssueCardCreate />
     </div>
