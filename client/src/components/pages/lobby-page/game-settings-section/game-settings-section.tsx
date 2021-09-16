@@ -137,56 +137,59 @@ const GameSettingsSection = () => {
       )}
 
       <div className="select-lobby">
-        <Select value={cardSet} onChange={handleChange} displayEmpty className={classes.select}>
-          {cardSetData.map(({ title, value }) => (
-            <MenuItem key={title} value={value}>
-              {title}
-            </MenuItem>
-          ))}
-        </Select>
-        {cardSet === CardSet.customCardSet && (
-          <div className="input-lobby-wrapper">
-            <div className="input-lobby-container error-down">
-              <div className="input-lobby">
-                <TextField
-                  label="Score type:"
-                  name="scoreType"
-                  autoComplete="off"
-                  placeholder="Story Point"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  value={inputSettings.scoreType}
-                  onChange={handleInput}
-                  error={errors.scoreTypeError === true}
-                />
+        <div className="select-lobby-label">Choose your card set:</div>
+        <div className="select-lobby-switch">
+          <Select value={cardSet} onChange={handleChange} displayEmpty className={classes.select}>
+            {cardSetData.map(({ title, value }) => (
+              <MenuItem key={title} value={value}>
+                {title}
+              </MenuItem>
+            ))}
+          </Select>
+          {cardSet === CardSet.customCardSet && (
+            <div className="input-lobby-wrapper">
+              <div className="input-lobby-container error-down">
+                <div className="input-lobby">
+                  <TextField
+                    label="Score type:"
+                    name="scoreType"
+                    autoComplete="off"
+                    placeholder="Story Point"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    value={inputSettings.scoreType}
+                    onChange={handleInput}
+                    error={errors.scoreTypeError === true}
+                  />
+                </div>
+                {errors.scoreTypeError === true && (
+                  <div className="error">* Field "Score type" must be filled in</div>
+                )}
               </div>
-              {errors.scoreTypeError === true && (
-                <div className="error">* Field "Score type" must be filled in</div>
-              )}
-            </div>
 
-            <div className="input-lobby-container error-down">
-              <div className="input-lobby">
-                <TextField
-                  label="Score type (Short):"
-                  name="scoreTypeShort"
-                  autoComplete="off"
-                  placeholder="SP"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  value={inputSettings.scoreTypeShort}
-                  onChange={handleInput}
-                  error={errors.scoreTypeShortError === true}
-                />
+              <div className="input-lobby-container error-down">
+                <div className="input-lobby">
+                  <TextField
+                    label="Score type (Short):"
+                    name="scoreTypeShort"
+                    autoComplete="off"
+                    placeholder="SP"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    value={inputSettings.scoreTypeShort}
+                    onChange={handleInput}
+                    error={errors.scoreTypeShortError === true}
+                  />
+                </div>
+                {errors.scoreTypeShortError === true && (
+                  <div className="error">* Field "Score type (Short)" must be filled in</div>
+                )}
               </div>
-              {errors.scoreTypeShortError === true && (
-                <div className="error">* Field "Score type (Short)" must be filled in</div>
-              )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </section>
   );

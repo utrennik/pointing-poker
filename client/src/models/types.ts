@@ -51,6 +51,29 @@ export interface IMemberCard {
   avatarImage?: string;
 }
 
+export interface IScramMasterCard {
+  /*
+   * first name of ScramMaster
+   */
+  firstName: string;
+  /*
+   * last name of ScramMaster
+   */
+  lastName?: string;
+  /*
+   * role in the team
+   */
+  role: string;
+  /*
+   * avatar image
+   */
+  avatarImage?: string;
+  /*
+   * avatar image
+   */
+  // isScramMasterLobby: boolean;
+}
+
 export interface IIssueCard {
   /*
    * Name of the issue card
@@ -68,4 +91,27 @@ export interface IIssueCard {
    * Select card in estimate mode
    */
   isGame: boolean;
+}
+
+export interface ILobbyButtons {
+  /*
+   * start game button text
+   */
+  startBtnText: string;
+  /*
+   * cancel game button text
+   */
+  cancelBtnText: string;
+  /*
+   * start game handler
+   */
+  onStart: () => void;
+  /*
+   * cancel game handler
+   */
+  onCancel: () => void;
+  /*
+   * disable start game button
+   */
+  disableStartGame: boolean;
 }
