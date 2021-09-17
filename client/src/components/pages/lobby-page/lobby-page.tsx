@@ -5,8 +5,6 @@ import GameSettingsSection from '@components/pages/lobby-page/game-settings-sect
 import './lobby-page.sass';
 
 const LobbyPage = () => (
-  // const isScramMasterLobby = true;
-
   <div className="container">
     <div className="lobby-page">
       <div className="lobby-content">

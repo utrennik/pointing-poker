@@ -6,9 +6,6 @@ function SecondsTimePicker() {
   const [selectedTime, setTime] = useState<Date | null>(new Date(1970, 1, 1, 0, 2, 20));
 
   const handleTimeChange = (time: Date | null) => {
-    // const minutes = new Date(val).getMinutes();
-    // const seconds = new Date(val).getSeconds();
-    // console.log(`${minutes}:${seconds}`);
     setTime(time);
   };
 
