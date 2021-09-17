@@ -3,6 +3,7 @@ import InputButton from '@components/ui/input-button/input-button';
 
 import './master-section.sass';
 import { LobbylButtons } from '@components/ui/lobby-buttons/lobby-buttons';
+import TitlePlaning from '@components/ui/title-planning/title-planning';
 import { scramMaster } from './scramMasterData';
 
 const MasterSection = () => {
@@ -25,7 +26,7 @@ const MasterSection = () => {
 
   return (
     <section className="lobby-content-master">
-      <h3 className="section-header">Spring 23 planning (issues 13, 533, 5623, 3252, 6623, ...)</h3>
+      <TitlePlaning />
       <h5 className="section-subheader">Scram master:</h5>
       <div className="master-lobby">
         <ScramMasterCard
