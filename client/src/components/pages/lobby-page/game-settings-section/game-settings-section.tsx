@@ -64,7 +64,7 @@ const GameSettingsSection = () => {
     <section className="lobby-content-game-settings">
       <h3 className="section-header">Game settings:</h3>
       <div className="switch-lobby">
-        <div className="switch-lobby-label">Scram master as player:</div>
+        <h4 className="switch-lobby-label">Scram master as player:</h4>
         <div className="switch-lobby-switch">
           <Switch
             id="dealer-as-plr-switch"
@@ -76,7 +76,7 @@ const GameSettingsSection = () => {
         </div>
       </div>
       <div className="switch-lobby">
-        <div className="switch-lobby-label">Changing card in round end:</div>
+        <h4 className="switch-lobby-label">Changing card in round end:</h4>
         <div className="switch-lobby-switch">
           <Switch
             id="change-choice-switch"
@@ -88,7 +88,7 @@ const GameSettingsSection = () => {
         </div>
       </div>
       <div className="switch-lobby">
-        <div className="switch-lobby-label">Is timer needed:</div>
+        <h4 className="switch-lobby-label">Is timer needed:</h4>
         <div className="switch-lobby-switch">
           <Switch
             id="is-timer-needed"
@@ -101,13 +101,13 @@ const GameSettingsSection = () => {
       </div>
 
       {switchSettings.timerIsNeed && (
-        <div className="switch-lobby-label">
+        <div className="timer-lobby">
           <SecondsTimePicker />
         </div>
       )}
 
       <div className="select-lobby">
-        <div className="select-lobby-label">Choose your card set:</div>
+        <h4 className="select-lobby-label">Choose your card set:</h4>
         <div className="select-lobby-switch">
           <Select value={cardSet} onChange={handleChange} displayEmpty className={classes.select}>
             {cardSetData.map(({ title, value }) => (

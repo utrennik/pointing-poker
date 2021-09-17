@@ -1,4 +1,9 @@
 @import '@styles/variables'
+.lobby-content-game-settings
+  display: flex
+  flex-direction: column
+  align-items: center
+
 .welcome-header
   font-size: 48px
   font-weight: 700
@@ -17,13 +22,34 @@
 .input-lobby-container
   margin-bottom: 30px
 
-.switch-lobby,
-.select-lobby
+.switch-lobby
   display: flex
   align-items: baseline
   justify-content: space-between
-  gap: 120px
-  margin: 15px 0
+  gap: 40px
+  width: 40%
+  margin: 10px 0
+
+.switch-lobby-label,
+.select-lobby-label
+  margin: 0.33em 0
+
+.timer-lobby
+  display: flex
+  align-items: center
+  flex-direction: column
+  gap: 10px
+  width: 15%
+  margin: 10px 0
+
+.select-lobby
+  display: flex
+  justify-content: space-between
+  flex-direction: column
+  align-items: center
+  margin: 10px 0
+  gap: 10px
+  width: 45%
 
 .error
   position: absolute
