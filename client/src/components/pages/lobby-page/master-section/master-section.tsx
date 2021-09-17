@@ -3,15 +3,9 @@ import InputButton from '@components/ui/input-button/input-button';
 
 import './master-section.sass';
 import { LobbylButtons } from '@components/ui/lobby-buttons/lobby-buttons';
+import { scramMaster } from './scramMasterData';
 
-export const scramMaster = {
-  firstName: 'David',
-  lastName: 'Blane',
-  role: 'Senior Software Engineer',
-  avatarImage: '',
-};
-
-const MasterSection = (/* isScramMasterLobby: boolean */) => {
+const MasterSection = () => {
   const { firstName, lastName, role, avatarImage } = scramMaster;
   const linkButtonText = 'Copy';
   const startBtnText = 'Start Game';
@@ -39,7 +33,6 @@ const MasterSection = (/* isScramMasterLobby: boolean */) => {
           lastName={lastName}
           role={role}
           avatarImage={avatarImage}
-          // isScramMasterLobby={isScramMasterLobby}
         />
       </div>
       <h4 className="section-subheader">Link to lobby:</h4>
