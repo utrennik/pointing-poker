@@ -10,6 +10,7 @@ import {
   setGame,
   addUser,
   deleteUser,
+  setIsDealerLobby,
 } from '@src/redux/actions';
 import { IUser, IUserDelete, IGame } from './types';
 import config from '../config.json';
@@ -40,6 +41,8 @@ export default ({ children }) => {
   socket.on(config.RES_USER_JOINED, (user: IUser) => {
     if (user.id !== clientUser.id) {
       dispatch(addUser(user));
+      dispatch(setIsDealerLobby(false));
+
       console.log(`User id${user.firstName} ${user.lastName} joined...`);
     }
   });
@@ -48,6 +51,7 @@ export default ({ children }) => {
     socket.emit(config.REQ_START_GAME, userData, (res: IUser) => {
       console.log(`Game ${res.room} started...`);
       dispatch(setClientUser(res));
+      dispatch(setIsDealerLobby(true));
       history.push('/lobby');
     });
   };

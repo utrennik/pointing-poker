@@ -1,13 +1,17 @@
 import { ScramMasterCard } from '@components/ui/scram-master-card/scram-master-card';
 import InputButton from '@components/ui/input-button/input-button';
-
-import './master-section.sass';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/redux/store';
+import { IUser } from '@models/types';
 import { LobbylButtons } from '@components/ui/lobby-buttons/lobby-buttons';
 import TitlePlaning from '@components/ui/title-planning/title-planning';
-import { scramMaster } from './scramMasterData';
+import './master-section.sass';
 
 const MasterSection = () => {
-  const { firstName, lastName, role, avatarImage } = scramMaster;
+  const { firstName, lastName, jobPosition, avatar } = useSelector(
+    (state: RootState) => state.client.clientUser as IUser
+  );
+  const isDealerLobby = useSelector((state: RootState) => state.client.isDealerLobby);
   const linkButtonText = 'Copy';
   const startBtnText = 'Start Game';
   const cancelBtnText = 'Cancel Game';
@@ -32,8 +36,9 @@ const MasterSection = () => {
         <ScramMasterCard
           firstName={firstName}
           lastName={lastName}
-          role={role}
-          avatarImage={avatarImage}
+          role={jobPosition || ''}
+          avatarImage={avatar}
+          isScramMasterLobby={isDealerLobby}
         />
       </div>
       <h4 className="section-subheader">Link to lobby:</h4>

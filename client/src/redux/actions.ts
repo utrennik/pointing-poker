@@ -6,6 +6,7 @@ export const types = {
   SET_CLIENT_USER: 'SET_CLIENT_USER',
   SET_GAME: 'SET_GAME',
   ADD_USER: 'ADD_USER',
+  SET_IS_DEALER_LOBBY: 'SET_IS_DEALER_LOBBY',
   DELETE_USER: 'DELETE_USER',
 };
 
@@ -35,4 +36,9 @@ export const addUser = (user: IUser) => ({
 export const deleteUser = (userID: string) => ({
   type: types.DELETE_USER,
   payload: { userID },
+});
+
+export const setIsDealerLobby = (isDealer: boolean) => ({
+  type: types.SET_IS_DEALER_LOBBY,
+  payload: { isDealer },
 });

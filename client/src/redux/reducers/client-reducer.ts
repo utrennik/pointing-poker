@@ -3,6 +3,7 @@ import { types } from '../actions';
 export const clientReducer = (
   state = {
     clientUser: null,
+    isDealerLobby: false,
   },
   { type, payload }
 ) => {
@@ -11,6 +12,13 @@ export const clientReducer = (
       return {
         ...state,
         clientUser: payload.user,
+      };
+    }
+
+    case types.SET_IS_DEALER_LOBBY: {
+      return {
+        ...state,
+        isDealerLobby: payload.isDealer,
       };
     }
 

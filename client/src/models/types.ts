@@ -103,8 +103,30 @@ enum IssuePriority {
   LOW = 'low',
 }
 
+export interface IIssue {
+  /*
+   * id of the issue
+   */
+  id: string;
+  /*
+   * Name of the issue
+   */
+  name: string;
+  /*
+   * Priority of the issue in sprint
+   */
+  priority: keyof typeof IssuePriority;
+  /*
+   * Select card in estimate mode
+   */
+  isSelected: boolean;
+  /*
+   * Select card in estimate mode
+   */
+  isGame: boolean;
+}
+
 export interface IIssueCard {
-  id?: number;
   /*
    * Name of the issue card
    */
@@ -215,7 +237,7 @@ export interface IScramMasterCard {
   /*
    * avatar image
    */
-  // isScramMasterLobby: boolean;
+  isScramMasterLobby: boolean;
 }
 
 export interface ILobbyButtons {
