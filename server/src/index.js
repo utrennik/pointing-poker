@@ -2,7 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import cors from "cors";
 import { Server } from "socket.io";
-import { addUser, deleteUser, getUser } from "./usersRepository.js";
+import { addUser, deleteUser } from "./usersRepository.js";
 import { addGame, getGame } from "./gameRepository.js";
 import EVENTS from "./events.js";
 
