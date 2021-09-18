@@ -123,6 +123,29 @@ export interface IIssueCard {
   isGame: boolean;
 }
 
+export interface ICoverCard {
+  id?: number;
+  /*
+   * Image for cover card
+   */
+  image: string;
+  /*
+   * Select cover card
+   */
+  isSelected: boolean;
+}
+export interface IValueCard {
+  id?: number;
+  /*
+   * Name of card
+   */
+  name: string;
+  /*
+   * Value for card
+   */
+  value: string | number;
+}
+
 export interface IMemberCard {
   id?: number;
   /*

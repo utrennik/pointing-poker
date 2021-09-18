@@ -3,11 +3,14 @@ import TextField from '@material-ui/core/TextField';
 import './title-planning.sass';
 import { IconButton, withStyles } from '@material-ui/core';
 
-const DarkerDisabledTextField = withStyles({
+export const DarkerDisabledTextField = withStyles({
   root: {
-    marginRight: 8,
     '& .MuiInputBase-root.Mui-disabled': {
       color: 'black',
+    },
+    '& .MuiInputBase-input': {
+      fontSize: '2em',
+      textAlign: 'center',
     },
   },
 })(TextField);

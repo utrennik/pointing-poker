@@ -99,13 +99,11 @@ const GameSettingsSection = () => {
           />
         </div>
       </div>
-
       {switchSettings.timerIsNeed && (
         <div className="timer-lobby">
           <SecondsTimePicker />
         </div>
       )}
-
       <div className="select-lobby">
         <h4 className="select-lobby-label">Choose your card set:</h4>
         <div className="select-lobby-switch">
