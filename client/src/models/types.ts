@@ -97,7 +97,14 @@ export interface IConnectModalErrors {
   firstNameError?: boolean;
 }
 
-enum IssuePriority {
+export interface IIssueModalErrors {
+  /*
+   * title of Issue error
+   */
+  titleIssueError?: boolean;
+}
+
+export enum IssuePriority {
   HIGH = 'high',
   NORMAL = 'normal',
   LOW = 'low',
