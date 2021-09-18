@@ -3,7 +3,7 @@ import { createServer } from "http";
 import cors from "cors";
 import { Server } from "socket.io";
 import { addUser, deleteUser, getUser } from "./usersRepository.js";
-import { addDealer, addGame, getGame } from "./gameRepository.js";
+import { addGame, getGame } from "./gameRepository.js";
 import EVENTS from "./events.js";
 
 const app = express();
@@ -24,19 +24,27 @@ io.on("connection", (socket) => {
   socket.on(
     EVENTS.REQ_START_GAME,
     ({ id, firstName, lastName, jobPosition, avatar, role }, callback) => {
-      const { room,game} = addGame();
-      const dealer = {id,firstName,lastName,jobPosition,avatar,role,room};
-      game.dealer = dealer
+      const { room, game } = addGame();
+      const dealer = {
+        id,
+        firstName,
+        lastName,
+        jobPosition,
+        avatar,
+        role,
+        room,
+      };
+      game.dealer = dealer;
       socket.join(room);
-      callback(dealer,game);
+      callback(dealer, game);
     }
   );
 
-  socket.on( EVENTS.REQ_ROOM_CHECK,({room},callback) => {
-    const {gameError} = getGame(room);
-    if(gameError) return callback(false);
+  socket.on(EVENTS.REQ_ROOM_CHECK, ({ room }, callback) => {
+    const { gameError } = getGame(room);
+    if (gameError) return callback(false);
     callback(true);
-  })
+  });
 
   socket.on(
     EVENTS.REQ_USER_JOIN,
@@ -55,11 +63,9 @@ io.on("connection", (socket) => {
       });
       if (userError) return callback(userError);
       socket.join(room);
-      socket
-        .in(room)
-        .emit(EVENTS.NOTIFICATIONS, {
-          message: `${user.firstName} just entered the room`,
-        });
+      socket.in(room).emit(EVENTS.NOTIFICATIONS, {
+        message: `${user.firstName} just entered the room`,
+      });
       socket.in(room).emit(EVENTS.RES_USER_JOINED, user);
       callback(currentGame);
     }
@@ -77,26 +83,24 @@ io.on("connection", (socket) => {
     callback(deletedUser);
   });
 
-
-  socket.on(EVENTS.REQ_TITLE_CHANGE,({room,title},callback) => {
-    const {gameError,currentGame} = getGame(room);
-    if(gameError) return callback(gameError);
+  socket.on(EVENTS.REQ_TITLE_CHANGE, ({ room, title }, callback) => {
+    const { gameError, currentGame } = getGame(room);
+    if (gameError) return callback(gameError);
     currentGame.title = title;
-    io.in(room).emit(EVENTS.RES_TITLE_CHANGED,currentGame.title);
-    callback(currentGame.title)
-  })
-
+    io.in(room).emit(EVENTS.RES_TITLE_CHANGED, currentGame.title);
+    callback(currentGame.title);
+  });
 
   // socket.on("disconnect", () => {
   //   console.log("user disconnected");
-    // const user = deleteUser(socket.id);
-    // if (user) {
-    //   io.in(user.room).emit("notification", {
-    //     title: "Someone just left",
-    //     description: `${user.firstName} just left the room`,
-    //   });
-    //   io.in(user.room).emit("users", getUsers(user.room));
-    // }
+  // const user = deleteUser(socket.id);
+  // if (user) {
+  //   io.in(user.room).emit("notification", {
+  //     title: "Someone just left",
+  //     description: `${user.firstName} just left the room`,
+  //   });
+  //   io.in(user.room).emit("users", getUsers(user.room));
+  // }
   // });
 
   // socket.on("message:add", (message) => {
