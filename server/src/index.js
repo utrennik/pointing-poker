@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
       };
       game.dealer = dealer;
       socket.join(room);
-      callback(dealer, game);
+      callback(dealer);
     }
   );
 
@@ -72,10 +72,9 @@ io.on("connection", (socket) => {
   );
 
   socket.on(EVENTS.REQ_USER_DELETE, ({ dealerID, userID, room }, callback) => {
-    const { userError, user } = getUser(room, dealerID);
-    if (userError) return callback(userError);
-    if (user.role !== "dealer")
-      return callback(new Error("Only scrum master can delete user"));
+    const {currentGame,gameError} = getGame(room);
+    if(gameError) return callback(gameError);
+    if(currentGame.dealer.id !== dealerID) return callback(new Error("Only scrum master can delete user"));
     const { deletedUser, userDeleteError } = deleteUser(room, userID);
     if (userDeleteError) return callback(userDeleteError);
     io.in(room).emit(EVENTS.RES_USER_DELETED, deletedUser.id);
