@@ -1,6 +1,9 @@
+import { getGame } from "./gameRepository";
+
 const issues = [];
 
 // interface issue {
+
 //   name: string;
 //   room:string
 //   priority: string;
@@ -8,17 +11,19 @@ const issues = [];
 //   score:number || string;
 // }
 
-export const addIssue = (name,room,priority,isActive = "Boolean",score= "") => {
-  const existingIssue = issues.find((issue) => issue.name === name && issue.room === room)
-  if(existingIssue) return new Error(`Issue with current name ${name} exist`)
-  const issue = {name,room,priority,isActive,score}
-  issues.push(issue);
-  return issue;
+export const addIssue = ({id,name,room,priority,isActive = "false",score= ""}) => {
+  const {currentGame} = getGame(room);
+
+  const existingIssue = currentGame.issues.find((issue) => issue.id === id )
+  if(existingIssue) return {issueError : new Error(`Issue with current name ${name} exist`)};
+  const issue = {id,name,room,priority,isActive,score}
+  currentGame.issues.push(issue);
+  return {issue};
 }
 
 export const getIssue = (name,room) => {
   const issue = issues.find((issue) => issue.name === name && issue.room === room)
-  return issue;
+  return {issue};
 }
 
 export const deleteIssue = (name,room) => {
@@ -33,7 +38,7 @@ export const updateIssue = (data,room) => {
  const existIssue = issues.splice(index, 1)[0];
  const newIssue = {...existIssue,...data};
  issues.push(newIssue)
- return newIssue;
+ return {newIssue};
 }
 
 export const getIssues = (room) => {

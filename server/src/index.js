@@ -9,12 +9,7 @@ import EVENTS from "./events.js";
 const app = express();
 app.use(cors());
 const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: "http://localhost:8080",
-    methods: ["GET", "POST", "PUT"],
-  },
-});
+const io = new Server(httpServer);
 
 const PORT = process.env.PORT || 8000;
 
