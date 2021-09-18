@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
+import { WebSocketContext } from '@models/web-socket';
 import { Button } from '@material-ui/core';
 import InputButton from '@components/ui/input-button/input-button';
 import ConnectModal from '@components/modals/connect-modal/connect-modal';
@@ -14,9 +15,13 @@ import './welcome-page.sass';
 const WelcomePage = () => {
   const [connectModalOpen, setConnectModalOpen] = useState(false);
   const [startModalOpen, setStartModalOpen] = useState(false);
+  const [noRoomError, setNoRoomError] = useState(false);
+  const ws = useContext(WebSocketContext);
+  const { id } = useParams<{ id: string }>();
+  const isConnectionError = useSelector((state: RootState) => state.socket.socketError);
 
-  const handleConnectModalOpen = () => {
-    setConnectModalOpen(true);
+  const handleConnectModalOpen = async (val: string) => {
+    ws.checkIsRoomExists(val, setConnectModalOpen, setNoRoomError);
   };
 
   const handleConnectModalClose = () => {
@@ -29,10 +34,6 @@ const WelcomePage = () => {
   const handleStartModalClose = () => {
     setStartModalOpen(false);
   };
-
-  const { id } = useParams<{ id: string }>();
-
-  const isConnectionError = useSelector((state: RootState) => state.socketError);
 
   return (
     <div className="container">
@@ -72,12 +73,13 @@ const WelcomePage = () => {
               buttonText="Connect"
               initialValue={id}
               inputLabel="ID"
-              valueHandler={() => {
-                handleConnectModalOpen();
+              valueHandler={(val) => {
+                handleConnectModalOpen(val);
               }}
             />
             <div className="error-container">
-              {isConnectionError ? config.CONNECT_ERROR_MESSAGE : ''}
+              {isConnectionError && !noRoomError && config.CONNECT_ERROR_MESSAGE}
+              {noRoomError && config.NO_ROOM_ERROR_MESSAGE}
             </div>
           </div>
         </div>

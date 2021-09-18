@@ -124,7 +124,10 @@ export interface IIssueCard {
 }
 
 export interface IMemberCard {
-  id?: number;
+  /*
+   * User id
+   */
+  id: string;
   /*
    * first name of User
    */
@@ -141,6 +144,8 @@ export interface IMemberCard {
    * avatar image
    */
   avatarImage?: string;
+}
+
 export interface IUser {
   /*
    * User ID

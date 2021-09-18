@@ -12,11 +12,11 @@ import { theme } from './ThemeUI/theme';
 render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
-      <WebSocketProvider>
-        <Router>
+      <Router>
+        <WebSocketProvider>
           <App />
-        </Router>
-      </WebSocketProvider>
+        </WebSocketProvider>
+      </Router>
     </ThemeProvider>
   </Provider>,
   document.getElementById('root')

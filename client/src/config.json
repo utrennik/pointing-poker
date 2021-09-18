@@ -6,8 +6,13 @@
   "RES_USER_DELETED": "res-user-deleted",
   "REQ_TITLE_CHANGE": "req-title-change",
   "RES_TITLE_CHANGED": "res-title-changed",
-  "SERVER_BASE_URL": "http://localhost:8080/",
+  "REQ_ROOM_CHECK": "req-room-check",
+  "DEALER": "dealer",
+  "MEMBER": "member",
+  "OBSERVER": "observer",
+  "SERVER_BASE_URL": "https://pointing-poker-brest.herokuapp.com/",
   "CONNECT_ERROR_MESSAGE": "Error! Server is not connected!",
+  "NO_ROOM_ERROR_MESSAGE": "Error! Game not found!",
   "transition": {
     "timeout": 300
   }

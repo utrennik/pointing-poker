@@ -1,8 +1,11 @@
-import { ChangeEvent, useState, useEffect } from 'react';
+import { ChangeEvent, useState, useEffect, useContext } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
 import { CustomAvatar } from '@components/ui/customAvatar/customAvatar';
 import { IConnectModalErrors } from '@models/types';
+import { WebSocketContext } from '@models/web-socket';
+import { id } from '@src/utils/utils';
+import config from '@src/config.json';
 import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
 import './connect-modal.sass';
 
@@ -13,6 +16,7 @@ const ConnectModal = ({ isOpen, onClose }) => {
   const [connectAsObs, setConnectAsObs] = useState(false);
   const [avatar, setAvatar] = useState('');
   const [errors, setErrors] = useState({} as IConnectModalErrors);
+  const ws = useContext(WebSocketContext);
 
   const clearForm = () => {
     setFirstName('');
@@ -78,7 +82,18 @@ const ConnectModal = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleConfirm = () => {};
+  const handleConfirm = () => {
+    ws.requestUserJoin({
+      id: id(),
+      firstName,
+      room: roomID,
+      lastName,
+      jobPosition,
+      avatar,
+      role: connectAsObs ? config.OBSERVER : config.MEMBER,
+    });
+    onClose();
+  };
 
   const modalBody = (
     <div>

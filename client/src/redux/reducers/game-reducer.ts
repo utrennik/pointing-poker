@@ -27,6 +27,14 @@ export const gameReducer = (
       };
     }
 
+    case types.DELETE_USER: {
+      const newUsers = state.users.filter((user) => user.id !== payload.userID);
+      return {
+        ...state,
+        users: newUsers,
+      };
+    }
+
     default:
       return state;
   }

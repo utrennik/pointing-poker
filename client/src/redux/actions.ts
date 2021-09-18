@@ -6,7 +6,7 @@ export const types = {
   SET_CLIENT_USER: 'SET_CLIENT_USER',
   SET_GAME: 'SET_GAME',
   ADD_USER: 'ADD_USER',
-  REMOVE_USER: 'REMOVE_USER',
+  DELETE_USER: 'DELETE_USER',
 };
 
 export const setSocketConnected = () => ({
@@ -30,4 +30,9 @@ export const setGame = (game: IGame) => ({
 export const addUser = (user: IUser) => ({
   type: types.ADD_USER,
   payload: { user },
+});
+
+export const deleteUser = (userID: string) => ({
+  type: types.DELETE_USER,
+  payload: { userID },
 });
