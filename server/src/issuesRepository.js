@@ -13,7 +13,6 @@ const issues = [];
 
 export const addIssue = ({id,name,room,priority,isActive = "false",score= ""}) => {
   const {currentGame} = getGame(room);
-
   const existingIssue = currentGame.issues.find((issue) => issue.id === id )
   if(existingIssue) return {issueError : new Error(`Issue with current name ${name} exist`)};
   const issue = {id,name,room,priority,isActive,score}
@@ -21,12 +20,12 @@ export const addIssue = ({id,name,room,priority,isActive = "false",score= ""}) =
   return {issue};
 }
 
-export const getIssue = (name,room) => {
+export const getIssue = (room,id) => {
   const issue = issues.find((issue) => issue.name === name && issue.room === room)
   return {issue};
 }
 
-export const deleteIssue = (name,room) => {
+export const deleteIssue = (room,id) => {
   const index = issues.findIndex((issue) => issue.name === name && issue.room === room);
   if (index !== -1) return issues.splice(index, 1)[0];
 }
