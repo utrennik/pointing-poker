@@ -3,7 +3,7 @@ import { createServer } from "http";
 import cors from "cors";
 import { Server } from "socket.io";
 import { addUser, deleteUser, getUser } from "./usersRepository.js";
-import { addGame, getGame } from "./gameRepository.js";
+import { addDealer, addGame, getGame } from "./gameRepository.js";
 import EVENTS from "./events.js";
 
 const app = express();
@@ -24,19 +24,11 @@ io.on("connection", (socket) => {
   socket.on(
     EVENTS.REQ_START_GAME,
     ({ id, firstName, lastName, jobPosition, avatar, role }, callback) => {
-      const { room } = addGame();
-      const { user, userError } = addUser({
-        id,
-        room,
-        firstName,
-        lastName,
-        jobPosition,
-        avatar,
-        role,
-      });
-      if (userError) return callback(userError);
+      const { room,game} = addGame();
+      const dealer = {id,firstName,lastName,jobPosition,avatar,role,room};
+      game.dealer = dealer
       socket.join(room);
-      callback(user);
+      callback(dealer,game);
     }
   );
 
@@ -132,7 +124,7 @@ io.on("connection", (socket) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Hello!");
+  res.send("Hello");
 });
 
 httpServer.listen(PORT, () => {

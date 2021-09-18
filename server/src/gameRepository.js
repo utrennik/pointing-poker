@@ -8,9 +8,10 @@ export const addGame = () => {
   const issues = [];
   const settings = [];
   const title = "";
-  const game = { room,users,issues,settings,title }
+  const dealer = {};
+  const game = { room,users,issues,settings,title,dealer }
   games.push(game);
-  return {room};
+  return {room,game};
 };
 
 export const getGame = (room) => {
@@ -20,8 +21,8 @@ export const getGame = (room) => {
   return {currentGame};
 };
 
-export const deleteGame = (roomID) => {
-  const index = games.findIndex((game) => game.id === roomID);
+export const deleteGame = (room) => {
+  const index = games.findIndex((game) => game.id === room);
   if (index === -1) {
     return new Error("Game not found");
   } else {
