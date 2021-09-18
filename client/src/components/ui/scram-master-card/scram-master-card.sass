@@ -1,19 +1,24 @@
+@import '@styles/variables'
 
-.member-card
+.scram-master-card
   width: 280px
-  height: 76px
+  height: 80px
   padding: 0 10px 0 10px
   display: flex
   column-gap: 10px
   align-items: center
 
-  &-delete-btn
-    width: 30px
-    height: 30px
-    background-image: url('../../../assets/icons/deleteMember.svg')
+  &-description
+    display: flex
+    flex-direction: column
+    color: $grey
 
   &-header
     width: 200px
     overflow: hidden
     white-space: nowrap
+  root
     padding: 0
+
+  &-subheader
+    color: $grey

@@ -1,11 +1,20 @@
-import '@styles/page.sass';
+import MasterSection from '@components/pages/lobby-page/master-section/master-section';
+import IssuesSection from '@components/pages/lobby-page/issues-section/issues-section';
+import MembersSection from '@components/pages/lobby-page/members-section/members-section';
+import GameSettingsSection from '@components/pages/lobby-page/game-settings-section/game-settings-section';
+import './lobby-page.sass';
 
 const LobbyPage = () => (
-  <main className="main">
-    <div className="container content-wrapper">
-      <h1>Lobby page</h1>
+  <div className="container">
+    <div className="lobby-page">
+      <div className="lobby-content">
+        <MasterSection />
+        <MembersSection />
+        <IssuesSection />
+        <GameSettingsSection />
+      </div>
     </div>
-  </main>
+  </div>
 );
 
 export default LobbyPage;

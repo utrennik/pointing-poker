@@ -97,7 +97,14 @@ export interface IConnectModalErrors {
   firstNameError?: boolean;
 }
 
+enum IssuePriority {
+  HIGH = 'high',
+  NORMAL = 'normal',
+  LOW = 'low',
+}
+
 export interface IIssueCard {
+  id?: number;
   /*
    * Name of the issue card
    */
@@ -105,7 +112,7 @@ export interface IIssueCard {
   /*
    * Priority of the issue in sprint
    */
-  priority: 'high' | 'normal' | 'low';
+  priority: keyof typeof IssuePriority;
   /*
    * Select card in estimate mode
    */
@@ -117,6 +124,7 @@ export interface IIssueCard {
 }
 
 export interface IMemberCard {
+  id?: number;
   /*
    * first name of User
    */
@@ -133,4 +141,68 @@ export interface IMemberCard {
    * avatar image
    */
   avatarImage?: string;
+}
+
+export interface IScramMasterCard {
+  id?: number;
+  /*
+   * first name of ScramMaster
+   */
+  firstName: string;
+  /*
+   * last name of ScramMaster
+   */
+  lastName?: string;
+  /*
+   * role in the team
+   */
+  role: string;
+  /*
+   * avatar image
+   */
+  avatarImage?: string;
+  /*
+   * avatar image
+   */
+  // isScramMasterLobby: boolean;
+}
+
+export interface ILobbyButtons {
+  /*
+   * start game button text
+   */
+  startBtnText: string;
+  /*
+   * cancel game button text
+   */
+  cancelBtnText: string;
+  /*
+   * start game handler
+   */
+  onStart: () => void;
+  /*
+   * cancel game handler
+   */
+  onCancel: () => void;
+  /*
+   * disable start game button
+   */
+  disableStartGame: boolean;
+}
+
+export enum CardSet {
+  fibonacci = 'Fibonacci',
+  powersOfTwo = 'Powers of 2',
+  customCardSet = 'Custom CardSet',
+}
+
+export interface IGameSettingsErrors {
+  /*
+   * type of score error
+   */
+  scoreTypeError?: boolean;
+  /*
+   * type of score error
+   */
+  scoreTypeShortError?: boolean;
 }
