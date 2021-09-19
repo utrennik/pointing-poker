@@ -40,7 +40,11 @@ const TitlePlaning = () => {
     <div className="title-planning">
       <DarkerDisabledTextField
         id="title-planning"
-        label={isDealerLobby ? 'Please add planning title:' : 'Planning title will appear here'}
+        label={
+          (gameTitle && 'Planning title') ||
+          (isDealerLobby && 'Please add planning title:') ||
+          'Planning title will appear here'
+        }
         disabled={!isEditable}
         fullWidth={true}
         size="small"

@@ -28,8 +28,11 @@ const composeEnhancers =
 
 /* eslint-enable */
 
+// TODO: To save state to local storage (do we need this?):
 const persistedStore = loadFromLocalStorage();
-const configureStore = () => createStore(rootReducer, { ...persistedStore }, composeEnhancers());
+console.log(persistedStore);
+// const configureStore = () => createStore(rootReducer, { ...persistedStore }, composeEnhancers());
+const configureStore = () => createStore(rootReducer, composeEnhancers());
 
 const store = configureStore();
 
