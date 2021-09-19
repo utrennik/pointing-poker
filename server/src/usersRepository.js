@@ -94,7 +94,7 @@ export default ({ socket, io }) => {
   socket.on(EVENTS.REQ_START_VOTE, ({ room, voteUserID, deletedUserID }) => {
     const { currentGame, gameError } = getGame(room);
     if (gameError) return;
-    if (!currentGame.voting.isVote) {
+    if (!currentGame.voting.isVote && currentGame.users.length > 2) {
       currentGame.voting.isVote = true;
       currentGame.voting.candidat = deletedUserID;
       currentGame.voting.results.push("yes");
