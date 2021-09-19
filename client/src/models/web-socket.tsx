@@ -1,10 +1,6 @@
 import { createContext } from 'react';
-<<<<<<< HEAD
-import { useDispatch } from 'react-redux';
-=======
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
->>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
 import { useHistory } from 'react-router-dom';
 import { Socket, io } from 'socket.io-client';
 import {
@@ -13,35 +9,23 @@ import {
   setClientUser,
   setGame,
   addUser,
-<<<<<<< HEAD
-} from '@src/redux/actions';
-import { IUser } from './types';
-=======
   deleteUser,
   setIsDealerLobby,
   changeTitle,
   resetState,
 } from '@src/redux/actions';
 import { IUser, IUserDelete, IGame } from './types';
->>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
 import config from '../config.json';
 
 const WebSocketContext = createContext(null);
+const SERVER_URL = config.SERVER_BASE_URL;
 
 export { WebSocketContext };
 
 export default ({ children }) => {
-<<<<<<< HEAD
-  const socket: Socket = io(config.SERVER_BASE_URL);
-  const dispatch = useDispatch();
-  const history = useHistory();
-
-  socket.on('connect', () => {
-    dispatch(setSocketConnected());
-=======
   let socket: Socket | undefined;
 
-  if (!socket) socket = io(config.SERVER_HOME_URL);
+  if (!socket) socket = io(SERVER_URL);
   const dispatch = useDispatch();
   const history = useHistory();
   const clientUser: IUser = useSelector((state: RootState) => state.client.clientUser as IUser);
@@ -51,7 +35,6 @@ export default ({ children }) => {
   socket.on('connect', () => {
     dispatch(setSocketConnected());
     console.log('Server connected...');
->>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
   });
 
   socket.on('disconnect', () => {
@@ -64,37 +47,22 @@ export default ({ children }) => {
 
   socket.on(config.RES_USER_JOINED, (user: IUser) => {
     dispatch(addUser(user));
-<<<<<<< HEAD
-=======
 
     console.log(`User id${user.firstName} ${user.lastName} joined...`);
->>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
   });
 
   const requestStartGame = (userData: IUser) => {
     socket.emit(config.REQ_START_GAME, userData, (res: IUser) => {
-<<<<<<< HEAD
-      dispatch(setClientUser(res));
-=======
       console.log(`Game ${res.room} started...`);
       dispatch(setClientUser(res));
       client = res;
       dispatch(setGame({ dealer: res, room: res.room }));
       dispatch(setIsDealerLobby(true));
->>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
       history.push('/lobby');
     });
   };
 
   const requestUserJoin = (userData: IUser) => {
-<<<<<<< HEAD
-    socket.emit(config.REQUEST_USER_JOIN, userData, (res: IGame) => {
-      dispatch(setClientUser(userData));
-      dispatch(setGame(res));
-    });
-  };
-
-=======
     socket.emit(config.REQ_USER_JOIN, userData, (res: IGame) => {
       console.log(`User ${userData.firstName} ${userData.lastName} join requested...`);
 
@@ -126,13 +94,12 @@ export default ({ children }) => {
   const resetClient = () => {
     history.push('/');
     dispatch(resetState());
-    socket = io(config.SERVER_HOME_URL);
+    socket = io(SERVER_URL);
     client = {};
   };
 
   socket.on(config.RES_USER_DELETED, (userID: string) => {
     console.log(`User ${userID} deleted notification...`);
-    console.log(`Client:${JSON.stringify(client)}`);
     if (userID === client.id) {
       resetClient();
     } else {
@@ -181,18 +148,14 @@ export default ({ children }) => {
     );
   };
 
->>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
   const ws: any = {
     socket,
     requestStartGame,
     requestUserJoin,
-<<<<<<< HEAD
-=======
     requestUserDelete,
     checkIsRoomExists,
     requestTitleChange,
     clientExit,
->>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

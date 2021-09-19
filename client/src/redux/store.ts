@@ -1,6 +1,24 @@
 import { createStore, compose } from 'redux';
 import rootReducer from './reducers';
 
+const saveToLocalStorage = (state) => {
+  try {
+    localStorage.setItem('state', JSON.stringify(state));
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const loadFromLocalStorage = () => {
+  try {
+    const stateStr = localStorage.getItem('state');
+    return stateStr ? JSON.parse(stateStr) : undefined;
+  } catch (e) {
+    console.error(e);
+    return undefined;
+  }
+};
+
 /* eslint-disable no-underscore-dangle */
 
 const composeEnhancers =
@@ -10,9 +28,14 @@ const composeEnhancers =
 
 /* eslint-enable */
 
-const configureStore = () => createStore(rootReducer, composeEnhancers());
+const persistedStore = loadFromLocalStorage();
+const configureStore = () => createStore(rootReducer, { ...persistedStore }, composeEnhancers());
 
 const store = configureStore();
+
+store.subscribe(() => {
+  saveToLocalStorage(store.getState());
+});
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>;

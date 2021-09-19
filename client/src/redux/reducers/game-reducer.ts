@@ -4,14 +4,10 @@ export const gameReducer = (
   state = {
     users: [],
     title: '',
-<<<<<<< HEAD
-    settings: {},
-=======
     room: '',
     dealer: {},
     settings: {},
     gameStatus: '',
->>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
   },
   { type, payload }
 ) => {
@@ -19,13 +15,7 @@ export const gameReducer = (
     case types.SET_GAME: {
       return {
         ...state,
-<<<<<<< HEAD
-        users: payload.users,
-        title: payload.title,
-        settings: payload.settings,
-=======
         ...payload.game,
->>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
       };
     }
 
@@ -38,8 +28,6 @@ export const gameReducer = (
       };
     }
 
-<<<<<<< HEAD
-=======
     case types.DELETE_USER: {
       const newUsers = state.users.filter((user) => user.id !== payload.userID);
       return {
@@ -55,7 +43,6 @@ export const gameReducer = (
       };
     }
 
->>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
     default:
       return state;
   }
