@@ -110,6 +110,7 @@ export default ({ socket, io }) => {
     if (gameError) return;
     const resultsOfVoting = currentGame.voting.results;
     resultsOfVoting.push(result);
+    io.in(room).emit(EVENTS.NOTIFICATIONS,currentGame)
     const confirmDeleting = resultsOfVoting.filter((item) => item === "yes");
     if (confirmDeleting.length > currentGame.users.length / 2) {
       const { deletedUser } = deleteUser(room, currentGame.voting.candidat);
@@ -121,7 +122,7 @@ export default ({ socket, io }) => {
       currentGame.voting.isVote = false;
     }
     if(resultsOfVoting.length === currentGame.users.length) {
-      currentGame.votinf.isVote = false;
+      currentGame.voting.isVote = false;
       io.in(room).emit(
         EVENTS.NOTIFICATIONS,
         `user stay in room `
