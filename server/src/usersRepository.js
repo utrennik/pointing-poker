@@ -111,7 +111,7 @@ export default ({ socket, io }) => {
     const resultsOfVoting = currentGame.voting.results;
     resultsOfVoting.push(result);
     const confirmDeleting = resultsOfVoting.filter((item) => item === "yes");
-    if (confirmDeleting.length > resultsOfVoting.length / 2) {
+    if (confirmDeleting.length > currentGame.users.length / 2) {
       const { deletedUser } = deleteUser(room, currentGame.voting.candidat);
       io.in(room).emit(EVENTS.RES_RESULT_VOTE, deletedUser.id);
       io.in(room).emit(
@@ -119,6 +119,13 @@ export default ({ socket, io }) => {
         `${deletedUser.firstName} was deleted by voting`
       );
       currentGame.voting.isVote = false;
+    }
+    if(resultsOfVoting.length === currentGame.users.length) {
+      currentGame.votinf.isVote = false;
+      io.in(room).emit(
+        EVENTS.NOTIFICATIONS,
+        `user stay in room `
+      );
     }
   });
 };
