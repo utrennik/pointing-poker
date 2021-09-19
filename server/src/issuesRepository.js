@@ -49,25 +49,27 @@ export const getIssues = (room) => {
 
 export default ({socket,io}) => {
 
-  socket.on(EVENTS.REQ_ISSUE_ADD,({id,name,room,isActive,priority,score},callback) => {
+  socket.on(EVENTS.REQ_ISSUE_ADD,({id,name,room,isActive,priority,score}) => {
     const {issue,gameError,issueError} = addIssue({id,room,name,isActive,priority,score});
-    if(gameError) return callback(gameError);
-    if(issueError) return callback(issueError);
-    io.in(room).emit(EVENTS.RES_ISSUE_GET,issue);
+    if(gameError) return gameError;
+    if(issueError) return issueError;
+    const {issues} = getIssues(room);
+    io.in(room).emit(EVENTS.RES_ISSUES_GET,issues);
   })
 
-  socket.on(EVENTS.REQ_ISSUE_DELETE,({id,room},callback) => {
+  socket.on(EVENTS.REQ_ISSUE_DELETE,({id,room}) => {
     const {issue,gameError} = deleteIssue(room,id);
-    if(gameError) return callback(gameError);
-    io.in(room).emit(EVENTS.RES_ISSUE_DELETE,issue);
+    if(gameError) return gameError;
+    const {issues} = getIssues(room);
+    io.in(room).emit(EVENTS.RES_ISSUES_GET,issues);
   })
 
-  socket.on(EVENTS.REQ_ISSUE_UPDATE,({room,data},callback) => {
-    const {newIssue,gameError,issueError} = updateIssue(room,data);
-    if(gameError) return callback(gameError);
-    if(issueError) return callback(issueError);
-    io.in(room).emit(EVENTS.RES_ISSUE_GET,newIssue);
-
+  socket.on(EVENTS.REQ_ISSUE_UPDATE,(data) => {
+    const {newIssue,gameError,issueError} = updateIssue(data.room,data);
+    if(gameError) return gameError;
+    if(issueError) return issueError;
+    const {issues} = getIssues(data.room);
+    io.in(data.room).emit(EVENTS.RES_ISSUES_GET,issues);
   })
 
   socket.on(EVENTS.REQ_ISSUES_GET,({room}) => {
