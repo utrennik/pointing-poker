@@ -1,7 +1,7 @@
 import { getGame } from "./gameRepository.js";
 import EVENTS from "./events.js";
 
-// const voiting = {
+// const voting = {
 //   isVote: false,
 //  candidat:{}
 //   results: []
@@ -94,31 +94,31 @@ export default ({ socket, io }) => {
   socket.on(EVENTS.REQ_START_VOTE, ({ room, voteUserID, deletedUserID }) => {
     const { currentGame, gameError } = getGame(room);
     if (gameError) return;
-    if (!currentGame.voiting.isVote) {
-      currentGame.voiting.isVote = true;
-      currentGame.voiting.candidat = deletedUserID;
-      currentGame.voiting.results.push("yes");
-      const isVoiting = currentGame.voiting.isVote;
+    if (!currentGame.voting.isVote) {
+      currentGame.voting.isVote = true;
+      currentGame.voting.candidat = deletedUserID;
+      currentGame.voting.results.push("yes");
+      const isVote = currentGame.voting.isVote;
       socket
         .in(currentGame.room)
-        .emit(EVENTS.RES_START_VOTE, { voteUserID, deletedUserID, isVoiting });
+        .emit(EVENTS.RES_START_VOTE, { voteUserID, deletedUserID, isVote });
     }
   });
 
   socket.on(EVENTS.REQ_RESULT_VOTE, ({ room, result }) => {
     const { currentGame, gameError } = getGame(room);
     if (gameError) return;
-    const resultsOfVoiting = currentGame.voiting.results;
-    resultsOfVoiting.push(result);
-    const confirmDeleting = resultsOfVoiting.filter((item) => item === "yes");
-    if (confirmDeleting.length > resultsOfVoiting.length / 2) {
-      const { deletedUser } = deleteUser(room, currentGame.voiting.candidat);
+    const resultsOfVoting = currentGame.voting.results;
+    resultsOfVoting.push(result);
+    const confirmDeleting = resultsOfVoting.filter((item) => item === "yes");
+    if (confirmDeleting.length > resultsOfVoting.length / 2) {
+      const { deletedUser } = deleteUser(room, currentGame.voting.candidat);
       io.in(room).emit(EVENTS.RES_RESULT_VOTE, deletedUser.id);
       io.in(room).emit(
         EVENTS.NOTIFICATIONS,
-        `${deletedUser.firstName} was deleted by voiting`
+        `${deletedUser.firstName} was deleted by voting`
       );
-      currentGame.voiting.isVote = false;
+      currentGame.voting.isVote = false;
     }
   });
 };

@@ -11,12 +11,12 @@ export const addGame = () => {
   const title = "";
   const dealer = {};
   const gameStatus = "";
-  const voiting = {
+  const voting = {
     isVote:false,
     candidat: "",
     results:[]
   };
-  const game = { room, users, issues, settings, title, dealer, gameStatus,voiting };
+  const game = { room, users, issues, settings, title, dealer, gameStatus,voting };
   games.push(game);
   return { room, game };
 };
