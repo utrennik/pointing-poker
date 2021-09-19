@@ -14,6 +14,13 @@ const EVENTS = {
   REQ_ISSUE_DELETE: "req-issue-delete",
   REQ_ISSUE_UPDATE:"req-issue-update",
   RES_ISSUES_GET:"res-issues-get",
-  REQ_ISSUES_GET:"req-issues-get"
+  REQ_ISSUES_GET:"req-issues-get",
+  REQ_START_POKER: "req-start-poker",
+  RES_START_POKER: "res-start-poker",
+  REQ_START_VOTE: "req-start-vote",
+  RES_START_VOTE:"res-start-vote",
+  REQ_RESULT_VOTE:"req-result-vote",
+  RES_RESULT_VOTE:"res-result-vote"
+
 }
 export default EVENTS;
