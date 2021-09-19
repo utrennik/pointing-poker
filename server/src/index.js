@@ -83,12 +83,11 @@ io.on("connection", (socket) => {
     callback(deletedUser);
   });
 
-  socket.on(EVENTS.REQ_TITLE_CHANGE, ({ room, title }, callback) => {
+  socket.on(EVENTS.REQ_TITLE_CHANGE, ({ room, title }) => {
     const { gameError, currentGame } = getGame(room);
-    if (gameError) return callback(gameError);
+    if (gameError) return ;
     currentGame.title = title;
     io.in(room).emit(EVENTS.RES_TITLE_CHANGED, currentGame.title);
-    callback(currentGame.title);
   });
 
   socket.on(EVENTS.REQ_ISSUE_ADD,({id,name,room,isActive,priority,score},callback) => {
