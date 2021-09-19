@@ -11,6 +11,7 @@ import {
   addUser,
   deleteUser,
   setIsDealerLobby,
+  changeTitle,
 } from '@src/redux/actions';
 import { IUser, IUserDelete, IGame } from './types';
 import config from '../config.json';
@@ -20,7 +21,9 @@ const WebSocketContext = createContext(null);
 export { WebSocketContext };
 
 export default ({ children }) => {
-  const socket: Socket = io(config.SERVER_BASE_URL);
+  let socket: Socket | undefined;
+
+  if (!socket) socket = io(config.SERVER_HOME_URL);
   const dispatch = useDispatch();
   const history = useHistory();
   const clientUser: IUser = useSelector((state: RootState) => state.client.clientUser as IUser);
@@ -39,18 +42,16 @@ export default ({ children }) => {
   });
 
   socket.on(config.RES_USER_JOINED, (user: IUser) => {
-    if (user.id !== clientUser.id) {
-      dispatch(addUser(user));
-      dispatch(setIsDealerLobby(false));
+    dispatch(addUser(user));
 
-      console.log(`User id${user.firstName} ${user.lastName} joined...`);
-    }
+    console.log(`User id${user.firstName} ${user.lastName} joined...`);
   });
 
   const requestStartGame = (userData: IUser) => {
     socket.emit(config.REQ_START_GAME, userData, (res: IUser) => {
       console.log(`Game ${res.room} started...`);
       dispatch(setClientUser(res));
+      dispatch(setGame({ dealer: res, room: res.room }));
       dispatch(setIsDealerLobby(true));
       history.push('/lobby');
     });
@@ -59,9 +60,11 @@ export default ({ children }) => {
   const requestUserJoin = (userData: IUser) => {
     socket.emit(config.REQ_USER_JOIN, userData, (res: IGame) => {
       console.log(`User ${userData.firstName} ${userData.lastName} join requested...`);
-      console.log(`Game ${res.users[0].room} created`);
+
       dispatch(setClientUser(userData));
+      console.log(`Game data received: ${JSON.stringify(res)}`);
       dispatch(setGame(res));
+      dispatch(setIsDealerLobby(false));
       history.push('/lobby');
     });
   };
@@ -89,13 +92,23 @@ export default ({ children }) => {
     setConnectModalOpen: Function,
     setNoRoomError: Function
   ) => {
-    socket.emit(config.REQ_ROOM_CHECK, roomID, (res: boolean) => {
-      console.log(res);
+    socket.emit(config.REQ_ROOM_CHECK, { room: roomID }, (res: boolean) => {
       console.log(`Room ${roomID} ${res ? 'exists' : 'not exists'}...`);
       setConnectModalOpen(res);
       setNoRoomError(!res);
     });
   };
+
+  const requestTitleChange = (title: string) => {
+    socket.emit(config.REQ_TITLE_CHANGE, { title, room: clientUser.room });
+    console.log(`Title ${title} change requested...`);
+  };
+
+  socket.on(config.RES_TITLE_CHANGED, (title: string) => {
+    console.log(`Title ${title} changed...`);
+
+    dispatch(changeTitle(title));
+  });
 
   const ws: any = {
     socket,
@@ -103,6 +116,7 @@ export default ({ children }) => {
     requestUserJoin,
     requestUserDelete,
     checkIsRoomExists,
+    requestTitleChange,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

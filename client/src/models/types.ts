@@ -214,7 +214,25 @@ export interface IGame {
    * Game title
    */
   title: string;
+  /*
+   * Game dealer
+   */
+  dealer: IUser;
+  /*
+   * roomID
+   */
+  room: string;
+  /*
+   * Game settings
+   */
+  settings: IGameSettings;
+  /*
+   * Game status
+   */
+  gameStatus: 'lobby' | 'poker' | 'cancelGame';
 }
+
+export interface IGameSettings {}
 
 export interface IScramMasterCard {
   id?: number;

@@ -5,11 +5,12 @@ import { CustomAvatar } from '@components/ui/customAvatar/customAvatar';
 import { IConnectModalErrors } from '@models/types';
 import { WebSocketContext } from '@models/web-socket';
 import { id } from '@src/utils/utils';
+import { filterIDfromURL } from '@utils/stringUtils';
 import config from '@src/config.json';
 import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
 import './connect-modal.sass';
 
-const ConnectModal = ({ isOpen, onClose }) => {
+const ConnectModal = ({ isOpen, onClose, roomID }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [jobPosition, setJobPosition] = useState('');
@@ -83,10 +84,12 @@ const ConnectModal = ({ isOpen, onClose }) => {
   };
 
   const handleConfirm = () => {
+    const userID = id();
+    const filteredRoomID = filterIDfromURL(roomID);
     ws.requestUserJoin({
-      id: id(),
+      id: userID,
       firstName,
-      room: roomID,
+      room: filteredRoomID,
       lastName,
       jobPosition,
       avatar,

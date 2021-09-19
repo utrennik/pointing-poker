@@ -7,6 +7,7 @@ import { Button } from '@material-ui/core';
 import InputButton from '@components/ui/input-button/input-button';
 import ConnectModal from '@components/modals/connect-modal/connect-modal';
 import StartModal from '@components/modals/start-modal/start-modal';
+import { filterIDfromURL } from '@utils/stringUtils';
 import pokerLogo from '@assets/images/poker.svg';
 import config from '@src/config.json';
 import '@styles/page.sass';
@@ -16,12 +17,15 @@ const WelcomePage = () => {
   const [connectModalOpen, setConnectModalOpen] = useState(false);
   const [startModalOpen, setStartModalOpen] = useState(false);
   const [noRoomError, setNoRoomError] = useState(false);
+  const [enteredRoomID, setEnteredRoomID] = useState('');
+
   const ws = useContext(WebSocketContext);
   const { id } = useParams<{ id: string }>();
   const isConnectionError = useSelector((state: RootState) => state.socket.socketError);
 
-  const handleConnectModalOpen = async (val: string) => {
-    ws.checkIsRoomExists(val, setConnectModalOpen, setNoRoomError);
+  const handleConnectModalOpen = (val: string) => {
+    setEnteredRoomID(val);
+    ws.checkIsRoomExists(filterIDfromURL(val), setConnectModalOpen, setNoRoomError);
   };
 
   const handleConnectModalClose = () => {
@@ -67,12 +71,12 @@ const WelcomePage = () => {
 
           <div className="connect-container error-down">
             <div className="action-title">
-              Connect to lobby by <span>ID</span>:
+              Connect to lobby by <span>ID or URL</span>:
             </div>
             <InputButton
               buttonText="Connect"
               initialValue={id}
-              inputLabel="ID"
+              inputLabel="ID or URL"
               valueHandler={(val) => {
                 handleConnectModalOpen(val);
               }}
@@ -85,7 +89,11 @@ const WelcomePage = () => {
         </div>
       </div>
 
-      <ConnectModal isOpen={connectModalOpen} onClose={handleConnectModalClose} />
+      <ConnectModal
+        isOpen={connectModalOpen}
+        onClose={handleConnectModalClose}
+        roomID={enteredRoomID}
+      />
       <StartModal isOpen={startModalOpen} onClose={handleStartModalClose} />
     </div>
   );

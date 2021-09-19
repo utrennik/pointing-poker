@@ -4,7 +4,10 @@ export const gameReducer = (
   state = {
     users: [],
     title: '',
+    room: '',
+    dealer: null,
     settings: {},
+    gameStatus: '',
   },
   { type, payload }
 ) => {
@@ -12,9 +15,7 @@ export const gameReducer = (
     case types.SET_GAME: {
       return {
         ...state,
-        users: payload.users,
-        title: payload.title,
-        settings: payload.settings,
+        ...payload.game,
       };
     }
 
@@ -32,6 +33,13 @@ export const gameReducer = (
       return {
         ...state,
         users: newUsers,
+      };
+    }
+
+    case types.CHANGE_TITLE: {
+      return {
+        ...state,
+        title: payload.title,
       };
     }
 

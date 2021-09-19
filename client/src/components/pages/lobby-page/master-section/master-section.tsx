@@ -9,9 +9,11 @@ import './master-section.sass';
 
 const MasterSection = () => {
   const { firstName, lastName, jobPosition, avatar } = useSelector(
-    (state: RootState) => state.client.clientUser as IUser
+    (state: RootState) => state.game.dealer as IUser
   );
+
   const isDealerLobby = useSelector((state: RootState) => state.client.isDealerLobby);
+  const roomID = useSelector((state: RootState) => state.game.room);
   const linkButtonText = 'Copy';
   const startBtnText = 'Start Game';
   const cancelBtnText = 'Cancel Game';
@@ -28,6 +30,13 @@ const MasterSection = () => {
     console.log('Cancel game!');
   };
 
+  const getGameLink = () => {
+    if (typeof window !== 'undefined') {
+      return `${window.location.protocol}//${window.location.host}/link/${roomID}`;
+    }
+    return roomID;
+  };
+
   return (
     <section className="lobby-content-master">
       <TitlePlaning />
@@ -42,7 +51,11 @@ const MasterSection = () => {
         />
       </div>
       <h4 className="section-subheader">Link to lobby:</h4>
-      <InputButton buttonText={linkButtonText} valueHandler={copyLinkHandler} />
+      <InputButton
+        buttonText={linkButtonText}
+        valueHandler={copyLinkHandler}
+        initialValue={getGameLink()}
+      />
       <LobbylButtons
         startBtnText={startBtnText}
         cancelBtnText={cancelBtnText}

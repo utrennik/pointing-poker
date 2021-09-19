@@ -8,6 +8,7 @@ export const types = {
   ADD_USER: 'ADD_USER',
   SET_IS_DEALER_LOBBY: 'SET_IS_DEALER_LOBBY',
   DELETE_USER: 'DELETE_USER',
+  CHANGE_TITLE: 'CHANGE_TITLE',
 };
 
 export const setSocketConnected = () => ({
@@ -41,4 +42,9 @@ export const deleteUser = (userID: string) => ({
 export const setIsDealerLobby = (isDealer: boolean) => ({
   type: types.SET_IS_DEALER_LOBBY,
   payload: { isDealer },
+});
+
+export const changeTitle = (title: string) => ({
+  type: types.CHANGE_TITLE,
+  payload: { title },
 });
