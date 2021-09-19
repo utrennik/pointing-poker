@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
+import EVENTS from "./events.js";
 
-export const games = [];
+const games = [];
 
 export const addGame = () => {
   const room = uuidv4();
@@ -29,3 +30,38 @@ export const deleteGame = (room) => {
     return games.splice(index, 1)[0];
   }
 };
+
+export default ({socket,io})  => {
+
+  socket.on(
+    EVENTS.REQ_START_GAME,
+    ({ id, firstName, lastName, jobPosition, avatar, role }, callback) => {
+      const { room, game } = addGame();
+      const dealer = {
+        id,
+        firstName,
+        lastName,
+        jobPosition,
+        avatar,
+        role,
+        room
+      };
+      game.dealer = dealer;
+      socket.join(room);
+      callback(dealer);
+    }
+  );
+
+  socket.on(EVENTS.REQ_ROOM_CHECK, ({ room }, callback) => {
+    const { gameError } = getGame(room);
+    if (gameError) return callback(false);
+    callback(true);
+  });
+
+  socket.on(EVENTS.REQ_TITLE_CHANGE, ({ room, title }) => {
+    const { gameError, currentGame } = getGame(room);
+    if (gameError) return ;
+    currentGame.title = title;
+    io.in(room).emit(EVENTS.RES_TITLE_CHANGED, currentGame.title);
+  });
+}

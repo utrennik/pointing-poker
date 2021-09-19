@@ -1,4 +1,5 @@
 import { getGame } from "./gameRepository.js";
+import EVENTS from "./events.js";
 
 export const addUser = ({
   id,
@@ -44,3 +45,43 @@ export const deleteUser = (room, id) => {
 };
 
 // export const getUsers = (room) => users.filter((user) => user.room === room);
+
+export default ({socket,io}) => {
+
+  socket.on(
+    EVENTS.REQ_USER_JOIN,
+    (
+      { firstName, id, room, role, lastName, jobPosition, avatar },
+      callback
+    ) => {
+      const { user, currentGame, userError } = addUser({
+        firstName,
+        id,
+        room,
+        role,
+        lastName,
+        jobPosition,
+        avatar,
+      });
+      if (userError) return callback(userError);
+      socket.join(room);
+      io.in(room).emit(EVENTS.NOTIFICATIONS, {
+        message: `${user.firstName} just entered the room`,
+      });
+      io.in(room).emit(EVENTS.RES_USER_JOINED, user);
+      callback(currentGame);
+    }
+  );
+
+  socket.on(EVENTS.REQ_USER_DELETE, ({ dealerID, userID, room }, callback) => {
+    const {currentGame,gameError} = getGame(room);
+    if(gameError) return callback(gameError);
+    if(currentGame.dealer.id !== dealerID) return callback(new Error("Only scrum master can delete user"));
+    const { deletedUser, userDeleteError } = deleteUser(room, userID);
+    if (userDeleteError) return callback(userDeleteError);
+    io.in(room).emit(EVENTS.RES_USER_DELETED, deletedUser.id);
+    io.in(room).emit(EVENTS.NOTIFICATIONS, `${deletedUser} just left the room`);
+    callback(deletedUser);
+  });
+
+}

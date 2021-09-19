@@ -2,10 +2,9 @@ import express from "express";
 import { createServer } from "http";
 import cors from "cors";
 import { Server } from "socket.io";
-import { addUser, deleteUser } from "./usersRepository.js";
-import { addGame, getGame } from "./gameRepository.js";
-import EVENTS from "./events.js";
-import { addIssue, deleteIssue, getIssues, updateIssue } from "./issuesRepository.js";
+import gameHandler from "./gameRepository.js"
+import userHandler from "./usersRepository.js"
+import issuesHandler from "./issuesRepository.js"
 
 const app = express();
 app.use(cors());
@@ -22,103 +21,9 @@ const PORT = process.env.PORT || 8000;
 io.on("connection", (socket) => {
   console.log(`Socket connect ${socket.id}`);
 
-  socket.on(
-    EVENTS.REQ_START_GAME,
-    ({ id, firstName, lastName, jobPosition, avatar, role }, callback) => {
-      const { room, game } = addGame();
-      const dealer = {
-        id,
-        firstName,
-        lastName,
-        jobPosition,
-        avatar,
-        role,
-        room
-      };
-      game.dealer = dealer;
-      socket.join(room);
-      callback(dealer);
-    }
-  );
-
-  socket.on(EVENTS.REQ_ROOM_CHECK, ({ room }, callback) => {
-    const { gameError } = getGame(room);
-    if (gameError) return callback(false);
-    callback(true);
-  });
-
-  socket.on(
-    EVENTS.REQ_USER_JOIN,
-    (
-      { firstName, id, room, role, lastName, jobPosition, avatar },
-      callback
-    ) => {
-      const { user, currentGame, userError } = addUser({
-        firstName,
-        id,
-        room,
-        role,
-        lastName,
-        jobPosition,
-        avatar,
-      });
-      if (userError) return callback(userError);
-      socket.join(room);
-      io.in(room).emit(EVENTS.NOTIFICATIONS, {
-        message: `${user.firstName} just entered the room`,
-      });
-      io.in(room).emit(EVENTS.RES_USER_JOINED, user);
-      callback(currentGame);
-    }
-  );
-
-  socket.on(EVENTS.REQ_USER_DELETE, ({ dealerID, userID, room }, callback) => {
-    const {currentGame,gameError} = getGame(room);
-    if(gameError) return callback(gameError);
-    if(currentGame.dealer.id !== dealerID) return callback(new Error("Only scrum master can delete user"));
-    const { deletedUser, userDeleteError } = deleteUser(room, userID);
-    if (userDeleteError) return callback(userDeleteError);
-    io.in(room).emit(EVENTS.RES_USER_DELETED, deletedUser.id);
-    io.in(room).emit(EVENTS.NOTIFICATIONS, `${deletedUser} just left the room`);
-    callback(deletedUser);
-  });
-
-  socket.on(EVENTS.REQ_TITLE_CHANGE, ({ room, title }) => {
-    const { gameError, currentGame } = getGame(room);
-    if (gameError) return ;
-    currentGame.title = title;
-    io.in(room).emit(EVENTS.RES_TITLE_CHANGED, currentGame.title);
-  });
-
-  socket.on(EVENTS.REQ_ISSUE_ADD,({id,name,room,isActive,priority,score},callback) => {
-    const {issue,gameError,issueError} = addIssue({id,room,name,isActive,priority,score});
-    if(gameError) return callback(gameError);
-    if(issueError) return callback(issueError);
-    io.in(room).emit(EVENTS.RES_ISSUE_GET,issue);
-  })
-
-  socket.on(EVENTS.REQ_ISSUE_DELETE,({id,room},callback) => {
-    const {issue,gameError} = deleteIssue(room,id);
-    if(gameError) return callback(gameError);
-    io.in(room).emit(EVENTS.RES_ISSUE_DELETE,issue);
-  })
-
-  socket.on(EVENTS.REQ_ISSUE_UPDATE,({room,data},callback) => {
-    const {newIssue,gameError,issueError} = updateIssue(room,data);
-    if(gameError) return callback(gameError);
-    if(issueError) return callback(issueError);
-    io.in(room).emit(EVENTS.RES_ISSUE_GET,newIssue);
-
-  })
-
-  socket.on(EVENTS.REQ_ISSUES_GET,({room}) => {
-    const{issues,gameError} = getIssues(room);
-    if(gameError) return gameError;
-    io.in(room).emit(EVENTS.RES_ISSUES_GET,issues);
-  })
-
-
-
+  gameHandler({socket,io});
+  userHandler({socket,io});
+  issuesHandler({socket,io});
 
   // socket.on("disconnect", () => {
   //   console.log("user disconnected");
