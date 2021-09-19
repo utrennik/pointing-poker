@@ -17,7 +17,7 @@ export const addGame = () => {
 export const getGame = (room) => {
   if(!room) return {gameError: new Error("Enter room ID")};
   const currentGame = games.find((game) => game.room === room );
-  if (currentGame === undefined) return {gameError: new Error("Game not found")}
+  if (currentGame === undefined) return {gameError: new Error("Game not found")};
   return {currentGame};
 };
 

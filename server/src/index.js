@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import { addUser, deleteUser } from "./usersRepository.js";
 import { addGame, getGame } from "./gameRepository.js";
 import EVENTS from "./events.js";
+import { addIssue, deleteIssue, getIssues, updateIssue } from "./issuesRepository.js";
 
 const app = express();
 app.use(cors());
@@ -32,7 +33,7 @@ io.on("connection", (socket) => {
         jobPosition,
         avatar,
         role,
-        room,
+        room
       };
       game.dealer = dealer;
       socket.join(room);
@@ -63,10 +64,10 @@ io.on("connection", (socket) => {
       });
       if (userError) return callback(userError);
       socket.join(room);
-      socket.in(room).emit(EVENTS.NOTIFICATIONS, {
+      io.in(room).emit(EVENTS.NOTIFICATIONS, {
         message: `${user.firstName} just entered the room`,
       });
-      socket.in(room).emit(EVENTS.RES_USER_JOINED, user);
+      io.in(room).emit(EVENTS.RES_USER_JOINED, user);
       callback(currentGame);
     }
   );
@@ -90,6 +91,36 @@ io.on("connection", (socket) => {
     callback(currentGame.title);
   });
 
+  socket.on(EVENTS.REQ_ISSUE_ADD,({id,name,room,isActive,priority,score},callback) => {
+    const {issue,gameError,issueError} = addIssue({id,room,name,isActive,priority,score});
+    if(gameError) return callback(gameError);
+    if(issueError) return callback(issueError);
+    io.in(room).emit(EVENTS.RES_ISSUE_GET,issue);
+  })
+
+  socket.on(EVENTS.REQ_ISSUE_DELETE,({id,room},callback) => {
+    const {issue,gameError} = deleteIssue(room,id);
+    if(gameError) return callback(gameError);
+    io.in(room).emit(EVENTS.RES_ISSUE_DELETE,issue);
+  })
+
+  socket.on(EVENTS.REQ_ISSUE_UPDATE,({room,data},callback) => {
+    const {newIssue,gameError,issueError} = updateIssue(room,data);
+    if(gameError) return callback(gameError);
+    if(issueError) return callback(issueError);
+    io.in(room).emit(EVENTS.RES_ISSUE_GET,newIssue);
+
+  })
+
+  socket.on(EVENTS.REQ_ISSUES_GET,({room}) => {
+    const{issues,gameError} = getIssues(room);
+    if(gameError) return gameError;
+    io.in(room).emit(EVENTS.RES_ISSUES_GET,issues);
+  })
+
+
+
+
   // socket.on("disconnect", () => {
   //   console.log("user disconnected");
   // const user = deleteUser(socket.id);
@@ -111,19 +142,6 @@ io.on("connection", (socket) => {
   //   });
   // });
 
-  // socket.on("issue:add", ({ name, room, priority, isActive, score }) => {
-  //   addIssue(name, room, priority, isActive, score);
-  //   io.in(room).emit("issues", getIssues(room));
-  // });
-
-  // socket.on("issue:delete", ({ name, room }) => {
-  //   deleteIssue(name, room);
-  //   io.in(room).emit("issues", getIssues);
-  // });
-  // socket.on("issue:update", ({ data, room }) => {
-  //   updateIssue(data, room);
-  //   io.in(room).emit("issues", getIssues);
-  // });
 });
 
 app.get("/", (req, res) => {

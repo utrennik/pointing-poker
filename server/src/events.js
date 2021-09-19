@@ -10,5 +10,12 @@ const EVENTS = {
   REQ_TITLE_CHANGE: "req-title-change",
   RES_TITLE_CHANGED: "res-title-changed",
   REQ_ROOM_CHECK: "req-room-check",
+  REQ_ISSUE_ADD: "req-issue-add",
+  REQ_ISSUE_DELETE: "req-issue-delete",
+  RES_ISSUE_DELETE: "res-issue-delete",
+  REQ_ISSUE_UPDATE:"req-issue-update",
+  RES_ISSUE_GET:"res-issue-get",
+  RES_ISSUES_GET:"res-issues-get",
+  REQ_ISSUES_GET:"req-issues-get"
 }
 export default EVENTS;
