@@ -124,7 +124,7 @@ export interface IIssueCard {
 }
 
 export interface ICoverCard {
-  id?: number;
+  id?: number | string;
   /*
    * Image for cover card
    */
