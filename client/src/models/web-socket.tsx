@@ -1,5 +1,10 @@
 import { createContext } from 'react';
+<<<<<<< HEAD
 import { useDispatch } from 'react-redux';
+=======
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'src/redux/store';
+>>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
 import { useHistory } from 'react-router-dom';
 import { Socket, io } from 'socket.io-client';
 import {
@@ -8,8 +13,17 @@ import {
   setClientUser,
   setGame,
   addUser,
+<<<<<<< HEAD
 } from '@src/redux/actions';
 import { IUser } from './types';
+=======
+  deleteUser,
+  setIsDealerLobby,
+  changeTitle,
+  resetState,
+} from '@src/redux/actions';
+import { IUser, IUserDelete, IGame } from './types';
+>>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
 import config from '../config.json';
 
 const WebSocketContext = createContext(null);
@@ -17,12 +31,27 @@ const WebSocketContext = createContext(null);
 export { WebSocketContext };
 
 export default ({ children }) => {
+<<<<<<< HEAD
   const socket: Socket = io(config.SERVER_BASE_URL);
   const dispatch = useDispatch();
   const history = useHistory();
 
   socket.on('connect', () => {
     dispatch(setSocketConnected());
+=======
+  let socket: Socket | undefined;
+
+  if (!socket) socket = io(config.SERVER_HOME_URL);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const clientUser: IUser = useSelector((state: RootState) => state.client.clientUser as IUser);
+  const currentGame: IGame = useSelector((state: RootState) => state.game as IGame);
+  let client = {}; // TODO: used bacause the state is unavailable in socket.on callbacks
+
+  socket.on('connect', () => {
+    dispatch(setSocketConnected());
+    console.log('Server connected...');
+>>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
   });
 
   socket.on('disconnect', () => {
@@ -35,26 +64,135 @@ export default ({ children }) => {
 
   socket.on(config.RES_USER_JOINED, (user: IUser) => {
     dispatch(addUser(user));
+<<<<<<< HEAD
+=======
+
+    console.log(`User id${user.firstName} ${user.lastName} joined...`);
+>>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
   });
 
   const requestStartGame = (userData: IUser) => {
     socket.emit(config.REQ_START_GAME, userData, (res: IUser) => {
+<<<<<<< HEAD
       dispatch(setClientUser(res));
+=======
+      console.log(`Game ${res.room} started...`);
+      dispatch(setClientUser(res));
+      client = res;
+      dispatch(setGame({ dealer: res, room: res.room }));
+      dispatch(setIsDealerLobby(true));
+>>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
       history.push('/lobby');
     });
   };
 
   const requestUserJoin = (userData: IUser) => {
+<<<<<<< HEAD
     socket.emit(config.REQUEST_USER_JOIN, userData, (res: IGame) => {
       dispatch(setClientUser(userData));
       dispatch(setGame(res));
     });
   };
 
+=======
+    socket.emit(config.REQ_USER_JOIN, userData, (res: IGame) => {
+      console.log(`User ${userData.firstName} ${userData.lastName} join requested...`);
+
+      dispatch(setClientUser(userData));
+      client = userData;
+      console.log(`Game data received...`);
+      dispatch(setGame(res));
+      dispatch(setIsDealerLobby(false));
+      history.push('/lobby');
+    });
+  };
+
+  const requestUserDelete = (userID: string) => {
+    if (clientUser.role === config.DEALER) {
+      const userDeleteData: IUserDelete = {
+        dealerID: clientUser.id,
+        userID,
+        room: currentGame.room,
+      };
+      socket.emit(config.REQ_USER_DELETE, userDeleteData, (deletedUser: IUser) => {
+        console.log(`User ${userID} delete requested...`);
+        if (deletedUser.id) {
+          console.log(`User ${deletedUser.id} deleted...`);
+        }
+      });
+    }
+  };
+
+  const resetClient = () => {
+    history.push('/');
+    dispatch(resetState());
+    socket = io(config.SERVER_HOME_URL);
+    client = {};
+  };
+
+  socket.on(config.RES_USER_DELETED, (userID: string) => {
+    console.log(`User ${userID} deleted notification...`);
+    console.log(`Client:${JSON.stringify(client)}`);
+    if (userID === client.id) {
+      resetClient();
+    } else {
+      dispatch(deleteUser(userID));
+    }
+  });
+
+  const checkIsRoomExists = (
+    roomID: string,
+    setConnectModalOpen: Function,
+    setNoRoomError: Function
+  ) => {
+    socket.emit(config.REQ_ROOM_CHECK, { room: roomID }, (res: boolean) => {
+      console.log(`Room ${roomID} ${res ? 'exists' : 'not exists'}...`);
+      setConnectModalOpen(res);
+      setNoRoomError(!res);
+    });
+  };
+
+  const requestTitleChange = (title: string) => {
+    socket.emit(config.REQ_TITLE_CHANGE, { title, room: clientUser.room });
+    console.log(`Title ${title} change requested...`);
+  };
+
+  socket.on(config.RES_TITLE_CHANGED, (title: string) => {
+    console.log(`Title ${title} changed...`);
+
+    dispatch(changeTitle(title));
+  });
+
+  const clientExit = () => {
+    console.log(`User ${clientUser.id} exit requested...`);
+    socket.emit(
+      config.REQ_USER_DELETE,
+      {
+        dealerID: currentGame.dealer.id,
+        userID: clientUser.id,
+        room: currentGame.room,
+      },
+      (deletedUser: IUser) => {
+        if (deletedUser.id) {
+          console.log(`User ${deletedUser.id} deleted...`);
+          resetClient();
+        }
+      }
+    );
+  };
+
+>>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
   const ws: any = {
     socket,
     requestStartGame,
     requestUserJoin,
+<<<<<<< HEAD
+=======
+    requestUserDelete,
+    checkIsRoomExists,
+    requestTitleChange,
+    clientExit,
+>>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

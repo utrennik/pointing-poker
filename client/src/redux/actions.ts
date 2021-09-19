@@ -6,7 +6,14 @@ export const types = {
   SET_CLIENT_USER: 'SET_CLIENT_USER',
   SET_GAME: 'SET_GAME',
   ADD_USER: 'ADD_USER',
+<<<<<<< HEAD
   REMOVE_USER: 'REMOVE_USER',
+=======
+  SET_IS_DEALER_LOBBY: 'SET_IS_DEALER_LOBBY',
+  DELETE_USER: 'DELETE_USER',
+  CHANGE_TITLE: 'CHANGE_TITLE',
+  RESET_STATE: 'RESET_STATE',
+>>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0
 };
 
 export const setSocketConnected = () => ({
@@ -31,3 +38,25 @@ export const addUser = (user: IUser) => ({
   type: types.ADD_USER,
   payload: { user },
 });
+<<<<<<< HEAD
+=======
+
+export const deleteUser = (userID: string) => ({
+  type: types.DELETE_USER,
+  payload: { userID },
+});
+
+export const setIsDealerLobby = (isDealer: boolean) => ({
+  type: types.SET_IS_DEALER_LOBBY,
+  payload: { isDealer },
+});
+
+export const changeTitle = (title: string) => ({
+  type: types.CHANGE_TITLE,
+  payload: { title },
+});
+
+export const resetState = () => ({
+  type: types.RESET_STATE,
+});
+>>>>>>> 8d5cffa6437c25673a957437a8df58cc41ff41d0

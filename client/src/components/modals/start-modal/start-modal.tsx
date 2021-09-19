@@ -3,7 +3,7 @@ import { TextField, Button } from '@material-ui/core';
 import { CustomAvatar } from '@components/ui/customAvatar/customAvatar';
 import { IConnectModalErrors } from '@models/types';
 import { WebSocketContext } from '@models/web-socket';
-import { id } from '@models/utils';
+import { id } from '@src/utils/utils';
 import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
 import '../connect-modal/connect-modal.sass';
 
