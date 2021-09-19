@@ -5,7 +5,7 @@ export const gameReducer = (
     users: [],
     title: '',
     room: '',
-    dealer: null,
+    dealer: {},
     settings: {},
     gameStatus: '',
   },

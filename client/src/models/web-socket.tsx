@@ -12,6 +12,7 @@ import {
   deleteUser,
   setIsDealerLobby,
   changeTitle,
+  resetState,
 } from '@src/redux/actions';
 import { IUser, IUserDelete, IGame } from './types';
 import config from '../config.json';
@@ -27,6 +28,8 @@ export default ({ children }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const clientUser: IUser = useSelector((state: RootState) => state.client.clientUser as IUser);
+  const currentGame: IGame = useSelector((state: RootState) => state.game as IGame);
+  let client = {}; // TODO: used bacause the state is unavailable in socket.on callbacks
 
   socket.on('connect', () => {
     dispatch(setSocketConnected());
@@ -51,6 +54,7 @@ export default ({ children }) => {
     socket.emit(config.REQ_START_GAME, userData, (res: IUser) => {
       console.log(`Game ${res.room} started...`);
       dispatch(setClientUser(res));
+      client = res;
       dispatch(setGame({ dealer: res, room: res.room }));
       dispatch(setIsDealerLobby(true));
       history.push('/lobby');
@@ -62,7 +66,8 @@ export default ({ children }) => {
       console.log(`User ${userData.firstName} ${userData.lastName} join requested...`);
 
       dispatch(setClientUser(userData));
-      console.log(`Game data received: ${JSON.stringify(res)}`);
+      client = userData;
+      console.log(`Game data received...`);
       dispatch(setGame(res));
       dispatch(setIsDealerLobby(false));
       history.push('/lobby');
@@ -70,21 +75,36 @@ export default ({ children }) => {
   };
 
   const requestUserDelete = (userID: string) => {
-    if (clientUser.role === config.DEALER && clientUser.room) {
+    if (clientUser.role === config.DEALER) {
       const userDeleteData: IUserDelete = {
         dealerID: clientUser.id,
         userID,
-        room: clientUser.room,
+        room: currentGame.room,
       };
-      socket.emit(config.REQ_USER_DELETE, userDeleteData);
-      console.log(`User ${userID} delete requested...`);
+      socket.emit(config.REQ_USER_DELETE, userDeleteData, (deletedUser: IUser) => {
+        console.log(`User ${userID} delete requested...`);
+        if (deletedUser.id) {
+          console.log(`User ${deletedUser.id} deleted...`);
+        }
+      });
     }
   };
 
-  socket.on(config.RES_USER_DELETED, (userID: string) => {
-    console.log(`User ${userID} deleted...`);
+  const resetClient = () => {
+    history.push('/');
+    dispatch(resetState());
+    socket = io(config.SERVER_HOME_URL);
+    client = {};
+  };
 
-    dispatch(deleteUser(userID));
+  socket.on(config.RES_USER_DELETED, (userID: string) => {
+    console.log(`User ${userID} deleted notification...`);
+    console.log(`Client:${JSON.stringify(client)}`);
+    if (userID === client.id) {
+      resetClient();
+    } else {
+      dispatch(deleteUser(userID));
+    }
   });
 
   const checkIsRoomExists = (
@@ -110,6 +130,24 @@ export default ({ children }) => {
     dispatch(changeTitle(title));
   });
 
+  const clientExit = () => {
+    console.log(`User ${clientUser.id} exit requested...`);
+    socket.emit(
+      config.REQ_USER_DELETE,
+      {
+        dealerID: currentGame.dealer.id,
+        userID: clientUser.id,
+        room: currentGame.room,
+      },
+      (deletedUser: IUser) => {
+        if (deletedUser.id) {
+          console.log(`User ${deletedUser.id} deleted...`);
+          resetClient();
+        }
+      }
+    );
+  };
+
   const ws: any = {
     socket,
     requestStartGame,
@@ -117,6 +155,7 @@ export default ({ children }) => {
     requestUserDelete,
     checkIsRoomExists,
     requestTitleChange,
+    clientExit,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

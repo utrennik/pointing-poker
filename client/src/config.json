@@ -7,6 +7,7 @@
   "REQ_TITLE_CHANGE": "req-title-change",
   "RES_TITLE_CHANGED": "res-title-changed",
   "REQ_ROOM_CHECK": "req-room-check",
+  "DISCONNECT": "disconnect",
   "DEALER": "dealer",
   "MEMBER": "member",
   "OBSERVER": "observer",

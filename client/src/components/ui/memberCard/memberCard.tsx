@@ -30,13 +30,11 @@ export const MemberCard = ({ firstName, lastName, role, avatarImage, id }: IMemb
   const classes = useStyles();
   const ws = useContext(WebSocketContext);
 
-  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event);
+  const handleDelete = () => {
     setDeleteUserModalOpen(!deleteUserModalOpen);
   };
 
-  const handleDeleteAgree = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event.target);
+  const handleDeleteAgree = () => {
     setDeleteUserModalOpen(!deleteUserModalOpen);
     ws.requestUserDelete(id);
   };
