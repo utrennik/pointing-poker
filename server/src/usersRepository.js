@@ -120,9 +120,11 @@ export default ({ socket, io }) => {
         `${deletedUser.firstName} was deleted by voting`
       );
       currentGame.voting.isVote = false;
+      currentGame.voting.results = [];
     }
     if(resultsOfVoting.length === currentGame.users.length) {
       currentGame.voting.isVote = false;
+      currentGame.voiting.results = [];
       io.in(room).emit(
         EVENTS.NOTIFICATIONS,
         `user stay in room `

@@ -25,18 +25,6 @@ io.on("connection", (socket) => {
   userHandler({socket,io});
   issuesHandler({socket,io});
 
-  // socket.on("disconnect", () => {
-  //   console.log("user disconnected");
-  // const user = deleteUser(socket.id);
-  // if (user) {
-  //   io.in(user.room).emit("notification", {
-  //     title: "Someone just left",
-  //     description: `${user.firstName} just left the room`,
-  //   });
-  //   io.in(user.room).emit("users", getUsers(user.room));
-  // }
-  // });
-
   // socket.on("message:add", (message) => {
   //   const user = getUser(socket.id);
   //   io.in(user.room).emit("messages", {
