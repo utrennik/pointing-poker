@@ -18,10 +18,10 @@ const IssueModal = ({ isOpen, onClose }) => {
 
   const validate = () => {
     if (titleIssue === '') {
-      setErrors({ ...errors, titleIssueError: true });
+      setErrors({ ...errors, isTitleIssueError: true });
     } else {
       const newErrors = { ...errors };
-      delete newErrors.titleIssueError;
+      delete newErrors.isTitleIssueError;
       setErrors(newErrors);
     }
   };
@@ -55,7 +55,7 @@ const IssueModal = ({ isOpen, onClose }) => {
             fullWidth
             value={titleIssue}
             onChange={handleInput}
-            error={errors.titleIssueError === true}
+            error={errors.isTitleIssueError}
             required
           />
         </div>

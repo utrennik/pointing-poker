@@ -101,7 +101,7 @@ export interface IIssueModalErrors {
   /*
    * title of Issue error
    */
-  titleIssueError?: boolean;
+  isTitleIssueError?: boolean;
 }
 
 export enum IssuePriority {

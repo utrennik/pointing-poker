@@ -14,10 +14,6 @@ export const IssueCardCreate = ({ titleName = 'Create new Issue' }) => {
     setAddIssueModalOpen(false);
   };
 
-  // const handleAddIssue = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   console.log(event.target);
-  // };
-
   return (
     <>
       <Card className="issue-card">
