@@ -91,17 +91,16 @@ export default ({ socket, io }) => {
     callback(deletedUser);
   });
 
-  socket.on(EVENTS.REQ_START_VOTE, ({ room, voteUserID, deletedUserID }) => {
+  socket.on(EVENTS.REQ_START_VOTE, ({ room, removerUserID, deleteUserID }) => {
     const { currentGame, gameError } = getGame(room);
     if (gameError) return;
     if (!currentGame.voting.isVote && currentGame.users.length > 2) {
       currentGame.voting.isVote = true;
-      currentGame.voting.candidat = deletedUserID;
-      currentGame.voting.results.push("yes");
-      const isVote = currentGame.voting.isVote;
+      currentGame.voting.candidat = deleteUserID;
+      currentGame.voting.results.push(true);
       socket
         .in(currentGame.room)
-        .emit(EVENTS.RES_START_VOTE, { voteUserID, deletedUserID, isVote });
+        .emit(EVENTS.RES_START_VOTE, { removerUserID, deleteUserID });
     }
   });
 
@@ -110,11 +109,12 @@ export default ({ socket, io }) => {
     if (gameError) return;
     const resultsOfVoting = currentGame.voting.results;
     resultsOfVoting.push(result);
-    io.in(room).emit(EVENTS.NOTIFICATIONS,currentGame)
-    const confirmDeleting = resultsOfVoting.filter((item) => item === "yes");
+    io.in(room).emit(EVENTS.NOTIFICATIONS, currentGame);
+    const confirmDeleting = resultsOfVoting.filter((item) => item === true);
     if (confirmDeleting.length > currentGame.users.length / 2) {
       const { deletedUser } = deleteUser(room, currentGame.voting.candidat);
-      io.in(room).emit(EVENTS.RES_RESULT_VOTE, deletedUser.id);
+      const deleteUserID = deletedUser;
+      io.in(room).emit(EVENTS.RES_RESULT_VOTE, deleteUserID);
       io.in(room).emit(
         EVENTS.NOTIFICATIONS,
         `${deletedUser.firstName} was deleted by voting`
@@ -122,13 +122,10 @@ export default ({ socket, io }) => {
       currentGame.voting.isVote = false;
       currentGame.voting.results = [];
     }
-    if(resultsOfVoting.length === currentGame.users.length) {
+    if (resultsOfVoting.length === currentGame.users.length) {
       currentGame.voting.isVote = false;
       currentGame.voiting.results = [];
-      io.in(room).emit(
-        EVENTS.NOTIFICATIONS,
-        `user stay in room `
-      );
+      io.in(room).emit(EVENTS.NOTIFICATIONS, `user stay in the room `);
     }
   });
 };
