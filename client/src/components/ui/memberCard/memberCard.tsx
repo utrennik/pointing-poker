@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import { IMemberCard } from '@models/types';
 import React from 'react';
+import { truncateString } from '@utils/stringUtils';
 import { CustomAvatar } from '../customAvatar/customAvatar.tsx';
 import './memberCard.sass';
 
@@ -39,7 +40,7 @@ export const MemberCard = ({ firstName, lastName, role, avatarImage }: IMemberCa
     setDeleteUser(!deleteUser);
   };
 
-  const nameWithoutLastName = lastName ? `${firstName} ${lastName}` : firstName;
+  const nameWithoutLastName = truncateString(lastName ? `${firstName} ${lastName}` : firstName, 14);
 
   return (
     <Card className="member-card">
@@ -47,7 +48,7 @@ export const MemberCard = ({ firstName, lastName, role, avatarImage }: IMemberCa
       <CardHeader
         className="member-card-header"
         title={nameWithoutLastName}
-        subheader={role}
+        subheader={truncateString(role,28)}
         subheaderTypographyProps={{ variant: 'subtitle1' }}
       />
       <IconButton className="member-card-delete-btn" onClick={handleDelete} />
