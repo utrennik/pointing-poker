@@ -52,6 +52,8 @@ export interface IModalWrapper {
   disableConfirm: boolean;
 }
 
+export type IModalWindow = Pick<IModalWrapper, 'isOpen' | 'onClose'>;
+
 export interface IModalButtons {
   /*
    * confirmation button text

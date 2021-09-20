@@ -1,11 +1,11 @@
 import { ChangeEvent, useState, useEffect } from 'react';
 import { InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
-import { IEditIssueModalErrors, IssuePriority } from '@models/types';
+import { IEditIssueModalErrors, IModalWindow, IssuePriority } from '@models/types';
 import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
 import { issueData } from './edit-issueData';
 import './edit-issue-modal.sass';
 
-const EditIssueModal = ({ isOpen, onClose }: any) => {
+const EditIssueModal = ({ isOpen, onClose }: IModalWindow) => {
   const [inputSettings, setInputSettings] = useState({
     titleIssue: '',
     linkIssue: '',
@@ -61,7 +61,7 @@ const EditIssueModal = ({ isOpen, onClose }: any) => {
             fullWidth
             value={inputSettings.titleIssue}
             onChange={handleInput}
-            error={errors.titleIssueError === true}
+            error={errors.titleIssueError}
             required
           />
         </div>
@@ -73,7 +73,7 @@ const EditIssueModal = ({ isOpen, onClose }: any) => {
             fullWidth
             value={inputSettings.linkIssue}
             onChange={handleInput}
-            error={errors.linkIssueError === true}
+            error={errors.linkIssueError}
             required
           />
         </div>
