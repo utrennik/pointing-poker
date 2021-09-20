@@ -98,9 +98,13 @@ export default ({ socket, io }) => {
       currentGame.voting.isVote = true;
       currentGame.voting.candidat = deleteUserID;
       currentGame.voting.results.push(true);
+      const removerUser = getUser(room,removerUserID);
+      const deleteUser = getUser(room,deleteUserID);
+      const removerUserFullName = `${removerUser.firstName} ${removerUser.lastName}`;
+      const deleteUserFullName = `${deleteUser.firstName} ${deleteUser.lastName}`;
       socket
         .in(currentGame.room)
-        .emit(EVENTS.RES_START_VOTE, { removerUserID, deleteUserID });
+        .emit(EVENTS.RES_START_VOTE, { removerUserID,removerUserFullName, deleteUserID,deleteUserFullName });
     }
   });
 

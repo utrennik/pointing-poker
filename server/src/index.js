@@ -25,15 +25,6 @@ io.on("connection", (socket) => {
   userHandler({socket,io});
   issuesHandler({socket,io});
 
-  // socket.on("message:add", (message) => {
-  //   const user = getUser(socket.id);
-  //   io.in(user.room).emit("messages", {
-  //     user: user.firstName,
-  //     avatar: user.img,
-  //     text: message,
-  //   });
-  // });
-
 });
 
 app.get("/", (req, res) => {

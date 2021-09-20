@@ -71,6 +71,14 @@ export default ({ socket, io }) => {
     io.in(room).emit(EVENTS.RES_TITLE_CHANGED, currentGame.title);
   });
 
+
+  socket.on(EVENTS.REQ_MESSAGE,({room,userID,message}) => {
+    const {currentGame,gameError} = getGame(room);
+    if(gameError) return ;
+    io.in(currentGame.room).emit(EVENTS.RES_MESSAGE,{userID,message})
+
+  })
+
   socket.on("disconnect", () => {
     const user = games.filter((game) => game.users.id === socket.id);
     if (user) {
@@ -121,4 +129,10 @@ export default ({ socket, io }) => {
       io.in(room).emit(EVENTS.RES_START_POKER, currentGame);
     }
   );
+
+
+
+
+
+
 };

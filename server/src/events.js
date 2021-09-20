@@ -20,7 +20,9 @@ const EVENTS = {
   REQ_START_VOTE: "req-start-vote",
   RES_START_VOTE:"res-start-vote",
   REQ_RESULT_VOTE:"req-result-vote",
-  RES_RESULT_VOTE:"res-result-vote"
+  RES_RESULT_VOTE:"res-result-vote",
+  REQ_MESSAGE:"req-message",
+  RES_MESSAGE:"res-message"
 
 }
 export default EVENTS;
