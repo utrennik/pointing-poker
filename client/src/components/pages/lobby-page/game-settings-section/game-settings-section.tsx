@@ -31,6 +31,8 @@ const GameSettingsSection = () => {
 
   const [cardSet, setCardSet] = useState(CardSet.fibonacci);
 
+  const isCustomCardSet = cardSet === CardSet.customCardSet;
+
   const [inputSettings, setInputSettings] = useState({
     scoreType: '',
     scoreTypeShort: '',
@@ -122,7 +124,7 @@ const GameSettingsSection = () => {
                 </MenuItem>
               ))}
             </Select>
-            {cardSet === CardSet.customCardSet && (
+            {isCustomCardSet && (
               <div className="input-lobby-wrapper">
                 <div className="input-lobby-container error-down">
                   <div className="input-lobby">
@@ -136,10 +138,10 @@ const GameSettingsSection = () => {
                       fullWidth
                       value={inputSettings.scoreType}
                       onChange={handleInput}
-                      error={errors.scoreTypeError === true}
+                      error={errors.scoreTypeError}
                     />
                   </div>
-                  {errors.scoreTypeError === true && (
+                  {errors.scoreTypeError && (
                     <div className="error">* Field "Score type" must be filled in</div>
                   )}
                 </div>
@@ -156,10 +158,10 @@ const GameSettingsSection = () => {
                       fullWidth
                       value={inputSettings.scoreTypeShort}
                       onChange={handleInput}
-                      error={errors.scoreTypeShortError === true}
+                      error={errors.scoreTypeShortError}
                     />
                   </div>
-                  {errors.scoreTypeShortError === true && (
+                  {errors.scoreTypeShortError && (
                     <div className="error">* Field "Score type (Short)" must be filled in</div>
                   )}
                 </div>
@@ -182,7 +184,7 @@ const GameSettingsSection = () => {
               <CoverCreateCard />
             </div>
           </div>
-          {cardSet === CardSet.customCardSet && (
+          {isCustomCardSet && (
             <div className="game-cards-add-value">
               <h4 className="game-cards-lobby-label">Add card values:</h4>
               <div className="cover-card-container">
