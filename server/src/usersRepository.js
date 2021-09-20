@@ -36,7 +36,7 @@ export const getUser = (room, id) => {
   const { currentGame, gameError } = getGame(room);
   if (gameError) return gameError;
   const user = currentGame.users.find((user) => user.id == id);
-  return  user ;
+  return user;
 };
 
 export const deleteUser = (room, id) => {
@@ -98,27 +98,36 @@ export default ({ socket, io }) => {
       currentGame.voting.isVote = true;
       currentGame.voting.candidat = deleteUserID;
       currentGame.voting.results.push(true);
-      const removerUser = getUser(room,removerUserID);
-      const deleteUser = getUser(room,deleteUserID);
-      const removerUserFullName = `${removerUser.firstName} ${removerUser.lastName}`;
-      const deleteUserFullName = `${deleteUser.firstName} ${deleteUser.lastName}`;
-      socket
-        .in(currentGame.room)
-        .emit(EVENTS.RES_START_VOTE, { removerUserID,removerUserFullName, deleteUserID,deleteUserFullName });
+      const removerUser = getUser(room, removerUserID);
+      const deleteUser = getUser(room, deleteUserID);
+      const removerUserFullName = removerUser.lastName ? `${removerUser.firstName} ${removerUser.lastName}` : removerUser.firstName;
+      const deleteUserFullName = deleteUser.lastName ? `${deleteUser.firstName} ${deleteUser.lastName}` : deleteUser.firstName;
+      socket.in(currentGame.room).emit(EVENTS.RES_START_VOTE, {
+        removerUserID,
+        removerUserFullName,
+        deleteUserID,
+        deleteUserFullName,
+      });
     }
   });
 
   socket.on(EVENTS.REQ_RESULT_VOTE, ({ room, result }) => {
     const { currentGame, gameError } = getGame(room);
     if (gameError) return;
-    const resultsOfVoting = currentGame.voting.results;
-    resultsOfVoting.push(result);
+    let isDeleted = false;
+    currentGame.voting.results.push(result);
     io.in(room).emit(EVENTS.NOTIFICATIONS, currentGame);
-    const confirmDeleting = resultsOfVoting.filter((item) => item === true);
-    if (confirmDeleting.length > currentGame.users.length / 2) {
+    const confirmDeleting = currentGame.voting.results.filter(
+      (item) => item === true
+    );
+    if (
+      currentGame.voting.results.length === (currentGame.users.length - 1) &&
+      confirmDeleting.length > (currentGame.users.length - 1) / 2
+    ) {
       const { deletedUser } = deleteUser(room, currentGame.voting.candidat);
-      const deleteUserID = deletedUser;
-      io.in(room).emit(EVENTS.RES_RESULT_VOTE, deleteUserID);
+      const deletedUserID = deletedUser.id;
+      isDeleted = true;
+      io.in(room).emit(EVENTS.RES_RESULT_VOTE, { deletedUserID, isDeleted });
       io.in(room).emit(
         EVENTS.NOTIFICATIONS,
         `${deletedUser.firstName} was deleted by voting`
@@ -126,9 +135,12 @@ export default ({ socket, io }) => {
       currentGame.voting.isVote = false;
       currentGame.voting.results = [];
     }
-    if (resultsOfVoting.length === currentGame.users.length) {
+    if (currentGame.voting.results.length === (currentGame.users.length - 1 )) {
       currentGame.voting.isVote = false;
-      currentGame.voiting.results = [];
+      currentGame.voting.results = [];
+      isDeleted = false;
+      const deletedUserID = currentGame.voting.candidat;
+      io.in(room).emit(EVENTS.RES_RESULT_VOTE, { deletedUserID, isDeleted });
       io.in(room).emit(EVENTS.NOTIFICATIONS, `user stay in the room `);
     }
   });
