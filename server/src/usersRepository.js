@@ -36,7 +36,7 @@ export const getUser = (room, id) => {
   const { currentGame, gameError } = getGame(room);
   if (gameError) return gameError;
   const user = currentGame.users.find((user) => user.id == id);
-  return { user };
+  return  user ;
 };
 
 export const deleteUser = (room, id) => {
