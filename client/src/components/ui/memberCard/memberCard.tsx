@@ -25,7 +25,14 @@ const useStyles = makeStyles({
   },
 });
 
-export const MemberCard = ({ firstName, lastName, role, avatarImage, id }: IMemberCard) => {
+export const MemberCard = ({
+  firstName,
+  lastName,
+  role,
+  avatarImage,
+  id,
+  isRemoveButtonDisabled,
+}: IMemberCard) => {
   const [deleteUserModalOpen, setDeleteUserModalOpen] = React.useState<boolean>(false);
   const classes = useStyles();
   const ws = useContext(WebSocketContext);
@@ -50,7 +57,11 @@ export const MemberCard = ({ firstName, lastName, role, avatarImage, id }: IMemb
         subheader={role}
         subheaderTypographyProps={{ variant: 'subtitle1' }}
       />
-      <IconButton className="member-card-delete-btn" onClick={handleDelete} />
+      <IconButton
+        className="member-card-delete-btn"
+        onClick={handleDelete}
+        disabled={isRemoveButtonDisabled}
+      />
       <Dialog open={deleteUserModalOpen} onClose={handleDelete}>
         <DialogTitle className={classes.dialogTitle}>{'Kick player?'}</DialogTitle>
         <DialogContent>

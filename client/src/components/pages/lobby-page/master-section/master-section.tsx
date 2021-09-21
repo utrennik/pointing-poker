@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
-import { IUser } from '@models/types';
+import { IMasterSection, IUser } from '@models/types';
 import InputButton from '@components/ui/input-button/input-button';
 import { Button } from '@material-ui/core';
 import { ScramMasterCard } from '@components/ui/scram-master-card/scram-master-card';
@@ -11,12 +11,11 @@ import TitlePlaning from '@components/ui/title-planning/title-planning';
 
 import './master-section.sass';
 
-const MasterSection = () => {
+const MasterSection = ({ isDealerLobby }: IMasterSection) => {
   const { firstName, lastName, jobPosition, avatar } = useSelector(
     (state: RootState) => state.game.dealer as IUser
   );
   const ws = useContext(WebSocketContext);
-  const isDealerLobby = useSelector((state: RootState) => state.client.isDealerLobby);
   const roomID = useSelector((state: RootState) => state.game.room);
   const linkButtonText = 'Copy';
   const startBtnText = 'Start Game';
@@ -48,7 +47,7 @@ const MasterSection = () => {
   return (
     <section className="lobby-content-master">
       <TitlePlaning />
-      <h5 className="section-subheader">Scram master:</h5>
+      <h5 className="section-subheader">Scrum master:</h5>
       <div className="master-lobby">
         <ScramMasterCard
           firstName={firstName}
