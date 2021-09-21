@@ -177,9 +177,6 @@ export default ({ children }) => {
   });
 
   socket.on(config.RES_USER_DELETED, (deletedUserID: string) => {
-    if (client.id === deletedUserID) {
-      setNotification(config.KICKED_NOTIFICATION);
-    }
     handleDeleteUser(deletedUserID);
   });
 
@@ -196,9 +193,9 @@ export default ({ children }) => {
 
   socket.on(config.RES_USER_DELETE_VOTE, (voteResultsData: IDeleteVoteResults) => {
     if (voteResultsData.isDeleted) {
-      if (voteResultsData.deletedUserID === client.id) {
-        setNotification(config.KICKED_NOTIFICATION);
-      }
+      if (voteResultsData.deletedUserID === client.id) setNotification(config.KICKED_NOTIFICATION);
+      // TODO: need to add notification when the dealer kicks the user
+      // TODO: (if add now to handleDelete, it will be shown on user exit)
       handleDeleteUser(voteResultsData.deletedUserID);
     }
     dispatch(resetDeleteVoting());
