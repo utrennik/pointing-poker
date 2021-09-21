@@ -3,14 +3,14 @@ import { IssuePriority } from '@models/types';
 export const issueData = [
   {
     title: 'High Priority',
-    value: IssuePriority.HIGH,
+    priority: IssuePriority.HIGH,
   },
   {
     title: 'Normal Priority',
-    value: IssuePriority.NORMAL,
+    priority: IssuePriority.NORMAL,
   },
   {
     title: 'Low Priority',
-    value: IssuePriority.LOW,
+    priority: IssuePriority.LOW,
   },
 ];

@@ -7,12 +7,12 @@ import './issue-modal.sass';
 
 const IssueModal = ({ isOpen, onClose }) => {
   const [titleIssue, setTitleIssue] = useState('');
-  const [priopityIssue, setPriopityIssue] = useState(IssuePriority.HIGH);
+  const [issuePriority, setIssuePriority] = useState(IssuePriority.HIGH);
   const [errors, setErrors] = useState({} as IIssueModalErrors);
 
   const clearForm = () => {
     setTitleIssue('');
-    setPriopityIssue(IssuePriority.HIGH);
+    setIssuePriority(IssuePriority.HIGH);
     setErrors({} as IIssueModalErrors);
   };
 
@@ -34,12 +34,12 @@ const IssueModal = ({ isOpen, onClose }) => {
     validate();
   }, [titleIssue, isOpen]);
 
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleTitleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setTitleIssue(e.target.value);
   };
 
-  const handleChange = (event: ChangeEvent<any>) => {
-    setPriopityIssue(event.target.value);
+  const handlePriorityChange = (event: ChangeEvent<any>) => {
+    setIssuePriority(event.target.value);
   };
 
   const handleConfirm = () => {};
@@ -54,7 +54,7 @@ const IssueModal = ({ isOpen, onClose }) => {
             autoComplete="off"
             fullWidth
             value={titleIssue}
-            onChange={handleInput}
+            onChange={handleTitleInput}
             error={errors.isTitleIssueError}
             required
           />
@@ -66,9 +66,9 @@ const IssueModal = ({ isOpen, onClose }) => {
           <InputLabel className="select-label" htmlFor="priority-issue">
             Set priority
           </InputLabel>
-          <Select id="priority-issue" value={priopityIssue} onChange={handleChange}>
-            {issueData.map(({ title, value }) => (
-              <MenuItem key={title} value={value}>
+          <Select id="priority-issue" value={issuePriority} onChange={handlePriorityChange}>
+            {issueData.map(({ title, priority }) => (
+              <MenuItem key={title} value={priority}>
                 {title}
               </MenuItem>
             ))}
