@@ -52,6 +52,8 @@ export interface IModalWrapper {
   disableConfirm: boolean;
 }
 
+export type IModalWindow = Pick<IModalWrapper, 'isOpen' | 'onClose'>;
+
 export interface IModalButtons {
   /*
    * confirmation button text
@@ -102,6 +104,16 @@ export interface IIssueModalErrors {
    * title of Issue error
    */
   isTitleIssueError?: boolean;
+=======
+export interface IEditIssueModalErrors {
+  /*
+   * title of Issue error
+   */
+  titleIssueError?: boolean;
+  /*
+   * link of Issue error
+   */
+  linkIssueError?: boolean;
 }
 
 export enum IssuePriority {

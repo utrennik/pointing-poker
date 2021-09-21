@@ -1,11 +1,11 @@
 import { ChangeEvent, useState, useEffect } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import { CustomAvatar } from '@components/ui/customAvatar/customAvatar';
-import { IConnectModalErrors } from '@models/types';
+import { IConnectModalErrors, IModalWindow } from '@models/types';
 import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
 import '../connect-modal/connect-modal.sass';
 
-const StartModal = ({ isOpen, onClose }) => {
+const StartModal = ({ isOpen, onClose }: IModalWindow) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [jobPosition, setJobPosition] = useState('');
