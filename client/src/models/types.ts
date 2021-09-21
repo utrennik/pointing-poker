@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react';
+import { ChangeEvent, ReactElement, ReactNode } from 'react';
 
 export interface IWebLink {
   link: string;
@@ -137,6 +137,20 @@ export interface ICoverCard {
    */
   isSelected: boolean;
 }
+
+export interface ICreateCoverProps {
+  /*
+   * The action will be called on Create cover card
+   */
+  onCreateCoverHandler: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+export interface ICreateValueProps {
+  /*
+   * The action will be called on Create value card
+   */
+  onCreateValueHandler: () => void;
+}
+
 export interface IValueCard {
   id?: number;
   /*

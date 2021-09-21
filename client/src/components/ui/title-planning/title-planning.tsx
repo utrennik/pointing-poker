@@ -9,7 +9,7 @@ export const DarkerDisabledTextField = withStyles({
       color: 'black',
     },
     '& .MuiInputBase-input': {
-      fontSize: '2em',
+      fontSize: '1.5em',
       textAlign: 'center',
     },
   },
@@ -37,6 +37,7 @@ const TitlePlaning = () => {
         id="title-planning"
         label="Add title for planning:"
         disabled={!isEditable}
+        autoComplete="off"
         fullWidth={true}
         size="small"
         value={title}

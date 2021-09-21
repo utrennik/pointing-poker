@@ -1,6 +1,6 @@
+import { ChangeEvent, useState } from 'react';
 import { Card, CardActions, IconButton } from '@material-ui/core';
 import { IValueCard } from '@models/types';
-import { ChangeEvent, useState } from 'react';
 import { DarkerDisabledTextField } from '../title-planning/title-planning.tsx';
 import './value-card.sass';
 
@@ -20,10 +20,6 @@ export const ValueCard = ({ id, name, value }: IValueCard) => {
     setIsEditable(false);
   };
 
-  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event.target);
-  };
-
   return (
     <Card key={id} className="value-card">
       <div className="value-card-name">{name}</div>
@@ -31,6 +27,7 @@ export const ValueCard = ({ id, name, value }: IValueCard) => {
         <DarkerDisabledTextField
           id="card-value"
           disabled={!isEditable}
+          autoComplete="off"
           size="small"
           value={newValue}
           onChange={handleOnChange}
@@ -40,7 +37,6 @@ export const ValueCard = ({ id, name, value }: IValueCard) => {
       <div className="value-card-edit-delete">
         <CardActions>
           <IconButton className="value-card-edit-btn" onClick={handleEdit} />
-          <IconButton className="value-card-delete-btn" onClick={handleDelete} />
         </CardActions>
       </div>
     </Card>

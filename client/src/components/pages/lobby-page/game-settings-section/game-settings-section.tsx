@@ -1,13 +1,13 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { makeStyles, MenuItem, Select, Switch, TextField } from '@material-ui/core';
 import SecondsTimePicker from '@components/ui/time-picker/time-picker';
-import { CardSet, IGameSettingsErrors } from '@models/types';
 import { coverCardData } from '@components/ui/cover-card/cover-cardData';
 import { valueCardData } from '@components/ui/value-card/value-cardData';
 import { CoverCard } from '@components/ui/cover-card/cover-card';
 import { CoverCreateCard } from '@components/ui/cover-card/cover-create-card';
 import { ValueCard } from '@components/ui/value-card/value-card';
 import { ValueCreateCard } from '@components/ui/value-card/value-create-card';
+import { CardSet, IGameSettingsErrors } from '@models/types';
 import { cardSetData } from './cardSetData';
 
 import './game-settings-section.sass';
@@ -37,6 +37,39 @@ const GameSettingsSection = () => {
     scoreType: '',
     scoreTypeShort: '',
   });
+
+  const [coverCard, setCoverCard] = useState(coverCardData);
+  const [valueCard, setValueCard] = useState(valueCardData);
+
+  const onCreateCoverHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        const date = Date.now();
+        const newImage = {
+          id: date,
+          image: reader.result as string,
+          isSelected: false,
+        };
+        setCoverCard([...coverCard, newImage]);
+      };
+    }
+  };
+
+  const onCreateValueHandler = () => {
+    const date = Date.now();
+    const newValueCard = {
+      id: date,
+      name: 'SP',
+      value: '',
+    };
+
+    setValueCard([...valueCard, newValueCard]);
+  };
 
   const handleSwitch = (event: ChangeEvent<HTMLInputElement>) => {
     setSwitchSettings({ ...switchSettings, [event.target.name]: event.target.checked });
@@ -176,24 +209,24 @@ const GameSettingsSection = () => {
           <div className="game-cards-select-cover">
             <h4 className="game-cards-lobby-label">Select cover:</h4>
             <div className="cover-card-container">
-              {coverCardData.map(({ id, image, isSelected }) => (
+              {coverCard.map(({ id, image, isSelected }) => (
                 <div key={id}>
                   <CoverCard id={id} image={image} isSelected={isSelected} />
                 </div>
               ))}
-              <CoverCreateCard />
+              <CoverCreateCard onCreateCoverHandler={onCreateCoverHandler} />
             </div>
           </div>
           {isCustomCardSet && (
             <div className="game-cards-add-value">
               <h4 className="game-cards-lobby-label">Add card values:</h4>
               <div className="cover-card-container">
-                {valueCardData.map(({ id, name, value }) => (
+                {valueCard.map(({ id, name, value }) => (
                   <div key={id}>
                     <ValueCard id={id} name={name} value={value} />
                   </div>
                 ))}
-                <ValueCreateCard />
+                <ValueCreateCard onCreateValueHandler={onCreateValueHandler} />
               </div>
             </div>
           )}
