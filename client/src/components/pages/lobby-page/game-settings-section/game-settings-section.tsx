@@ -8,6 +8,7 @@ import { CoverCreateCard } from '@components/ui/cover-card/cover-create-card';
 import { ValueCard } from '@components/ui/value-card/value-card';
 import { ValueCreateCard } from '@components/ui/value-card/value-create-card';
 import { CardSet, IGameSettingsErrors } from '@models/types';
+import { id } from '@utils/utils';
 import { cardSetData } from './cardSetData';
 
 import './game-settings-section.sass';
@@ -49,9 +50,9 @@ const GameSettingsSection = () => {
       reader.readAsDataURL(file);
 
       reader.onload = () => {
-        const date = Date.now();
+        const coverCardID = id();
         const newImage = {
-          id: date,
+          id: coverCardID,
           image: reader.result as string,
           isSelected: false,
         };
@@ -61,9 +62,9 @@ const GameSettingsSection = () => {
   };
 
   const onCreateValueHandler = () => {
-    const date = Date.now();
+    const valueCardID = id();
     const newValueCard = {
-      id: date,
+      id: valueCardID,
       name: 'SP',
       value: '',
     };
@@ -209,9 +210,9 @@ const GameSettingsSection = () => {
           <div className="game-cards-select-cover">
             <h4 className="game-cards-lobby-label">Select cover:</h4>
             <div className="cover-card-container">
-              {coverCard.map(({ id, image, isSelected }) => (
-                <div key={id}>
-                  <CoverCard id={id} image={image} isSelected={isSelected} />
+              {coverCard.map(({ coverCardID, image, isSelected }) => (
+                <div key={coverCardID}>
+                  <CoverCard coverCardID={coverCardID} image={image} isSelected={isSelected} />
                 </div>
               ))}
               <CoverCreateCard onCreateCoverHandler={onCreateCoverHandler} />
@@ -221,9 +222,9 @@ const GameSettingsSection = () => {
             <div className="game-cards-add-value">
               <h4 className="game-cards-lobby-label">Add card values:</h4>
               <div className="cover-card-container">
-                {valueCard.map(({ id, name, value }) => (
-                  <div key={id}>
-                    <ValueCard id={id} name={name} value={value} />
+                {valueCard.map(({ valueCardID, name, value }) => (
+                  <div key={valueCardID}>
+                    <ValueCard valueCardID={valueCardID} name={name} value={value} />
                   </div>
                 ))}
                 <ValueCreateCard onCreateValueHandler={onCreateValueHandler} />

@@ -104,7 +104,10 @@ enum IssuePriority {
 }
 
 export interface IIssueCard {
-  id?: number;
+  /*
+   * Unique card identifier
+   */
+  id?: number | string;
   /*
    * Name of the issue card
    */
@@ -127,7 +130,7 @@ export interface ICoverCard {
   /*
    * Unique card identifier
    */
-  id?: number | string;
+  coverCardID?: number | string;
   /*
    * Image for cover card
    */
@@ -152,7 +155,10 @@ export interface ICreateValueProps {
 }
 
 export interface IValueCard {
-  id?: number;
+  /*
+   * Unique card identifier
+   */
+  valueCardID?: number | string;
   /*
    * Name of card
    */
@@ -164,7 +170,10 @@ export interface IValueCard {
 }
 
 export interface IMemberCard {
-  id?: number;
+  /*
+   * Unique card identifier
+   */
+  id?: number | string;
   /*
    * first name of User
    */
@@ -184,7 +193,10 @@ export interface IMemberCard {
 }
 
 export interface IScramMasterCard {
-  id?: number;
+  /*
+   * Unique card identifier
+   */
+  id?: number | string;
   /*
    * first name of ScramMaster
    */
