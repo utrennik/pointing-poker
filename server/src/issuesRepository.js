@@ -1,8 +1,8 @@
 import { getGame } from "./gameRepository.js";
 import EVENTS from "./events.js";
 
-export const addIssue = ({ id, name, room, priority, isActive = "false" }) => {
-  const { currentGame, gameError } = getGame(room);
+export const addIssue = ({ id, name, room, priority, isActive = false }) => {
+  const { currentGame, gameError } = getGame(room);g
   if (gameError) return gameError;
   const existingIssue = currentGame.issues.find((issue) => issue.id === id);
   if (existingIssue)
