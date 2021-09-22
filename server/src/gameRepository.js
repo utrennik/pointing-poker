@@ -134,7 +134,7 @@ export default ({ socket, io }) => {
     io.emit(EVENTS.NOTIFICATIONS, { message: "Current game cancelled." });
     currentGame.gameStatus = "cancel";
     const gameStatus = currentGame.gameStatus;
-    io.emit(EVENTS.RES_CANCEL_GAME, gameStatus);
+    io.in(room).emit(EVENTS.RES_CANCEL_GAME, gameStatus);
     deleteGame(room);
   });
 };

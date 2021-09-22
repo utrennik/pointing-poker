@@ -1,20 +1,13 @@
 import { getGame } from "./gameRepository.js";
 import EVENTS from "./events.js";
 
-export const addIssue = ({
-  id,
-  name,
-  room,
-  priority,
-  isActive = "false",
-  score = "",
-}) => {
+export const addIssue = ({ id, name, room, priority, isActive = "false" }) => {
   const { currentGame, gameError } = getGame(room);
   if (gameError) return gameError;
   const existingIssue = currentGame.issues.find((issue) => issue.id === id);
   if (existingIssue)
     return { issueError: new Error(`Issue with current name ${name} exist`) };
-  const issue = { id, name, room, priority, isActive, score };
+  const issue = { id, name, room, priority, isActive };
   currentGame.issues.push(issue);
   return { issue };
 };
@@ -56,23 +49,19 @@ export const getIssues = (room) => {
 };
 
 export default ({ socket, io }) => {
-  socket.on(
-    EVENTS.REQ_ISSUE_ADD,
-    ({ id, name, room, isActive, priority, score }) => {
-      const { issue, gameError, issueError } = addIssue({
-        id,
-        room,
-        name,
-        isActive,
-        priority,
-        score,
-      });
-      if (gameError) return gameError;
-      if (issueError) return issueError;
-      const { issues } = getIssues(room);
-      io.in(room).emit(EVENTS.RES_ISSUES_GET, issues);
-    }
-  );
+  socket.on(EVENTS.REQ_ISSUE_ADD, ({ id, name, room, isActive, priority }) => {
+    const { issue, gameError, issueError } = addIssue({
+      id,
+      room,
+      name,
+      isActive,
+      priority,
+    });
+    if (gameError) return gameError;
+    if (issueError) return issueError;
+    const { issues } = getIssues(room);
+    io.in(room).emit(EVENTS.RES_ISSUES_GET, issues);
+  });
 
   socket.on(EVENTS.REQ_ISSUE_DELETE, ({ id, room }) => {
     const { issue, gameError } = deleteIssue(room, id);

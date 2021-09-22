@@ -27,7 +27,7 @@ io.on("connection", (socket) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Hello");
+  res.send("Hello from Brest");
 });
 
 httpServer.listen(PORT, () => {
