@@ -1,6 +1,8 @@
 
 const EVENTS = {
   REQ_START_GAME: "req-start-game",
+  REQ_CANCEL_GAME:"res-cancel-game",
+  RES_CANCEL_GAME: "res-cancel-game",
   REQ_USER_JOIN: "req-user-join",
   RES_USER_JOINED: "res-user-joined",
   REQ_USER_DELETE: "req-user-delete",
@@ -17,6 +19,8 @@ const EVENTS = {
   REQ_ISSUES_GET:"req-issues-get",
   REQ_START_POKER: "req-start-poker",
   RES_START_POKER: "res-start-poker",
+  REQ_END_POKER:"req-end-poker",
+  RES_END_POKER:"res-end-poker",
   REQ_START_VOTE: "req-start-vote",
   RES_START_VOTE:"res-start-vote",
   REQ_RESULT_VOTE:"req-result-vote",
