@@ -1,12 +1,6 @@
 import { getGame } from "./gameRepository.js";
 import EVENTS from "./events.js";
 
-// const voting = {
-//   isVote: false,
-//  candidat:{}
-//   results: []
-// };
-
 export const addUser = ({
   id,
   firstName,
@@ -51,7 +45,6 @@ export const deleteUser = (room, id) => {
   }
 };
 
-// export const getUsers = (room) => users.filter((user) => user.room === room);
 
 export default ({ socket, io }) => {
   socket.on(

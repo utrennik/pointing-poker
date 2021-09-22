@@ -12,11 +12,20 @@ export const addGame = () => {
   const dealer = {};
   const gameStatus = "";
   const voting = {
-    isVote:false,
+    isVote: false,
     candidat: "",
-    results:[]
+    results: [],
   };
-  const game = { room, users, issues, settings, title, dealer, gameStatus,voting };
+  const game = {
+    room,
+    users,
+    issues,
+    settings,
+    title,
+    dealer,
+    gameStatus,
+    voting,
+  };
   games.push(game);
   return { room, game };
 };
@@ -71,13 +80,11 @@ export default ({ socket, io }) => {
     io.in(room).emit(EVENTS.RES_TITLE_CHANGED, currentGame.title);
   });
 
-
-  socket.on(EVENTS.REQ_MESSAGE,({room,userID,message}) => {
-    const {currentGame,gameError} = getGame(room);
-    if(gameError) return ;
-    io.in(currentGame.room).emit(EVENTS.RES_MESSAGE,{userID,message})
-
-  })
+  socket.on(EVENTS.REQ_MESSAGE, ({ room, userID, message }) => {
+    const { currentGame, gameError } = getGame(room);
+    if (gameError) return;
+    io.in(currentGame.room).emit(EVENTS.RES_MESSAGE, { userID, message });
+  });
 
   socket.on("disconnect", () => {
     const user = games.filter((game) => game.users.id === socket.id);
@@ -88,17 +95,6 @@ export default ({ socket, io }) => {
       );
     }
   });
-
-  // interface Lobby-settings {
-  //   dealer_is_gamer: boolean,
-  //   cards_values: "fibo" | "pow-of-two" | "random"
-  //   participation_in_game_for_new_users: "always" | "admit/reject"
-  //   cards_autoreverse: boolean,
-  //   revote_before_round_end: Boolean;
-  //   Timer:null | 5000;  ( or seconds from our TimePicker)
-  //   score_for_issues: "form" | "file_with_tasks"
-
-  // }
 
   socket.on(
     EVENTS.REQ_START_POKER,
@@ -125,22 +121,20 @@ export default ({ socket, io }) => {
         timer,
         score_for_issues,
         gameStatus,
+        room
       };
-      io.in(room).emit(EVENTS.RES_START_POKER, currentGame);
+      const settings = currentGame.settings;
+      io.in(room).emit(EVENTS.RES_START_POKER, settings);
     }
   );
 
-  socket.on(EVENTS.REQ_CANCEL_GAME, ({room}) => {
-    const {currentGame,gameError} = getGame(room);
-    if(gameError)return;
-    io.emit(EVENTS.NOTIFICATIONS,{message:"Current game cancelled."})
+  socket.on(EVENTS.REQ_CANCEL_GAME, ({ room }) => {
+    const { currentGame, gameError } = getGame(room);
+    if (gameError) return;
+    io.emit(EVENTS.NOTIFICATIONS, { message: "Current game cancelled." });
     currentGame.gameStatus = "cancel";
     const gameStatus = currentGame.gameStatus;
-    io.emit(EVENTS.RES_CANCEL_GAME,gameStatus);
-    const game = deleteGame(room);
-  })
-
-
-
-
+    io.emit(EVENTS.RES_CANCEL_GAME, gameStatus);
+    deleteGame(room);
+  });
 };
