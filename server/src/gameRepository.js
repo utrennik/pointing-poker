@@ -121,7 +121,7 @@ export default ({ socket, io }) => {
         timer,
         score_for_issues,
         gameStatus,
-        room
+        room,
       };
       const settings = currentGame.settings;
       io.in(room).emit(EVENTS.RES_START_POKER, settings);

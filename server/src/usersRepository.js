@@ -45,7 +45,6 @@ export const deleteUser = (room, id) => {
   }
 };
 
-
 export default ({ socket, io }) => {
   socket.on(
     EVENTS.REQ_USER_JOIN,
@@ -93,8 +92,12 @@ export default ({ socket, io }) => {
       currentGame.voting.results.push(true);
       const removerUser = getUser(room, removerUserID);
       const deleteUser = getUser(room, deleteUserID);
-      const removerUserFullName = removerUser.lastName ? `${removerUser.firstName} ${removerUser.lastName}` : removerUser.firstName;
-      const deleteUserFullName = deleteUser.lastName ? `${deleteUser.firstName} ${deleteUser.lastName}` : deleteUser.firstName;
+      const removerUserFullName = removerUser.lastName
+        ? `${removerUser.firstName} ${removerUser.lastName}`
+        : removerUser.firstName;
+      const deleteUserFullName = deleteUser.lastName
+        ? `${deleteUser.firstName} ${deleteUser.lastName}`
+        : deleteUser.firstName;
       socket.in(currentGame.room).emit(EVENTS.RES_START_VOTE, {
         removerUserID,
         removerUserFullName,
@@ -114,7 +117,7 @@ export default ({ socket, io }) => {
       (item) => item === true
     );
     if (
-      currentGame.voting.results.length === (currentGame.users.length - 1) &&
+      currentGame.voting.results.length === currentGame.users.length - 1 &&
       confirmDeleting.length > (currentGame.users.length - 1) / 2
     ) {
       const { deletedUser } = deleteUser(room, currentGame.voting.candidat);
@@ -128,7 +131,7 @@ export default ({ socket, io }) => {
       currentGame.voting.isVote = false;
       currentGame.voting.results = [];
     }
-    if (currentGame.voting.results.length === (currentGame.users.length - 1 )) {
+    if (currentGame.voting.results.length === currentGame.users.length - 1) {
       currentGame.voting.isVote = false;
       currentGame.voting.results = [];
       isDeleted = false;
