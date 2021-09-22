@@ -9,13 +9,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const ScramMasterCard = ({
-  firstName,
-  lastName,
-  role,
-  avatarImage,
-  isScramMasterLobby,
-}: IScramMasterCard) => {
+export const ScramMasterCard = ({ firstName, lastName, role, avatarImage }: IScramMasterCard) => {
   const nameWithoutLastName = lastName ? `${firstName} ${lastName}` : firstName;
 
   const classes = useStyles();
@@ -25,7 +19,7 @@ export const ScramMasterCard = ({
       <CustomAvatar firstName={firstName} lastName={lastName} avatarImage={avatarImage} />
       <div className="scram-master-card-description">
         <Typography variant="body2" className="scram-master-subheader">
-          {isScramMasterLobby ? "IT'S YOU" : ''}
+          IT'S YOU
         </Typography>
         <CardHeader
           className={classes.header}

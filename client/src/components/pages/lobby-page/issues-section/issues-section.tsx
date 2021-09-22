@@ -8,13 +8,9 @@ const IssuesSection = () => (
     <h3 className="section-header">Issues:</h3>
     <div className="issues-lobby">
       {issues.map(({ id, name, priority, isSelected, isGame }) => (
-        <IssueCard
-          name={name}
-          priority={priority}
-          isSelected={isSelected}
-          isGame={isGame}
-          key={id}
-        />
+        <div key={id}>
+          <IssueCard name={name} priority={priority} isSelected={isSelected} isGame={isGame} />
+        </div>
       ))}
       <IssueCardCreate />
     </div>
