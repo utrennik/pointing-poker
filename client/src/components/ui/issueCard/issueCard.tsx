@@ -1,8 +1,9 @@
-import React from 'react';
+import { useState } from 'react';
 import { Card, CardHeader, IconButton, makeStyles } from '@material-ui/core';
 import { IIssueCard } from '@models/types';
-import './issueCard.sass';
 import { truncateString } from '@utils/stringUtils';
+import EditIssueModal from '@components/modals/edit-issue-modal/edit-issue-modal';
+import './issueCard.sass';
 
 interface StyleProps {
   isSelected: boolean;
@@ -15,11 +16,17 @@ const useStyles = makeStyles({
 });
 
 export const IssueCard = ({ name, priority, isSelected, isGame }: IIssueCard) => {
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event.target);
+  const [editIssueModalOpen, setEditIssueModalOpen] = useState(false);
+
+  const handleEditIssueModalOpen = () => {
+    setEditIssueModalOpen(true);
   };
 
-  const handleEdit = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleEditIssueModalClose = () => {
+    setEditIssueModalOpen(false);
+  };
+
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log(event.target);
   };
 
@@ -31,21 +38,24 @@ export const IssueCard = ({ name, priority, isSelected, isGame }: IIssueCard) =>
   const isueCardStyles = `issue-card ${classes.card}`;
 
   return (
-    <Card className={isueCardStyles}>
-      <CardHeader
-        className="issue-card-header"
-        title={truncateString(name)}
-        subheader={truncateString(priority)}
-        subheaderTypographyProps={{ variant: 'subtitle1' }}
-      />
-      {isGame ? (
-        <IconButton className="issue-card-close-btn" onClick={handleClose} />
-      ) : (
-        [
-          <IconButton className="issue-card-edit-btn" onClick={handleEdit} />,
-          <IconButton className="issue-card-delete-btn" onClick={handleDelete} />,
-        ]
-      )}
-    </Card>
+    <>
+      <Card className={isueCardStyles}>
+        <CardHeader
+          className="issue-card-header"
+          title={truncateString(name)}
+          subheader={truncateString(priority)}
+          subheaderTypographyProps={{ variant: 'subtitle1' }}
+        />
+        {isGame ? (
+          <IconButton className="issue-card-close-btn" onClick={handleClose} />
+        ) : (
+          [
+            <IconButton className="issue-card-edit-btn" onClick={handleEditIssueModalOpen} />,
+            <IconButton className="issue-card-delete-btn" onClick={handleDelete} />,
+          ]
+        )}
+      </Card>
+      <EditIssueModal isOpen={editIssueModalOpen} onClose={handleEditIssueModalClose} />
+    </>
   );
 };

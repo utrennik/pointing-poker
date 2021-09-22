@@ -7,6 +7,7 @@
   justify-content: center
   margin-bottom: 50px
 
+.lobby-content
   .section-header
     text-align: center
     margin: 50px 0
@@ -16,3 +17,16 @@
 
 .master-lobby
   margin-bottom: 35px
+  @media (min-width: 720px)
+    .members-lobby,
+    .issues-lobby
+      grid-template-columns: repeat(2, 1fr)
+    .switch-lobby
+      width: 60%
+
+  @media (min-width: 1050px)
+    .members-lobby,
+    .issues-lobby
+      grid-template-columns: repeat(3, 1fr)
+    .switch-lobby
+      width: 40%
