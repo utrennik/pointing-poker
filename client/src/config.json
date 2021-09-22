@@ -1,5 +1,9 @@
 {
   "transition": {
     "timeout": 300
+  },
+  "truncateSettings": {
+    "maxSymbolsValueTitle": 14,
+    "maxSymbolsValueSubtitle": 28
   }
 }
