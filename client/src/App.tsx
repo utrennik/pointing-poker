@@ -4,6 +4,8 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import Header from '@components/header/header';
 import Footer from '@components/footer/footer';
 import routes from '@components/router/routes';
+import { DeleteVotingModal } from '@components/modals/delete-voting-modal/delete-voting-modal';
+import { NotificationModal } from '@components/modals/notification-modal/notification-modal';
 
 import config from './config.json';
 
@@ -19,7 +21,6 @@ const App = () => {
   return (
     <div className="app-container">
       <Header />
-
       <TransitionGroup exit={false}>
         <CSSTransition
           timeout={config.transition.timeout}
@@ -29,8 +30,9 @@ const App = () => {
           <Switch location={location}>{routeComponents}</Switch>
         </CSSTransition>
       </TransitionGroup>
-
       <Footer />
+      <DeleteVotingModal />
+      <NotificationModal />
     </div>
   );
 };

@@ -1,5 +1,9 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useContext } from 'react';
 import TextField from '@material-ui/core/TextField';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from 'src/redux/store';
+import { WebSocketContext } from '@models/web-socket';
+import { changeTitle } from '@src/redux/actions';
 import './title-planning.sass';
 import { IconButton, withStyles } from '@material-ui/core';
 
@@ -16,35 +20,43 @@ export const DarkerDisabledTextField = withStyles({
 })(TextField);
 
 const TitlePlaning = () => {
+  const isDealerLobby = useSelector((state: RootState) => state.client.isDealerLobby);
+  const gameTitle = useSelector((state: RootState) => state.game.title);
+  const ws = useContext(WebSocketContext);
   const [isEditable, setIsEditable] = useState(false);
-  const [title, setTitle] = useState('');
+  const dispatch = useDispatch();
 
   const handleEdit = () => {
     setIsEditable(!isEditable);
   };
 
   const handleOnChange = (event: ChangeEvent<any>) => {
-    setTitle(event.target.value);
+    dispatch(changeTitle(event.target.value));
   };
 
   const handleOnBlur = () => {
     setIsEditable(false);
+    ws.requestTitleChange(gameTitle);
   };
 
   return (
     <div className="title-planning">
       <DarkerDisabledTextField
         id="title-planning"
-        label="Add title for planning:"
+        label={
+          (gameTitle && 'Planning title') ||
+          (isDealerLobby && 'Please add planning title:') ||
+          'Planning title will appear here'
+        }
         disabled={!isEditable}
         autoComplete="off"
         fullWidth={true}
         size="small"
-        value={title}
+        value={gameTitle || ''}
         onChange={handleOnChange}
         onBlur={handleOnBlur}
       />
-      <IconButton className="title-planning-edit-btn" onClick={handleEdit} />
+      {isDealerLobby && <IconButton className="title-planning-edit-btn" onClick={handleEdit} />}
     </div>
   );
 };

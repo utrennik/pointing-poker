@@ -1,6 +1,8 @@
-import { ChangeEvent, useState, useEffect } from 'react';
+import { ChangeEvent, useState, useEffect, useContext } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import { CustomAvatar } from '@components/ui/customAvatar/customAvatar';
+import { WebSocketContext } from '@models/web-socket';
+import { id } from '@src/utils/utils';
 import { IConnectModalErrors, IModalWindow } from '@models/types';
 import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
 import '../connect-modal/connect-modal.sass';
@@ -11,6 +13,7 @@ const StartModal = ({ isOpen, onClose }: IModalWindow) => {
   const [jobPosition, setJobPosition] = useState('');
   const [avatar, setAvatar] = useState('');
   const [errors, setErrors] = useState({} as IConnectModalErrors);
+  const ws = useContext(WebSocketContext);
 
   const clearForm = () => {
     setFirstName('');
@@ -75,7 +78,18 @@ const StartModal = ({ isOpen, onClose }: IModalWindow) => {
     }
   };
 
-  const handleConfirm = () => {};
+  const handleConfirm = () => {
+    ws.requestStartGame({
+      id: id(),
+      firstName,
+      room: null,
+      lastName,
+      jobPosition,
+      avatar,
+      role: 'dealer',
+    });
+    onClose();
+  };
 
   const modalBody = (
     <div>
