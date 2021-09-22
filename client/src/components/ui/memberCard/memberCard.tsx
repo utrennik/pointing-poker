@@ -14,6 +14,7 @@ import React from 'react';
 import { truncateString } from '@utils/stringUtils';
 import { CustomAvatar } from '../customAvatar/customAvatar.tsx';
 import './memberCard.sass';
+import config from '../../../config.json';
 
 const useStyles = makeStyles({
   dialogTitle: {
@@ -40,7 +41,10 @@ export const MemberCard = ({ firstName, lastName, role, avatarImage }: IMemberCa
     setDeleteUser(!deleteUser);
   };
 
-  const nameWithoutLastName = truncateString(lastName ? `${firstName} ${lastName}` : firstName, 14);
+  const nameWithoutLastName = truncateString(
+    lastName ? `${firstName} ${lastName}` : firstName,
+    config.truncateSettings.maxSymbolsValueTitle
+  );
 
   return (
     <Card className="member-card">
@@ -48,7 +52,7 @@ export const MemberCard = ({ firstName, lastName, role, avatarImage }: IMemberCa
       <CardHeader
         className="member-card-header"
         title={nameWithoutLastName}
-        subheader={truncateString(role,28)}
+        subheader={truncateString(role, config.truncateSettings.maxSymbolsValueSubtitle)}
         subheaderTypographyProps={{ variant: 'subtitle1' }}
       />
       <IconButton className="member-card-delete-btn" onClick={handleDelete} />
