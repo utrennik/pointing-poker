@@ -1,0 +1,55 @@
+@import '@styles/variables'
+
+.cover-card
+  position: relative
+  width: 100px
+  height: 160px
+  display: flex
+  align-items: center
+  column-gap: 10px
+  justify-content: center
+
+  &-image
+    width: inherit
+    height: inherit
+
+    &:hover
+      cursor: pointer
+
+  &-select-bg-color
+    position: absolute
+    top: 0
+    right: 0
+    left: 0
+    bottom: 0
+    background-color: $green-select
+
+  &-select-icon
+    position: absolute
+    top: 0
+    right: 0
+    background: url('../../../assets/icons/checked-card.svg') center / contain
+    width: 30px
+    height: 30px
+
+  &-edit-delete
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+
+  &-edit-btn
+    width: 30px
+    height: 30px
+    background-image: url('../../../assets/icons/editIssue.svg')
+
+  &-delete-btn
+    width: 30px
+    height: 30px
+    background-image: url('../../../assets/icons/deleteIssue.svg')
+
+  &-add-btn
+    width: 30px
+    height: 30px
+    background: url('../../../assets/icons/add-card.svg') center / contain
+    padding: 0!important
