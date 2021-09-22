@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import {
   Button,
   Card,
@@ -10,10 +9,10 @@ import {
   IconButton,
   makeStyles,
 } from '@material-ui/core';
-import { CustomAvatar } from '../customAvatar/customAvatar.tsx';
-import { WebSocketContext } from '@models/web-socket';
 import { IMemberCard } from '@models/types';
+import React from 'react';
 import { truncateString } from '@utils/stringUtils';
+import { CustomAvatar } from '../customAvatar/customAvatar.tsx';
 import './memberCard.sass';
 import config from '../../../config.json';
 
@@ -27,25 +26,19 @@ const useStyles = makeStyles({
   },
 });
 
-export const MemberCard = ({
-  firstName,
-  lastName,
-  role,
-  avatarImage,
-  id,
-  isRemoveButtonDisabled,
-}: IMemberCard) => {
-  const [deleteUserModalOpen, setDeleteUserModalOpen] = React.useState<boolean>(false);
-  const classes = useStyles();
-  const ws = useContext(WebSocketContext);
+export const MemberCard = ({ firstName, lastName, role, avatarImage }: IMemberCard) => {
+  const [deleteUser, setDeleteUser] = React.useState<boolean>(false);
 
-  const handleDelete = () => {
-    setDeleteUserModalOpen(!deleteUserModalOpen);
+  const classes = useStyles();
+
+  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(event);
+    setDeleteUser(!deleteUser);
   };
 
-  const handleDeleteAgree = () => {
-    setDeleteUserModalOpen(!deleteUserModalOpen);
-    ws.requestUserDelete(id);
+  const handleDeleteAgree = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(event.target);
+    setDeleteUser(!deleteUser);
   };
 
   const nameWithoutLastName = truncateString(
@@ -62,12 +55,8 @@ export const MemberCard = ({
         subheader={truncateString(role, config.truncateSettings.maxSymbolsValueSubtitle)}
         subheaderTypographyProps={{ variant: 'subtitle1' }}
       />
-      <IconButton
-        className="member-card-delete-btn"
-        onClick={handleDelete}
-        disabled={isRemoveButtonDisabled}
-      />
-      <Dialog className="modal-dialog" open={deleteUserModalOpen} onClose={handleDelete}>
+      <IconButton className="member-card-delete-btn" onClick={handleDelete} />
+      <Dialog open={deleteUser} onClose={handleDelete}>
         <DialogTitle className={classes.dialogTitle}>{'Kick player?'}</DialogTitle>
         <DialogContent>
           Are you really want to remove {nameWithoutLastName} from game session?
