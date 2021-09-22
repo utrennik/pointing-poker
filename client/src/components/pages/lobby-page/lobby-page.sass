@@ -1,4 +1,13 @@
 @import '@styles/variables'
+.lobby-container
+  display: flex
+  align-items: stretch
+  justify-content: center
+  max-width: 1440px
+  margin: 0 auto
+  padding: 0 30px
+  width: 100%
+
 .lobby-page
   margin: 0 auto
   display: flex
@@ -12,14 +21,14 @@
     text-align: center
     margin: 50px 0
 
-  @media (min-width: 720px)
+  @media (min-width: 1100px)
     .members-lobby,
     .issues-lobby
       grid-template-columns: repeat(2, 1fr)
     .switch-lobby
       width: 60%
 
-  @media (min-width: 1050px)
+  @media (min-width: 1430px)
     .members-lobby,
     .issues-lobby
       grid-template-columns: repeat(3, 1fr)

@@ -104,7 +104,7 @@ export interface IIssueModalErrors {
    * title of Issue error
    */
   isTitleIssueError?: boolean;
-=======
+}
 export interface IEditIssueModalErrors {
   /*
    * title of Issue error
@@ -160,6 +160,29 @@ export interface IMemberCard {
    * avatar image
    */
   avatarImage?: string;
+}
+
+export interface IMessageCard {
+  /*
+   * first name of User
+   */
+  firstName: string;
+  /*
+   * last name of User
+   */
+  lastName?: string;
+  /*
+   * avatar image
+   */
+  avatarImage?: string;
+  /*
+   * user message
+   */
+  message: string;
+  /*
+   * is message of current user
+   */
+  isCurrentUser: boolean;
 }
 
 export interface IScramMasterCard {
