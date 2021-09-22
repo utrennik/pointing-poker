@@ -23,5 +23,9 @@
   "NO_ROOM_ERROR_MESSAGE": "Error! Game not found!",
   "transition": {
     "timeout": 300
+  },
+  "truncateSettings": {
+    "maxSymbolsValueTitle": 14,
+    "maxSymbolsValueSubtitle": 28
   }
 }

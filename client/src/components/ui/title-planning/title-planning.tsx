@@ -7,11 +7,14 @@ import { changeTitle } from '@src/redux/actions';
 import './title-planning.sass';
 import { IconButton, withStyles } from '@material-ui/core';
 
-const DarkerDisabledTextField = withStyles({
+export const DarkerDisabledTextField = withStyles({
   root: {
-    marginRight: 8,
     '& .MuiInputBase-root.Mui-disabled': {
       color: 'black',
+    },
+    '& .MuiInputBase-input': {
+      fontSize: '1.5em',
+      textAlign: 'center',
     },
   },
 })(TextField);
@@ -46,6 +49,7 @@ const TitlePlaning = () => {
           'Planning title will appear here'
         }
         disabled={!isEditable}
+        autoComplete="off"
         fullWidth={true}
         size="small"
         value={gameTitle || ''}

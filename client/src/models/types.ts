@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react';
+import { ChangeEvent, ReactElement, ReactNode } from 'react';
 
 export interface IWebLink {
   link: string;
@@ -148,6 +148,10 @@ export interface IIssue {
 
 export interface IIssueCard {
   /*
+   * Unique card identifier
+   */
+  id?: number | string;
+  /*
    * Name of the issue card
    */
   name: string;
@@ -163,6 +167,49 @@ export interface IIssueCard {
    * Select card in estimate mode
    */
   isGame: boolean;
+}
+
+export interface ICoverCard {
+  /*
+   * Unique card identifier
+   */
+  coverCardID?: number | string;
+  /*
+   * Image for cover card
+   */
+  image: string;
+  /*
+   * Select cover card
+   */
+  isSelected: boolean;
+}
+
+export interface ICreateCoverProps {
+  /*
+   * The action will be called on Create cover card
+   */
+  onCreateCoverHandler: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+export interface ICreateValueProps {
+  /*
+   * The action will be called on Create value card
+   */
+  onCreateValueHandler: () => void;
+}
+
+export interface IValueCard {
+  /*
+   * Unique card identifier
+   */
+  valueCardID?: number | string;
+  /*
+   * Name of card
+   */
+  name: string;
+  /*
+   * Value for card
+   */
+  value: string | number;
 }
 
 export interface IMemberCard {
@@ -324,7 +371,10 @@ export interface IGame {
 export interface IGameSettings {}
 
 export interface IScramMasterCard {
-  id?: number;
+  /*
+   * Unique card identifier
+   */
+  id?: number | string;
   /*
    * first name of ScramMaster
    */
