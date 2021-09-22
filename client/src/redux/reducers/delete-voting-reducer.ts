@@ -1,18 +1,17 @@
 import { types } from '../actions';
 
-export const deleteVotingReducer = (
-  state = {
-    isVoting: false,
-    deleteVotingModalOpen: false,
-    deleteVotingData: {
-      removerUserID: '',
-      removerUserFullName: '',
-      deleteUserID: '',
-      deleteUserFullName: '',
-    },
+const initialState = {
+  isVoting: false,
+  deleteVotingModalOpen: false,
+  deleteVotingData: {
+    removerUserID: '',
+    removerUserFullName: '',
+    deleteUserID: '',
+    deleteUserFullName: '',
   },
-  { type, payload }
-) => {
+};
+
+export const deleteVotingReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.SET_DELETE_VOTING: {
       return {
@@ -26,14 +25,7 @@ export const deleteVotingReducer = (
     case types.RESET_DELETE_VOTING: {
       return {
         ...state,
-        isVoting: false,
-        deleteVotingModalOpen: false,
-        deleteVotingData: {
-          removerUserID: '',
-          removerUserFullName: '',
-          deleteUserID: '',
-          deleteUserFullName: '',
-        },
+        ...initialState,
       };
     }
 

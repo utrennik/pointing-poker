@@ -1,16 +1,15 @@
 import { types } from '../actions';
 
-export const gameReducer = (
-  state = {
-    users: [],
-    title: '',
-    room: '',
-    dealer: {},
-    settings: {},
-    gameStatus: '',
-  },
-  { type, payload }
-) => {
+const initialState = {
+  users: [],
+  title: '',
+  room: '',
+  dealer: {},
+  settings: {},
+  gameStatus: '',
+};
+
+export const gameReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.SET_GAME: {
       return {

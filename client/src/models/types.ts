@@ -104,7 +104,8 @@ export interface IIssueModalErrors {
    * title of Issue error
    */
   isTitleIssueError?: boolean;
-=======
+}
+
 export interface IEditIssueModalErrors {
   /*
    * title of Issue error

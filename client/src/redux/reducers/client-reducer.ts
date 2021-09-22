@@ -1,12 +1,11 @@
 import { types } from '../actions';
 
-export const clientReducer = (
-  state = {
-    clientUser: null,
-    isDealerLobby: false,
-  },
-  { type, payload }
-) => {
+const initialState = {
+  clientUser: null,
+  isDealerLobby: false,
+};
+
+export const clientReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.SET_CLIENT_USER: {
       return {

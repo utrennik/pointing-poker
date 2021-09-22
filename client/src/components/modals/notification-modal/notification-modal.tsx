@@ -29,7 +29,7 @@ export const NotificationModal = () => {
   };
 
   return (
-    <Dialog open={!!ws.notification} onClose={handleClose}>
+    <Dialog className="modal-dialog" open={!!ws.notification} onClose={handleClose}>
       <DialogTitle className={classes.dialogTitle}>Notification</DialogTitle>
       <DialogContent>{ws.notification}</DialogContent>
       <DialogActions className={classes.dialogActions}>

@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { setDeleteVotingModalOpen } from '@src/redux/actions';
 import { WebSocketContext } from '@models/web-socket';
-import { IUser, IUserDeleteVoteData } from '@models/types';
+import { IUser } from '@models/types';
 
 const useStyles = makeStyles({
   dialogTitle: {
@@ -28,8 +28,16 @@ export const DeleteVotingModal = () => {
     (state: RootState) => state.deleteVoting.deleteVotingModalOpen
   );
 
-  const deleteVotingData: IUserDeleteVoteData = useSelector(
-    (state: RootState) => state.deleteVoting.deleteVotingData
+  const deleteUserFullName: string = useSelector(
+    (state: RootState) => state.deleteVoting.deleteVotingData.deleteUserFullName
+  );
+
+  const removerUserFullName: string = useSelector(
+    (state: RootState) => state.deleteVoting.deleteVotingData.removerUserFullName
+  );
+
+  const deleteUserID: string = useSelector(
+    (state: RootState) => state.deleteVoting.deleteVotingData.deleteUserID
   );
 
   const clientUser: IUser = useSelector((state: RootState) => state.client.clientUser);
@@ -53,13 +61,11 @@ export const DeleteVotingModal = () => {
   };
 
   return (
-    <Dialog open={isOpen} onClose={handleClose}>
+    <Dialog className="modal-dialog" open={isOpen} onClose={handleClose}>
       <DialogTitle className={classes.dialogTitle}>{'Kick'}</DialogTitle>
       <DialogContent>
-        {`${deleteVotingData.removerUserFullName} want to kick ${
-          clientUser && deleteVotingData.deleteUserID === clientUser.id
-            ? 'You :))'
-            : deleteVotingData.deleteUserFullName || ''
+        {`${removerUserFullName} want to kick ${
+          clientUser && deleteUserID === clientUser.id ? 'You' : deleteUserFullName || ''
         }
         . Are you agree with it?`}
       </DialogContent>

@@ -62,7 +62,7 @@ export const MemberCard = ({
         onClick={handleDelete}
         disabled={isRemoveButtonDisabled}
       />
-      <Dialog open={deleteUserModalOpen} onClose={handleDelete}>
+      <Dialog className="modal-dialog" open={deleteUserModalOpen} onClose={handleDelete}>
         <DialogTitle className={classes.dialogTitle}>{'Kick player?'}</DialogTitle>
         <DialogContent>
           Are you really want to remove {nameWithoutLastName} from game session?

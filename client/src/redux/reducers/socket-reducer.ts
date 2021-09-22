@@ -1,11 +1,10 @@
 import { types } from '../actions';
 
-export const socketReducer = (
-  state = {
-    socketError: false,
-  },
-  { type }
-) => {
+const initialState = {
+  socketError: false,
+};
+
+export const socketReducer = (state = initialState, { type }) => {
   switch (type) {
     case types.SOCKET_CONNECTED: {
       return {

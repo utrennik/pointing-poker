@@ -10,7 +10,7 @@ import config from '@src/config.json';
 import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
 import './connect-modal.sass';
 
-const ConnectModal = ({ isOpen, onClose }: IModalWindow) => {
+const ConnectModal = ({ isOpen, onClose, roomID }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [jobPosition, setJobPosition] = useState('');

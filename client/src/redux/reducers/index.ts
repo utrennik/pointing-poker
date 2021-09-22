@@ -12,10 +12,9 @@ const appReducer = combineReducers({
   deleteVoting: deleteVotingReducer,
 });
 
-/* eslint-disable no-param-reassign */
 const rootReducer = (state, action) => {
   if (action.type === types.RESET_STATE) {
-    state = undefined;
+    return appReducer(undefined, action);
   }
 
   return appReducer(state, action);
