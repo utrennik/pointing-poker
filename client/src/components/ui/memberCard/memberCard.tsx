@@ -9,8 +9,9 @@ import {
   IconButton,
   makeStyles,
 } from '@material-ui/core';
+import { WebSocketContext } from '@models/web-socket';
 import { IMemberCard } from '@models/types';
-import React from 'react';
+import React, { useContext } from 'react';
 import { CustomAvatar } from '../customAvatar/customAvatar.tsx';
 import './memberCard.sass';
 
@@ -24,19 +25,25 @@ const useStyles = makeStyles({
   },
 });
 
-export const MemberCard = ({ firstName, lastName, role, avatarImage }: IMemberCard) => {
-  const [deleteUser, setDeleteUser] = React.useState<boolean>(false);
-
+export const MemberCard = ({
+  firstName,
+  lastName,
+  role,
+  avatarImage,
+  id,
+  isRemoveButtonDisabled,
+}: IMemberCard) => {
+  const [deleteUserModalOpen, setDeleteUserModalOpen] = React.useState<boolean>(false);
   const classes = useStyles();
+  const ws = useContext(WebSocketContext);
 
-  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event);
-    setDeleteUser(!deleteUser);
+  const handleDelete = () => {
+    setDeleteUserModalOpen(!deleteUserModalOpen);
   };
 
-  const handleDeleteAgree = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event.target);
-    setDeleteUser(!deleteUser);
+  const handleDeleteAgree = () => {
+    setDeleteUserModalOpen(!deleteUserModalOpen);
+    ws.requestUserDelete(id);
   };
 
   const nameWithoutLastName = lastName ? `${firstName} ${lastName}` : firstName;
@@ -50,8 +57,12 @@ export const MemberCard = ({ firstName, lastName, role, avatarImage }: IMemberCa
         subheader={role}
         subheaderTypographyProps={{ variant: 'subtitle1' }}
       />
-      <IconButton className="member-card-delete-btn" onClick={handleDelete} />
-      <Dialog open={deleteUser} onClose={handleDelete}>
+      <IconButton
+        className="member-card-delete-btn"
+        onClick={handleDelete}
+        disabled={isRemoveButtonDisabled}
+      />
+      <Dialog className="modal-dialog" open={deleteUserModalOpen} onClose={handleDelete}>
         <DialogTitle className={classes.dialogTitle}>{'Kick player?'}</DialogTitle>
         <DialogContent>
           Are you really want to remove {nameWithoutLastName} from game session?

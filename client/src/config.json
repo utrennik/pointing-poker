@@ -1,4 +1,26 @@
 {
+  "REQ_START_GAME": "req-start-game",
+  "REQ_USER_JOIN": "req-user-join",
+  "RES_USER_JOINED": "res-user-joined",
+  "REQ_USER_DELETE": "req-user-delete",
+  "RES_USER_DELETED": "res-user-deleted",
+  "REQ_TITLE_CHANGE": "req-title-change",
+  "RES_TITLE_CHANGED": "res-title-changed",
+  "REQ_ROOM_CHECK": "req-room-check",
+  "REQ_START_USER_DELETE_VOTE": "req-start-vote",
+  "RES_START_USER_DELETE_VOTE": "res-start-vote",
+  "REQ_FINISH_DELETE_VOTE": "req-result-vote",
+  "RES_USER_DELETE_VOTE": "res-result-vote",
+  "KICKED_NOTIFICATION": "Sorry, you have been kicked from the game!",
+  "DISCONNECT": "disconnect",
+  "DEALER": "dealer",
+  "MEMBER": "member",
+  "OBSERVER": "observer",
+  "USER_DELETE_QUORUM": 3,
+  "SERVER_BASE_URL": "https://pointing-poker-brest.herokuapp.com/",
+  "SERVER_HOME_URL": "http://localhost:8000/",
+  "CONNECT_ERROR_MESSAGE": "Error! Server is not connected!",
+  "NO_ROOM_ERROR_MESSAGE": "Error! Game not found!",
   "transition": {
     "timeout": 300
   }

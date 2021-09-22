@@ -122,8 +122,30 @@ export enum IssuePriority {
   LOW = 'low',
 }
 
+export interface IIssue {
+  /*
+   * id of the issue
+   */
+  id: string;
+  /*
+   * Name of the issue
+   */
+  name: string;
+  /*
+   * Priority of the issue in sprint
+   */
+  priority: keyof typeof IssuePriority;
+  /*
+   * Select card in estimate mode
+   */
+  isSelected: boolean;
+  /*
+   * Select card in estimate mode
+   */
+  isGame: boolean;
+}
+
 export interface IIssueCard {
-  id?: number;
   /*
    * Name of the issue card
    */
@@ -143,7 +165,10 @@ export interface IIssueCard {
 }
 
 export interface IMemberCard {
-  id?: number;
+  /*
+   * User id
+   */
+  id: string;
   /*
    * first name of User
    */
@@ -160,6 +185,10 @@ export interface IMemberCard {
    * avatar image
    */
   avatarImage?: string;
+  /*
+   * Remove user button enabled
+   */
+  isRemoveButtonDisabled: boolean;
 }
 
 export interface IMessageCard {
@@ -185,6 +214,137 @@ export interface IMessageCard {
   isCurrentUser: boolean;
 }
 
+export interface IUser {
+  /*
+   * User ID
+   */
+  id: string;
+  /*
+   * User first name
+   */
+  firstName: string;
+  /*
+   * Game room
+   */
+  room: string | null;
+  /*
+   * User last name
+   */
+  lastName?: string;
+  /*
+   * User job position
+   */
+  jobPosition?: string;
+  /*
+   * User avatar (BASE64)
+   */
+  avatar?: string;
+  /*
+   * User role
+   */
+  role: 'dealer' | 'member' | 'observer';
+}
+
+export interface IUserDelete {
+  /*
+   * ID of the dealer who removes the user
+   */
+  dealerID: string;
+  /*
+   * ID of the user to remove
+   */
+  userID: string;
+  /*
+   * Room to remove user
+   */
+  room: string;
+}
+
+export interface IUserDeleteVote {
+  /*
+   * ID of the user who initiated remove
+   */
+  removerUserID: string;
+  /*
+   * ID of the user to remove
+   */
+  deleteUserID: string;
+  /*
+   * Room to remove user
+   */
+  room: string;
+}
+
+export interface IUserDeleteVoteData {
+  /*
+   * ID of the user who initiated remove
+   */
+  removerUserID: string;
+  /*
+   * Full name of the user who initiated remove
+   */
+  removerUserFullName: string;
+  /*
+   * ID of the user to remove
+   */
+  deleteUserID: string;
+  /*
+   * Full name of the user to delete
+   */
+  deleteUserFullName: string;
+}
+
+export interface IDeleteVoteFinishData {
+  /*
+   * ID of the room
+   */
+  room: string;
+  /*
+   * User delete vote result
+   */
+  result: boolean;
+}
+
+export interface IDeleteVoteResults {
+  /*
+   * ID of the user to delete
+   */
+  deletedUserID: string;
+  /*
+   * is the user deleted
+   */
+  isDeleted: boolean;
+}
+
+export interface IGame {
+  /*
+   * Game users
+   */
+  users: IUser[];
+  /*
+   * Game title
+   */
+  title: string;
+  /*
+   * Game dealer
+   */
+  dealer: IUser;
+  /*
+   * roomID
+   */
+  room: string;
+  /*
+   * Game settings
+   */
+  settings: IGameSettings;
+  /*
+   * Game status
+   */
+  gameStatus: 'lobby' | 'poker' | 'cancelGame';
+}
+
+export interface IGameSettings {}
+
 export interface IScramMasterCard {
   id?: number;
   /*
@@ -206,7 +366,7 @@ export interface IScramMasterCard {
   /*
    * avatar image
    */
-  // isScramMasterLobby: boolean;
+  isScramMasterLobby: boolean;
 }
 
 export interface ILobbyButtons {
@@ -247,4 +407,18 @@ export interface IGameSettingsErrors {
    * type of score error
    */
   scoreTypeShortError?: boolean;
+}
+
+export interface IMasterSection {
+  /*
+   * Is this the dealer lobby
+   */
+  isDealerLobby: boolean;
+}
+
+export interface IMembersSection {
+  /*
+   * Is this the dealer lobby
+   */
+  isDealerLobby: boolean;
 }

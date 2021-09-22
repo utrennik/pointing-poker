@@ -2,6 +2,8 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core';
+import WebSocketProvider from '@models/web-socket';
+
 import App from './App.tsx';
 
 import store from './redux/store';
@@ -11,7 +13,9 @@ render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <Router>
-        <App />
+        <WebSocketProvider>
+          <App />
+        </WebSocketProvider>
       </Router>
     </ThemeProvider>
   </Provider>,
