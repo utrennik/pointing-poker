@@ -74,7 +74,7 @@ module.exports = ({ development }) => ({
     }),
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new HtmlWebpackPlugin({
-      title: 'react-components',
+      title: 'planning-poker',
       template: './src/index.html',
     }),
     new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
