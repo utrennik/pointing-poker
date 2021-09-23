@@ -16,6 +16,7 @@ import {
   setDeleteVoting,
   resetDeleteVoting,
   setIssues,
+  setGameStatus,
 } from '@src/redux/actions';
 import {
   IUser,
@@ -27,6 +28,7 @@ import {
   IDeleteVoteResults,
   IIssue,
   IIssueDelete,
+  GameStatus,
 } from './types';
 import config from '../config.json';
 
@@ -49,6 +51,7 @@ export default ({ children }) => {
   const resetClient = () => {
     history.push('/');
     dispatch(resetState());
+    dispatch(setGameStatus(GameStatus.CANCEL));
     socket = io(SERVER_URL);
     client = {} as IUser;
   };
@@ -87,6 +90,7 @@ export default ({ children }) => {
       client = res;
       dispatch(setGame({ dealer: res, room: res.room }));
       dispatch(setIsDealerLobby(true));
+      dispatch(setGameStatus(GameStatus.LOBBY));
       history.push('/lobby');
     });
   };
@@ -123,6 +127,7 @@ export default ({ children }) => {
       console.log(`Game data received...`);
       dispatch(setGame(res));
       dispatch(setIsDealerLobby(false));
+      dispatch(setGameStatus(GameStatus.LOBBY));
       history.push('/lobby');
     });
   };

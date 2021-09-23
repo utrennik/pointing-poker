@@ -78,7 +78,7 @@ export const setIssues = (issues: IIssue[]) => ({
   payload: { issues },
 });
 
-export const setGameStatus = (status: GameStatus) => ({
+export const setGameStatus = (gameStatus: GameStatus) => ({
   type: types.SET_GAME_STATUS,
-  payload: { status },
+  payload: { gameStatus },
 });

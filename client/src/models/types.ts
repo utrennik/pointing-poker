@@ -432,4 +432,8 @@ export interface IMembersSection {
    * Is this the dealer lobby
    */
   isDealerLobby: boolean;
+  /*
+   * game members
+   */
+  members: IUser;
 }

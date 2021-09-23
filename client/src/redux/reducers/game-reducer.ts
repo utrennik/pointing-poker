@@ -50,6 +50,13 @@ export const gameReducer = (state = initialState, { type, payload }) => {
       };
     }
 
+    case types.SET_GAME_STATUS: {
+      return {
+        ...state,
+        gameStatus: payload.gameStatus,
+      };
+    }
+
     default:
       return state;
   }
