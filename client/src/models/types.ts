@@ -572,6 +572,10 @@ export interface IMasterSection {
    * Is this the dealer lobby
    */
   isDealerLobby: boolean;
+  /*
+   * props with Poker Game Settings
+   */
+  lobbyGameSettings: ILobbySettings;
 }
 
 export interface IMembersSection {
@@ -637,4 +641,15 @@ export interface IGameTopSection {
    * Is the client user a dealer
    */
   isClientDealer: boolean;
+}
+export interface ILobbySettings {
+  room?: string;
+  dealerAsPlr: boolean;
+  cardSet: CardSet;
+  participation_in_game_for_new_users?: 'always' | 'admit/reject';
+  changeChoice: boolean;
+  revote_before_round_end?: boolean;
+  timerIsNeed: boolean | number;
+  score_for_issues?: 'form' | 'file_with_tasks';
+  gameStatus?: 'lobby' | 'poker' | 'cancelGame';
 }

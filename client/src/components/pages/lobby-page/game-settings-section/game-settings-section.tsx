@@ -7,8 +7,9 @@ import { CoverCard } from '@components/ui/cover-card/cover-card';
 import { CoverCreateCard } from '@components/ui/cover-card/cover-create-card';
 import { ValueCard } from '@components/ui/value-card/value-card';
 import { ValueCreateCard } from '@components/ui/value-card/value-create-card';
-import { CardSet, IGameSettingsErrors } from '@models/types';
+import { CardSet, IGameSettingsErrors,ILobbySettings } from '@models/types';
 import { id } from '@utils/utils';
+
 import { cardSetData } from './cardSetData';
 
 import './game-settings-section.sass';
@@ -21,7 +22,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const GameSettingsSection = () => {
+interface IGameSettingsSection {
+  changePokerGameSettings: (value: ILobbySettings) => void;
+}
+
+const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) => {
   const classes = useStyles();
 
   const [switchSettings, setSwitchSettings] = useState({
@@ -102,6 +107,10 @@ const GameSettingsSection = () => {
   useEffect(() => {
     validate();
   }, [inputSettings.scoreType, inputSettings.scoreTypeShort]);
+
+  useEffect(() => {
+    changePokerGameSettings({ ...switchSettings, cardSet });
+  }, [switchSettings, cardSet]);
 
   return (
     <>
