@@ -55,7 +55,7 @@ const IssueModal = ({ isOpen, onClose }) => {
       name: issueName,
       room: roomID,
       isActive: false,
-      priority: IssuePriority.NORMAL,
+      priority: issuePriority,
     };
 
     ws.requestAddIssue(newIssue);

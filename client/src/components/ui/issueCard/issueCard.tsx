@@ -6,6 +6,7 @@ import { IIssueCard, IIssueDelete } from '@models/types';
 import { WebSocketContext } from '@models/web-socket';
 import { truncateString } from '@utils/stringUtils';
 import EditIssueModal from '@components/modals/edit-issue-modal/edit-issue-modal';
+import config from '@src/config.json';
 import './issueCard.sass';
 
 interface StyleProps {
@@ -48,28 +49,30 @@ export const IssueCard = ({ id, name, priority, isActive, isGame, isDealer }: II
   const isueCardStyles = `issue-card ${classes.card}`;
 
   return (
-    <Card className={isueCardStyles}>
-      <CardHeader
-        className="issue-card-header"
-        title={truncateString(name)}
-        subheader={truncateString(priority)}
-        subheaderTypographyProps={{ variant: 'subtitle1' }}
-      />
-      {isGame && isDealer ? (
-        <IconButton className="issue-card-close-btn" onClick={handleClose} />
-      ) : (
-        isDealer && [
-          <IconButton className="issue-card-edit-btn" onClick={handleEditIssueModalOpen} />,
-          <IconButton className="issue-card-delete-btn" onClick={handleDelete} />,
-        ]
-      )}
-      <EditIssueModal
-        isOpen={editIssueModalOpen}
-        onClose={handleEditIssueModalClose}
-        issueID={id}
-        name={name}
-        priority={priority}
-      />
-    </Card>
+    <div title={name}>
+      <Card className={isueCardStyles}>
+        <CardHeader
+          className="issue-card-header"
+          title={truncateString(name, config.ISSUE_TITLE_MAX_SYMBOLS)}
+          subheader={truncateString(priority)}
+          subheaderTypographyProps={{ variant: 'subtitle1' }}
+        />
+        {isGame && isDealer ? (
+          <IconButton className="issue-card-close-btn" onClick={handleClose} />
+        ) : (
+          isDealer && [
+            <IconButton className="issue-card-edit-btn" onClick={handleEditIssueModalOpen} />,
+            <IconButton className="issue-card-delete-btn" onClick={handleDelete} />,
+          ]
+        )}
+        <EditIssueModal
+          isOpen={editIssueModalOpen}
+          onClose={handleEditIssueModalClose}
+          issueID={id}
+          name={name}
+          priority={priority}
+        />
+      </Card>
+    </div>
   );
 };
