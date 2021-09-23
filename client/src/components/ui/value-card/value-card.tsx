@@ -4,7 +4,7 @@ import { IValueCard } from '@models/types';
 import { DarkerDisabledTextField } from '../title-planning/title-planning.tsx';
 import './value-card.sass';
 
-export const ValueCard = ({ id, name, value }: IValueCard) => {
+export const ValueCard = ({ valueCardID, name, value }: IValueCard) => {
   const [isEditable, setIsEditable] = useState(false);
   const [newValue, setNewValue] = useState(value);
 
@@ -21,7 +21,7 @@ export const ValueCard = ({ id, name, value }: IValueCard) => {
   };
 
   return (
-    <Card key={id} className="value-card">
+    <Card key={valueCardID} className="value-card">
       <div className="value-card-name">{name}</div>
       <div className="value-card-value">
         <DarkerDisabledTextField

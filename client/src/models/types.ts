@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react';
+import { ChangeEvent, ReactElement, ReactNode } from 'react';
 
 export interface IWebLink {
   link: string;
@@ -399,4 +399,47 @@ export interface IMembersSection {
    * Is this the dealer lobby
    */
   isDealerLobby: boolean;
+}
+
+export interface ICoverCard {
+  /*
+   * Unique card identifier
+   */
+  coverCardID?: number | string;
+  /*
+   * Image for cover card
+   */
+  image: string;
+  /*
+   * Select cover card
+   */
+  isSelected: boolean;
+}
+
+export interface ICreateCoverProps {
+  /*
+   * The action will be called on Create cover card
+   */
+  onCreateCoverHandler: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+export interface ICreateValueProps {
+  /*
+   * The action will be called on Create value card
+   */
+  onCreateValueHandler: () => void;
+}
+
+export interface IValueCard {
+  /*
+   * Unique card identifier
+   */
+  valueCardID?: number | string;
+  /*
+   * Name of card
+   */
+  name: string;
+  /*
+   * Value for card
+   */
+  value: string | number;
 }
