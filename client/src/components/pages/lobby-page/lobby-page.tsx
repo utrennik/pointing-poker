@@ -1,5 +1,5 @@
 import MasterSection from '@components/pages/lobby-page/master-section/master-section';
-// import IssuesSection from '@components/pages/lobby-page/issues-section/issues-section';
+import IssuesSection from '@components/pages/lobby-page/issues-section/issues-section';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
 import MembersSection from '@components/pages/lobby-page/members-section/members-section';
@@ -17,7 +17,7 @@ const LobbyPage = () => {
           <MembersSection isDealerLobby={isDealerLobby} />
           {isDealerLobby && (
             <>
-              {/* <IssuesSection /> */}
+              {<IssuesSection />}
               <GameSettingsSection />
             </>
           )}

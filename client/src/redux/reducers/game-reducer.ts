@@ -7,6 +7,7 @@ const initialState = {
   dealer: {},
   settings: {},
   gameStatus: '',
+  issues: [],
 };
 
 export const gameReducer = (state = initialState, { type, payload }) => {
@@ -39,6 +40,13 @@ export const gameReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         title: payload.title,
+      };
+    }
+
+    case types.SET_ISSUES: {
+      return {
+        ...state,
+        issues: payload.issues,
       };
     }
 
