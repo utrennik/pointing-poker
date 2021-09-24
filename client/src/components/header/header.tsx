@@ -1,42 +1,33 @@
 import { NavLink } from 'react-router-dom';
 
 import '@styles/header.sass';
+import Chat from '@components/ui/chat-component/chat-component';
+import { useState } from 'react';
 
 const Header = () => {
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const onChatClickHandler = () => {
-    const toggleChat = () => {
-      const chat = document.querySelector('.aside-container');
-      if (chat) {
-        chat.classList.toggle('aside-container--active');
-      }
-    };
-
-    toggleChat();
-
-    const scrollChatToBottom = () => {
-      const messages = document.querySelector('.message-list-container');
-      if (messages) {
-        messages.scrollTop = messages.scrollHeight;
-      }
-    };
-
-    scrollChatToBottom();
+    setIsChatOpen(!isChatOpen);
   };
+
   return (
-    <header className="header">
-      <div className="header-up">
-        <div className="container header-up-wrapper">
-          <div className="chat-wrapper">
-            <div className="chat-icon" onClick={onChatClickHandler}></div>
+    <>
+      <header className="header">
+        <div className="header-up">
+          <div className="container header-up-wrapper">
+            <div className="chat-wrapper">
+              <div className="chat-icon" onClick={onChatClickHandler}></div>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="header-down">
-        <div className="container logo-wrapper">
-          <NavLink exact className="logo" to="/"></NavLink>
+        <div className="header-down">
+          <div className="container logo-wrapper">
+            <NavLink exact className="logo" to="/"></NavLink>
+          </div>
         </div>
-      </div>
-    </header>
+        {isChatOpen && <Chat />}
+      </header>
+    </>
   );
 };
 

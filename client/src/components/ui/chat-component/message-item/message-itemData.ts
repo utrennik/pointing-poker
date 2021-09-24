@@ -8,12 +8,14 @@ Laudantium non inventore nobis facilis perferendis,
 quam possimus, sit libero in ea nihil est beatae minus odio? 
 Doloremque porro amet aliquid dolores.`;
 
+const shortMsg = `Lorem ipsum dolor sit amet consectetur adipisicing elit.`;
+
 export const messages: IMessageCard[] = [
   {
     firstName: 'Daniel',
     lastName: 'Horn',
     avatarImage: horn,
-    message: msg,
+    message: shortMsg,
     isCurrentUser: false,
   },
   {
@@ -27,14 +29,14 @@ export const messages: IMessageCard[] = [
     firstName: 'James',
     lastName: 'Bond',
     avatarImage: '',
-    message: msg,
+    message: shortMsg,
     isCurrentUser: false,
   },
   {
     firstName: 'Mark',
     lastName: 'Single',
     avatarImage: '',
-    message: msg,
+    message: shortMsg,
     isCurrentUser: false,
   },
   {
@@ -55,7 +57,7 @@ export const messages: IMessageCard[] = [
     firstName: 'David',
     lastName: 'Blane',
     avatarImage: blane,
-    message: msg,
+    message: shortMsg,
     isCurrentUser: true,
   },
 ];

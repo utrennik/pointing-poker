@@ -1,5 +1,5 @@
 import { CustomAvatar } from '@components/ui/customAvatar/customAvatar';
-import { Card, CardContent, CardHeader, makeStyles, Typography } from '@material-ui/core';
+import { Card, CardHeader, makeStyles, Typography } from '@material-ui/core';
 import { IMessageCard } from '@models/types';
 import '@styles/variables';
 import './message-item.sass';
@@ -14,10 +14,19 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'flex-start',
     columnGap: '10px',
-    padding: '10px',
+    padding: '5px',
     height: 'auto',
     width: 'auto',
     backgroundColor: ({ isCurrentUser }: StyleProps) => (isCurrentUser ? '#ffc482' : '#fff'),
+  },
+  content: {
+    padding: '5px',
+  },
+  header: {
+    width: '200px',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    padding: '12px',
   },
 });
 
@@ -29,20 +38,24 @@ const MessageItem = ({
   isCurrentUser,
 }: IMessageCard) => {
   const nameWithoutLastName = lastName ? `${firstName} ${lastName}` : firstName;
+
   const classes = useStyles({ isCurrentUser });
+
   const messageCardStyles = `issue-card ${classes.card}`;
+  const messageHeaderStyles = classes.header;
+  const messageContentStyles = classes.content;
+
   return (
     <div className="message-item-container">
       <Card className={messageCardStyles}>
         <div className="message-user">
           <CustomAvatar firstName={firstName} lastName={lastName} avatarImage={avatarImage} />
-          <CardHeader className="message-card-header" title={nameWithoutLastName} />
+          <CardHeader className={messageHeaderStyles} title={nameWithoutLastName} />
         </div>
         <div className="message-msg">
-          {' '}
-          <CardContent>
-            <Typography variant="body2">{message}</Typography>
-          </CardContent>
+          <Typography className={messageContentStyles} variant="body2">
+            {message}
+          </Typography>
         </div>
       </Card>
     </div>

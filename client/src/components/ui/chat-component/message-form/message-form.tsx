@@ -1,4 +1,4 @@
-import MessageInputButton from '@components/pages/lobby-page/chat-component/message-input-button/message-input-button';
+import MessageInputButton from '@components/ui/chat-component/message-input-button/message-input-button';
 import './message-form.sass';
 
 const MessageForm = () => (

@@ -34,7 +34,7 @@ const MessageInputButton = () => {
       <div className="message-input-button-input">
         <Box
           sx={{
-            width: 300,
+            width: 240,
             maxWidth: '100%',
             marginRight: '10px',
           }}
