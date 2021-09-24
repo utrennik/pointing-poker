@@ -105,7 +105,6 @@ export interface IIssueModalErrors {
    */
   isTitleIssueError?: boolean;
 }
-
 export interface IEditIssueModalErrors {
   /*
    * title of Issue error
@@ -190,6 +189,29 @@ export interface IMemberCard {
    * Remove user button enabled
    */
   isRemoveButtonDisabled: boolean;
+}
+
+export interface IMessageCard {
+  /*
+   * first name of User
+   */
+  firstName: string;
+  /*
+   * last name of User
+   */
+  lastName?: string;
+  /*
+   * avatar image
+   */
+  avatarImage?: string;
+  /*
+   * user message
+   */
+  message: string;
+  /*
+   * is message of current user
+   */
+  isCurrentUser: boolean;
 }
 
 export interface IUser {

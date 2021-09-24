@@ -1,0 +1,20 @@
+@import '@styles/variables'
+.message-list-container
+  max-height: calc(100vh - 230px)
+  overflow-x: hidden
+  overflow-y: auto
+  padding: 5px 0
+
+::-webkit-scrollbar
+  width: 8px
+
+/* Track */
+::-webkit-scrollbar-track
+  border-radius: 10px
+  box-shadow: inset 0 0 10px $green-select
+
+/* Handle */
+::-webkit-scrollbar-thumb
+  border-radius: 10px
+  background: $cadet-blue
+  box-shadow: inset 0 0 10px $green-select
