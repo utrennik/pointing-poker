@@ -13,6 +13,10 @@ export const DarkerDisabledTextField = withStyles({
     '& .MuiInputBase-root.Mui-disabled': {
       color: 'black',
     },
+    '& .MuiInputBase-input': {
+      fontSize: '1.5em',
+      textAlign: 'center',
+    },
   },
 })(TextField);
 
