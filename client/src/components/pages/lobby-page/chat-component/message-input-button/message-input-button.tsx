@@ -7,27 +7,25 @@ const MessageInputButton = () => {
   const [inputValue, setInputValue] = useState(inputInitialValue);
 
   const inputHandler = (e: ChangeEvent<HTMLInputElement>): void => {
-    if (e.target.value && e.target.value !== 'Enter') {
+    if (e.target.value !== 'Enter') {
       setInputValue(e.target.value);
       console.log('set value', e.target.value);
     }
   };
 
   const onKeyEnterHandler = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !inputInitialValue) {
       e.preventDefault();
-      if (inputValue !== inputInitialValue) {
-        setInputValue(inputInitialValue);
-        console.log('enter event', e.key);
-      }
+      console.log('enter event', e.key);
+      setInputValue(inputInitialValue);
     }
   };
 
   const sendMessageHandler = (e: any): void => {
     if (inputValue !== inputInitialValue) {
       e.preventDefault();
-      setInputValue(inputInitialValue);
       console.log('click event', e);
+      setInputValue(inputInitialValue);
     }
   };
 
