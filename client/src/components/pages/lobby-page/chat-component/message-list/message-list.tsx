@@ -8,15 +8,14 @@ const MessageList = () => (
     {messages.map(({ firstName, lastName, avatarImage, message, isCurrentUser }) => {
       const messageID = id();
       return (
-        <div key={messageID}>
-          <MessageItem
-            firstName={firstName}
-            lastName={lastName}
-            avatarImage={avatarImage}
-            message={message}
-            isCurrentUser={isCurrentUser}
-          />
-        </div>
+        <MessageItem
+          key={messageID}
+          firstName={firstName}
+          lastName={lastName}
+          avatarImage={avatarImage}
+          message={message}
+          isCurrentUser={isCurrentUser}
+        />
       );
     })}
   </div>
