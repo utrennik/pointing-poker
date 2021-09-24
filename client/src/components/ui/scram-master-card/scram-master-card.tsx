@@ -1,6 +1,8 @@
 import { Card, CardHeader, makeStyles, Typography } from '@material-ui/core';
 import { IScramMasterCard } from '@models/types';
+import { truncateString } from '@utils/stringUtils';
 import { CustomAvatar } from '../customAvatar/customAvatar.tsx';
+import config from '../../../config.json';
 import './scram-master-card.sass';
 
 const useStyles = makeStyles({
@@ -16,7 +18,10 @@ export const ScramMasterCard = ({
   avatarImage,
   isScramMasterLobby,
 }: IScramMasterCard) => {
-  const nameWithoutLastName = lastName ? `${firstName} ${lastName}` : firstName;
+  const nameWithoutLastName = truncateString(
+    lastName ? `${firstName} ${lastName}` : firstName,
+    config.truncateSettings.maxSymbolsValueTitle
+  );
 
   const classes = useStyles();
 
@@ -31,7 +36,7 @@ export const ScramMasterCard = ({
           className={classes.header}
           title={nameWithoutLastName}
           content={role}
-          subheader={role}
+          subheader={truncateString(role, config.truncateSettings.maxSymbolsValueSubtitle)}
           subheaderTypographyProps={{ variant: 'subtitle1' }}
         />
       </div>
