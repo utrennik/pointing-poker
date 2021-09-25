@@ -2,12 +2,11 @@ import MasterSection from '@components/pages/lobby-page/master-section/master-se
 import IssuesSection from '@components/pages/lobby-page/issues-section/issues-section';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
-import { IUser } from '@models/types';
+import { ILobbySettings, IUser } from '@models/types';
 import MembersSection from '@components/pages/lobby-page/members-section/members-section';
 import GameSettingsSection from '@components/pages/lobby-page/game-settings-section/game-settings-section';
 import './lobby-page.sass';
-import { useEffect, useState } from 'react';
-import { ILobbySettings } from '@models/types';
+import { useState } from 'react';
 
 const LobbyPage = () => {
   const isDealerLobby = useSelector((state: RootState) => state.client.isDealerLobby);

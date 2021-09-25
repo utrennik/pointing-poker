@@ -654,7 +654,7 @@ export interface ILobbySettings {
   room?: string;
   dealerAsPlr: boolean;
   cardSet: CardSet;
-  customCardSet?:string[];
+  customCardSet?: string[];
   participation_in_game_for_new_users?: boolean;
   changeChoice: boolean;
   revote_before_round_end?: boolean;
@@ -662,4 +662,3 @@ export interface ILobbySettings {
   scoreForIssuesFromFile: boolean;
   gameStatus?: 'lobby' | 'poker' | 'cancelGame';
 }
-

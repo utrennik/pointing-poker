@@ -259,6 +259,10 @@ export default ({ children }: { children: ReactChild[] }) => {
     dispatch(setIssues(issues));
   });
 
+  socket.on(config.RES_START_POKER_GAME, (data: ILobbySettings) => {
+    console.log(data);
+  });
+
   const ws: any = {
     socket,
     requestStartGame,

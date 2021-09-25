@@ -28,7 +28,6 @@ interface IGameSettingsSection {
 
 const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) => {
   const classes = useStyles();
-
   const [switchSettings, setSwitchSettings] = useState({
     dealerAsPlr: false,
     changeChoice: false,
