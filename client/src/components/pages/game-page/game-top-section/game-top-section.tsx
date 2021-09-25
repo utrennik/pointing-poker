@@ -3,6 +3,7 @@ import { RootState } from 'src/redux/store';
 import { Button } from '@material-ui/core';
 import { ScramMasterCard } from '@components/ui/scram-master-card/scram-master-card';
 import { IUser } from '@models/types';
+import config from '@src/config.json';
 import { GameTimer } from './game-timer/game-timer.tsx';
 import './game-top-section.sass';
 
@@ -33,7 +34,9 @@ export const GameTopSection = ({ timerSecs }) => {
 
         <div className="game-top-section-btn game-top-col">
           <Button variant="contained" size="medium" color="primary">
-            Quit game
+            {client.clientUser && client.clientUser.role === config.DEALER
+              ? 'Stop game'
+              : 'Exit game'}
           </Button>
         </div>
       </div>

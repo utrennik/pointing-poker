@@ -1,4 +1,5 @@
 import { IGame } from '@models/types';
+import config from '@src/config.json';
 import { types } from '../actions';
 
 // const initialState = {
@@ -9,6 +10,8 @@ import { types } from '../actions';
 //   settings: {},
 //   gameStatus: '',
 // };
+
+// TODO: For testing Game page TOP section, should be removed
 
 const testInitialState: IGame = {
   users: [],
