@@ -341,6 +341,10 @@ export interface IGame {
    * Game status
    */
   gameStatus: 'lobby' | 'poker' | 'cancelGame';
+  /*
+   * Round timer
+   */
+  timer: number;
 }
 
 export interface IGameSettings {}

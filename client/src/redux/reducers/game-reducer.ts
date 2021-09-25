@@ -1,15 +1,29 @@
+import { IGame } from '@models/types';
 import { types } from '../actions';
 
-const initialState = {
+// const initialState = {
+//   users: [],
+//   title: '',
+//   room: '',
+//   dealer: {},
+//   settings: {},
+//   gameStatus: '',
+// };
+
+const testInitialState: IGame = {
   users: [],
-  title: '',
-  room: '',
-  dealer: {},
+  title: 'My Game Title',
+  room: 'abcd',
+  dealer: {
+    firstName: 'Alejandro',
+    lastName: 'Sanchez',
+  },
   settings: {},
-  gameStatus: '',
+  gameStatus: 'poker',
+  timer: 20,
 };
 
-export const gameReducer = (state = initialState, { type, payload }) => {
+export const gameReducer = (state = testInitialState, { type, payload }) => {
   switch (type) {
     case types.SET_GAME: {
       return {
