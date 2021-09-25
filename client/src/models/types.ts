@@ -575,7 +575,7 @@ export interface IMasterSection {
   /*
    * props with Poker Game Settings
    */
-  lobbyGameSettings: ILobbySettings;
+  lobbyGameSettings: any;
 }
 
 export interface IMembersSection {
@@ -654,12 +654,12 @@ export interface ILobbySettings {
   room?: string;
   dealerAsPlr: boolean;
   cardSet: CardSet;
-  participation_in_game_for_new_users?: 'always' | 'admit/reject';
+  customCardSet?:string[];
+  participation_in_game_for_new_users?: boolean;
   changeChoice: boolean;
   revote_before_round_end?: boolean;
   timerIsNeed: boolean | number;
-  score_for_issues?: 'form' | 'file_with_tasks';
+  scoreForIssuesFromFile: boolean;
   gameStatus?: 'lobby' | 'poker' | 'cancelGame';
 }
 
-export interface ILobbySettingsFromPage {}

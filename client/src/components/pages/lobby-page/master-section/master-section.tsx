@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
-import { IMasterSection, IUser } from '@models/types';
+import { CardSet, ILobbySettings, IMasterSection, IUser } from '@models/types';
 import InputButton from '@components/ui/input-button/input-button';
 import { Button } from '@material-ui/core';
 import { ScramMasterCard } from '@components/ui/scram-master-card/scram-master-card';
@@ -27,9 +27,26 @@ const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => 
     navigator.clipboard.writeText(value);
   };
 
+  const customDeck = lobbyGameSettings.cardSet === CardSet.customCardSet ? lobbyGameSettings.customDeck : undefined;
+  const time = lobbyGameSettings.timerIsNeed ? (lobbyGameSettings.timer.getMinutes()*60 + lobbyGameSettings.timer.getSeconds()) : undefined;
+  const timer = lobbyGameSettings.timerIsNeed ? time : undefined
+  const dataToServer:ILobbySettings = {
+    room:roomID,
+    dealerAsPlr: lobbyGameSettings.dealerAsPlr,
+    cardSet:lobbyGameSettings.cardSet,
+    customCardSet: customDeck,
+    participation_in_game_for_new_users: lobbyGameSettings.participationInGameForNewUsers,
+    revote_before_round_end: lobbyGameSettings.revoteBeforeEndOfRound,
+    scoreForIssuesFromFile: lobbyGameSettings.scoreForIssues,
+    timerIsNeed: timer,
+    gameStatus: 'poker',
+    changeChoice: lobbyGameSettings.changeChoice
+  }
+
+
   const handleStartGame = () => {
     console.log('Start game!');
-    ws.requestPokerGameStart(lobbyGameSettings);
+    ws.requestPokerGameStart(dataToServer);
     history.push('/game');
   };
 
