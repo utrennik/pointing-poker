@@ -98,33 +98,24 @@ export default ({ socket, io }) => {
 
   socket.on(
     EVENTS.REQ_START_POKER,
-    ({
-      room,
-      dealer_is_gamer,
-      cards_values,
-      participation_in_game_for_new_users,
-      cards_autoreverse,
-      revote_before_round_end,
-      timer,
-      score_for_issues,
-      gameStatus = "lobby",
-    }) => {
-      const { currentGame, gameError } = getGame(room);
+    (data) => {
+      const { currentGame, gameError } = getGame(data.room);
       if (gameError) return;
 
-      currentGame.settings = {
-        dealer_is_gamer,
-        cards_values,
-        participation_in_game_for_new_users,
-        cards_autoreverse,
-        revote_before_round_end,
-        timer,
-        score_for_issues,
-        gameStatus,
-        room,
-      };
-      const settings = currentGame.settings;
-      io.in(room).emit(EVENTS.RES_START_POKER, settings);
+      // currentGame.settings = {
+      //   dealer_is_gamer,
+      //   cards_values,
+      //   participation_in_game_for_new_users,
+      //   cards_autoreverse,
+      //   revote_before_round_end,
+      //   timer,
+      //   score_for_issues,
+      //   gameStatus,
+      //   room,
+      // };
+
+      // const settings = currentGame.settings;
+      io.in(data.room).emit(EVENTS.RES_START_POKER, data);
     }
   );
 
