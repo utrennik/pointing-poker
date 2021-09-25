@@ -7,7 +7,7 @@ export const addGame = () => {
   const room = uuidv4();
   const users = [];
   const issues = [];
-  const settings = [];
+  const settings = {};
   const title = "";
   const dealer = {};
   const gameStatus = "";
@@ -114,7 +114,7 @@ export default ({ socket, io }) => {
       //   room,
       // };
 
-      // const settings = currentGame.settings;
+       currentGame.settings = data;
       io.in(data.room).emit(EVENTS.RES_START_POKER, data);
     }
   );
