@@ -44,11 +44,11 @@ export default ({ children }) => {
   let client = {} as IUser; // TODO: used bacause the state is unavailable in socket.on callbacks
 
   // TODO: REMOVE after game page test
-  const gamePageTest = () => {
-    history.push('/game');
-  };
+  // const gamePageTest = () => {
+  //   history.push('/game');
+  // };
 
-  gamePageTest();
+  // gamePageTest();
 
   const resetClient = () => {
     history.push('/');
