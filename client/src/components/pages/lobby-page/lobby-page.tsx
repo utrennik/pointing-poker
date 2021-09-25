@@ -6,7 +6,7 @@ import { IUser } from '@models/types';
 import MembersSection from '@components/pages/lobby-page/members-section/members-section';
 import GameSettingsSection from '@components/pages/lobby-page/game-settings-section/game-settings-section';
 import './lobby-page.sass';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ILobbySettings } from '@models/types';
 
 const LobbyPage = () => {
@@ -14,7 +14,7 @@ const LobbyPage = () => {
   const members: IUser[] = useSelector((state: RootState) => state.game.users as IUser[]);
   const [lobbyGameSettings, setLobbyGameSettings] = useState<ILobbySettings | null>();
 
-  const changePokerGameSettings = (value: ILobbySettings) => {
+  const changePokerGameSettings = (value: any) => {
     setLobbyGameSettings(value);
   };
   return (

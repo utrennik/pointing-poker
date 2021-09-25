@@ -602,6 +602,10 @@ export interface ICoverCard {
    * Select cover card
    */
   isSelected: boolean;
+  /*
+   * handle click for active class
+   */
+  handleClick?: (id: string) => void;
 }
 
 export interface ICreateCoverProps {
@@ -630,6 +634,10 @@ export interface IValueCard {
    * Value for card
    */
   value: string | number;
+  /*
+   * hadle Click
+   */
+  handleDataFromValueCard?: (val: string, ind: number) => void;
 }
 
 export interface IGameTopSection {
@@ -653,3 +661,5 @@ export interface ILobbySettings {
   score_for_issues?: 'form' | 'file_with_tasks';
   gameStatus?: 'lobby' | 'poker' | 'cancelGame';
 }
+
+export interface ILobbySettingsFromPage {}

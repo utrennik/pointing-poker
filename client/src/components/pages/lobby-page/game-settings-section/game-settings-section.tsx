@@ -2,12 +2,12 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { makeStyles, MenuItem, Select, Switch, TextField } from '@material-ui/core';
 import SecondsTimePicker from '@components/ui/time-picker/time-picker';
 import { coverCardData } from '@components/ui/cover-card/cover-cardData';
-import { valueCardData } from '@components/ui/value-card/value-cardData';
+import { defaultValueForCustomDeck, valueCardData } from '@components/ui/value-card/value-cardData';
 import { CoverCard } from '@components/ui/cover-card/cover-card';
 import { CoverCreateCard } from '@components/ui/cover-card/cover-create-card';
 import { ValueCard } from '@components/ui/value-card/value-card';
 import { ValueCreateCard } from '@components/ui/value-card/value-create-card';
-import { CardSet, IGameSettingsErrors,ILobbySettings } from '@models/types';
+import { CardSet, IGameSettingsErrors } from '@models/types';
 import { id } from '@utils/utils';
 
 import { cardSetData } from './cardSetData';
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IGameSettingsSection {
-  changePokerGameSettings: (value: ILobbySettings) => void;
+  changePokerGameSettings: (value: any) => void;
 }
 
 const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) => {
@@ -33,19 +33,25 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
     dealerAsPlr: false,
     changeChoice: false,
     timerIsNeed: false,
+    revoteBeforeEndOfRound: false,
+    scoreForIssues: false,
+    participationInGameForNewUsers: false,
   });
 
   const [cardSet, setCardSet] = useState(CardSet.fibonacci);
 
   const isCustomCardSet = cardSet === CardSet.customCardSet;
 
-  const [inputSettings, setInputSettings] = useState({
-    scoreType: '',
-    scoreTypeShort: '',
+  const [inputSettingsForDeck, setInputSettingsForDeck] = useState({
+    scoreType: 'Story Point',
+    scoreTypeShort: 'SP',
   });
 
   const [coverCard, setCoverCard] = useState(coverCardData);
   const [valueCard, setValueCard] = useState(valueCardData);
+  const [valueTimer, setValueTimer] = useState<Date | null>(new Date(1970, 1, 1, 0, 2, 20));
+  const [activeCoverCardID, setIsActiveCoverCard] = useState<string>('1');
+  const [valuesOfNewDeck, setValuesOfNewDeck] = useState<string[]>(defaultValueForCustomDeck);
 
   const onCreateCoverHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -55,13 +61,13 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
       reader.readAsDataURL(file);
 
       reader.onload = () => {
-        const coverCardID = id();
+        const ID = id();
         const newImage = {
-          id: coverCardID,
+          coverCardID: ID,
           image: reader.result as string,
           isSelected: false,
         };
-        setCoverCard([...coverCard, newImage]);
+        setCoverCard((arr) => [...arr, newImage]);
       };
     }
   };
@@ -85,16 +91,19 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
     setCardSet(event.target.value);
   };
 
-  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputSettings({ ...inputSettings, [event.target.name]: event.target.value });
+  const handleInputForDeck = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputSettingsForDeck({
+      ...inputSettingsForDeck,
+      [event.target.name]: event.target.value,
+    });
   };
 
   const [errors, setErrors] = useState({} as IGameSettingsErrors);
 
   const validate = () => {
-    if (!inputSettings.scoreType) {
+    if (!inputSettingsForDeck.scoreType) {
       setErrors({ ...errors, scoreTypeError: true });
-    } else if (!inputSettings.scoreTypeShort) {
+    } else if (!inputSettingsForDeck.scoreTypeShort) {
       setErrors({ ...errors, scoreTypeShortError: true });
     } else {
       const newErrors = { ...errors };
@@ -104,13 +113,47 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
     }
   };
 
-  useEffect(() => {
-    validate();
-  }, [inputSettings.scoreType, inputSettings.scoreTypeShort]);
+  const changeValueTimer = (data: Date | null) => {
+    setValueTimer(data);
+  };
+
+  const handleIsActiveCoverCard = (ID: string) => {
+    setIsActiveCoverCard(ID);
+  };
+
+  const handleValuesFromNewDeck = (value: string, ind: number) => {
+    valuesOfNewDeck[ind] = value;
+    setValuesOfNewDeck(() => [...valuesOfNewDeck]);
+  };
 
   useEffect(() => {
-    changePokerGameSettings({ ...switchSettings, cardSet });
-  }, [switchSettings, cardSet]);
+    validate();
+  }, [inputSettingsForDeck.scoreType, inputSettingsForDeck.scoreTypeShort]);
+
+  useEffect(() => {
+    const timer = switchSettings.timerIsNeed ? valueTimer : null;
+    const customDeck = isCustomCardSet ? valuesOfNewDeck : undefined;
+    const coverCardforServer = coverCard.find((item) => item.coverCardID === activeCoverCardID);
+
+    changePokerGameSettings({
+      ...switchSettings,
+      cardSet,
+      timer,
+      coverCardforServer,
+      inputSettingsForDeck,
+      customDeck,
+    });
+  }, [
+    switchSettings,
+    cardSet,
+    activeCoverCardID,
+    valueTimer,
+    coverCard,
+    inputSettingsForDeck,
+    valuesOfNewDeck,
+  ]);
+
+  // пока в массиве лежат те данные,которые хочу прокинуть ....абы не забыть :)
 
   return (
     <>
@@ -152,9 +195,45 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
             />
           </div>
         </div>
+        <div className="switch-lobby">
+          <h4 className="switch-lobby-label">Revote before round end:</h4>
+          <div className="switch-lobby-switch">
+            <Switch
+              id="revote"
+              name="revoteBeforeEndOfRound"
+              checked={switchSettings.revoteBeforeEndOfRound}
+              color="primary"
+              onChange={handleSwitch}
+            />
+          </div>
+        </div>
+        <div className="switch-lobby">
+          <h4 className="switch-lobby-label">Score for issues from file:</h4>
+          <div className="switch-lobby-switch">
+            <Switch
+              id="scoreForIssues"
+              name="scoreForIssues"
+              checked={switchSettings.scoreForIssues}
+              color="primary"
+              onChange={handleSwitch}
+            />
+          </div>
+        </div>
+        <div className="switch-lobby">
+          <h4 className="switch-lobby-label">Participation in game for new users:</h4>
+          <div className="switch-lobby-switch">
+            <Switch
+              id="participationInGameForNewUsers"
+              name="participationInGameForNewUsers"
+              checked={switchSettings.participationInGameForNewUsers}
+              color="primary"
+              onChange={handleSwitch}
+            />
+          </div>
+        </div>
         {switchSettings.timerIsNeed && (
           <div className="timer-lobby">
-            <SecondsTimePicker />
+            <SecondsTimePicker changeValueTimer={changeValueTimer} />
           </div>
         )}
         <div className="select-lobby">
@@ -167,51 +246,48 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
                 </MenuItem>
               ))}
             </Select>
-            {isCustomCardSet && (
-              <div className="input-lobby-wrapper">
-                <div className="input-lobby-container error-down">
-                  <div className="input-lobby">
-                    <TextField
-                      label="Score type:"
-                      name="scoreType"
-                      autoComplete="off"
-                      placeholder="Story Point"
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                      value={inputSettings.scoreType}
-                      onChange={handleInput}
-                      error={errors.scoreTypeError}
-                    />
-                  </div>
-                  {errors.scoreTypeError && (
-                    <div className="error">* Field &quotScore type&quot must be filled in</div>
-                  )}
-                </div>
 
-                <div className="input-lobby-container error-down">
-                  <div className="input-lobby">
-                    <TextField
-                      label="Score type (Short):"
-                      name="scoreTypeShort"
-                      autoComplete="off"
-                      placeholder="SP"
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                      value={inputSettings.scoreTypeShort}
-                      onChange={handleInput}
-                      error={errors.scoreTypeShortError}
-                    />
-                  </div>
-                  {errors.scoreTypeShortError && (
-                    <div className="error">
-                      * Field &quotScore type (Short)&quot must be filled in
-                    </div>
-                  )}
+            <div className="input-lobby-wrapper">
+              <div className="input-lobby-container error-down">
+                <div className="input-lobby">
+                  <TextField
+                    label="Score type:"
+                    name="scoreType"
+                    autoComplete="off"
+                    placeholder="Story Point"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    value={inputSettingsForDeck.scoreType}
+                    onChange={handleInputForDeck}
+                    error={errors.scoreTypeError}
+                  />
                 </div>
+                {errors.scoreTypeError && (
+                  <div className="error">* Field "Score type" must be filled in</div>
+                )}
               </div>
-            )}
+
+              <div className="input-lobby-container error-down">
+                <div className="input-lobby">
+                  <TextField
+                    label="Score type (Short):"
+                    name="scoreTypeShort"
+                    autoComplete="off"
+                    placeholder="SP"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    value={inputSettingsForDeck.scoreTypeShort}
+                    onChange={handleInputForDeck}
+                    error={errors.scoreTypeShortError}
+                  />
+                </div>
+                {errors.scoreTypeShortError && (
+                  <div className="error">* Field "Score type (Short)" must be filled in</div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -221,9 +297,14 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
           <div className="game-cards-select-cover">
             <h4 className="game-cards-lobby-label">Select cover:</h4>
             <div className="cover-card-container">
-              {coverCard.map(({ coverCardID, image, isSelected }) => (
+              {coverCard.map(({ coverCardID, image }) => (
                 <div key={coverCardID}>
-                  <CoverCard coverCardID={coverCardID} image={image} isSelected={isSelected} />
+                  <CoverCard
+                    coverCardID={coverCardID}
+                    image={image}
+                    isSelected={activeCoverCardID === coverCardID}
+                    handleClick={handleIsActiveCoverCard}
+                  />
                 </div>
               ))}
               <CoverCreateCard onCreateCoverHandler={onCreateCoverHandler} />
@@ -233,9 +314,14 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
             <div className="game-cards-add-value">
               <h4 className="game-cards-lobby-label">Add card values:</h4>
               <div className="cover-card-container">
-                {valueCard.map(({ valueCardID, name, value }) => (
-                  <div key={valueCardID}>
-                    <ValueCard valueCardID={valueCardID} name={name} value={value} />
+                {valueCard.map(({ value }, index) => (
+                  <div key={index}>
+                    <ValueCard
+                      valueCardID={index}
+                      name={inputSettingsForDeck.scoreTypeShort}
+                      value={value}
+                      handleDataFromValueCard={handleValuesFromNewDeck}
+                    />
                   </div>
                 ))}
                 <ValueCreateCard onCreateValueHandler={onCreateValueHandler} />

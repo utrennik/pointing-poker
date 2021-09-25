@@ -9,32 +9,32 @@ import { ICoverCard } from '@models/types';
 
 export const coverCardData: ICoverCard[] = [
   {
-    id: 1,
+    coverCardID: '1',
     image: clarence,
     isSelected: false,
   },
   {
-    id: 2,
+    coverCardID: '2',
     image: linth,
     isSelected: false,
   },
   {
-    id: 3,
+    coverCardID: '3',
     image: mataura,
     isSelected: false,
   },
   {
-    id: 4,
+    coverCardID: '4',
     image: aare,
     isSelected: false,
   },
   {
-    id: 5,
+    coverCardID: '5',
     image: waimakariri,
-    isSelected: true,
+    isSelected: false,
   },
   {
-    id: 6,
+    coverCardID: '6',
     image: doubs,
     isSelected: false,
   },

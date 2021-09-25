@@ -1,5 +1,6 @@
 import { IValueCard } from '@models/types';
 
+export const defaultValueForCustomDeck = ['PASS', '?', '1', '10', '50'];
 export const valueCardData: IValueCard[] = [
   {
     valueCardID: 1,

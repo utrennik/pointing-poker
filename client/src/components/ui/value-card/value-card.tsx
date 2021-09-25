@@ -4,7 +4,7 @@ import { IValueCard } from '@models/types';
 import { DarkerDisabledTextField } from '../title-planning/title-planning';
 import './value-card.sass';
 
-export const ValueCard = ({ valueCardID, name, value }: IValueCard) => {
+export const ValueCard = ({ valueCardID, name, value, handleDataFromValueCard }: IValueCard) => {
   const [isEditable, setIsEditable] = useState(false);
   const [newValue, setNewValue] = useState(value);
 
@@ -13,6 +13,8 @@ export const ValueCard = ({ valueCardID, name, value }: IValueCard) => {
   };
 
   const handleOnChange = (event: ChangeEvent<any>) => {
+    handleDataFromValueCard!(event.target.value, +valueCardID!);
+
     setNewValue(event.target.value);
   };
 
