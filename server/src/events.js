@@ -1,7 +1,7 @@
 
 const EVENTS = {
   REQ_START_GAME: "req-start-game",
-  REQ_CANCEL_GAME:"res-cancel-game",
+  REQ_CANCEL_GAME:"req-cancel-game",
   RES_CANCEL_GAME: "res-cancel-game",
   REQ_USER_JOIN: "req-user-join",
   RES_USER_JOINED: "res-user-joined",
