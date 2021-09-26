@@ -695,6 +695,13 @@ export interface ILobbySettings {
    * game status
    */
   gameStatus?: 'lobby' | 'poker' | 'cancel';
+  /*
+   * units of estimation
+   */
+  estimationUnits: {
+    scoreType: string;
+    scoreTypeShort: string;
+  };
 }
 
 export interface IGameStatus {

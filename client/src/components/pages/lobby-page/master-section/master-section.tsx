@@ -40,6 +40,7 @@ const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => 
         room: roomID,
         dealerAsPlr: lobbyGameSettings.dealerAsPlr,
         cardSet: lobbyGameSettings.cardSet,
+        estimationUnits: lobbyGameSettings.inputSettingsForDeck,
         customCardSet: customDeck,
         participation_in_game_for_new_users: lobbyGameSettings.participationInGameForNewUsers,
         revote_before_round_end: lobbyGameSettings.revoteBeforeEndOfRound,
@@ -55,7 +56,6 @@ const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => 
   };
 
   const handleCancelGame = () => {
-    // console.log('Cancel game!');
     ws.requestCancelGame();
   };
 

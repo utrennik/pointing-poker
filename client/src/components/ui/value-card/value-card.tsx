@@ -24,7 +24,7 @@ export const ValueCard = ({ valueCardID, name, value, handleDataFromValueCard }:
 
   return (
     <Card key={valueCardID} className="value-card">
-      <div className="value-card-name">{name}</div>
+      <div className="value-card-name">{name.match(/^.{1,3}/)}</div>
       <div className="value-card-value">
         <DarkerDisabledTextField
           id="card-value"
