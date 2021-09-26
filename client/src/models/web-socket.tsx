@@ -275,10 +275,10 @@ export default ({ children }: { children: ReactChild[] }) => {
 
   socket.on(config.RES_CANCEL_GAME, (gameStatusData: IGameStatus) => {
     console.log(`Game canceled !`);
-    const { gameStatus } = gameStatusData;
-    if (gameStatus === 'cancel') {
-      dispatch(setGame(initialState));
+
+    if (gameStatusData.gameStatus === 'cancel') {
       history.push('/');
+      dispatch(setGame(initialState));
     }
   });
 
