@@ -25,8 +25,9 @@ const EVENTS = {
   RES_START_VOTE:"res-start-vote",
   REQ_RESULT_VOTE:"req-result-vote",
   RES_RESULT_VOTE:"res-result-vote",
-  REQ_MESSAGE:"req-message",
-  RES_MESSAGE:"res-message"
+  REQ_MESSAGE_ADD:"req-message-add",
+  RES_MESSAGES_GET:"res-messages-get",
+  REQ_MESSAGES_GET:"req-messages-get",
 
 }
 export default EVENTS;

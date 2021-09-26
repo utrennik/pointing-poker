@@ -16,6 +16,7 @@ export const addGame = () => {
     candidat: "",
     results: [],
   };
+  const messages = [];
   const game = {
     room,
     users,
@@ -25,6 +26,7 @@ export const addGame = () => {
     dealer,
     gameStatus,
     voting,
+    messages,
   };
   games.push(game);
   return { room, game };
@@ -80,12 +82,6 @@ export default ({ socket, io }) => {
     io.in(room).emit(EVENTS.RES_TITLE_CHANGED, currentGame.title);
   });
 
-  socket.on(EVENTS.REQ_MESSAGE, ({ room, userID, message }) => {
-    const { currentGame, gameError } = getGame(room);
-    if (gameError) return;
-    io.in(currentGame.room).emit(EVENTS.RES_MESSAGE, { userID, message });
-  });
-
   socket.on("disconnect", () => {
     const user = games.filter((game) => game.users.id === socket.id);
     if (user) {
@@ -96,28 +92,29 @@ export default ({ socket, io }) => {
     }
   });
 
-  socket.on(
-    EVENTS.REQ_START_POKER,
-    (data) => {
-      const { currentGame, gameError } = getGame(data.room);
-      if (gameError) return;
-
-      // currentGame.settings = {
-      //   dealer_is_gamer,
-      //   cards_values,
-      //   participation_in_game_for_new_users,
-      //   cards_autoreverse,
-      //   revote_before_round_end,
-      //   timer,
-      //   score_for_issues,
-      //   gameStatus,
-      //   room,
-      // };
-
-       currentGame.settings = data;
-      io.in(data.room).emit(EVENTS.RES_START_POKER, data);
-    }
-  );
+  socket.on(EVENTS.REQ_START_POKER, (data) => {
+    const { currentGame, gameError } = getGame(data.room);
+    if (gameError) return;
+    // interface ILobbySettings {
+    //   room?: string;
+    //   dealerAsPlr: boolean;
+    //   autoreverse:boolean;
+    //   cardSet: CardSet;
+    //   customCardSet?:string[];
+    //   participation_in_game_for_new_users?: boolean;
+    //   changeChoice: boolean;
+    //   revote_before_round_end?: boolean;
+    //   timerIsNeed: boolean | number;
+    //   scoreForIssuesFromFile: boolean;
+    //   estimationUnits: {
+    //     scoreType: string;
+    //     scoreTypeShort : string;
+    //   }
+    //   gameStatus?: 'lobby' | 'poker' | 'cancel';
+    // }
+    currentGame.settings = data;
+    io.in(data.room).emit(EVENTS.RES_START_POKER, data);
+  });
 
   socket.on(EVENTS.REQ_CANCEL_GAME, ({ room }) => {
     const { currentGame, gameError } = getGame(room);
@@ -125,7 +122,7 @@ export default ({ socket, io }) => {
     io.emit(EVENTS.NOTIFICATIONS, { message: "Current game cancelled." });
     currentGame.gameStatus = "cancel";
     const gameStatus = currentGame.gameStatus;
-    io.in(room).emit(EVENTS.RES_CANCEL_GAME, {gameStatus});
+    io.in(room).emit(EVENTS.RES_CANCEL_GAME, { gameStatus });
     deleteGame(room);
   });
 };
