@@ -18,7 +18,10 @@ import {
   setIssues,
   setMessages,
   setGameStatus,
+  getPokerGameSettings,
 } from '@src/redux/actions';
+
+import { initialState } from '@src/redux/reducers/game-reducer';
 import {
   IUser,
   IUserDelete,
@@ -32,6 +35,7 @@ import {
   IMessage,
   GameStatus,
   ILobbySettings,
+  IGameStatus,
 } from './types';
 import config from '../config.json';
 
@@ -261,6 +265,21 @@ export default ({ children }: { children: ReactChild[] }) => {
 
   socket.on(config.RES_START_POKER_GAME, (data: ILobbySettings) => {
     console.log(data);
+  })
+
+  socket.on(config.RES_START_POKER_GAME, (pokerGameSettingsData: ILobbySettings) => {
+    console.log(pokerGameSettingsData);
+    dispatch(getPokerGameSettings(pokerGameSettingsData));
+    history.push('/game');
+  });
+
+  socket.on(config.RES_CANCEL_GAME, (gameStatusData: IGameStatus) => {
+    console.log(`Game canceled !`);
+    const { gameStatus } = gameStatusData;
+    if (gameStatus === 'cancel') {
+      dispatch(setGame(initialState));
+      history.push('/');
+    }
   });
 
   const ws: any = {

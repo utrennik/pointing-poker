@@ -651,14 +651,52 @@ export interface IGameTopSection {
   isClientDealer: boolean;
 }
 export interface ILobbySettings {
+  /*
+   * room in websocket
+   */
   room?: string;
+  /*
+   * dealer can play poker with members
+   */
   dealerAsPlr: boolean;
+  /*
+   * variant of deck with card
+   */
   cardSet: CardSet;
+  /*
+   * custom deck,which make by dealer
+   */
   customCardSet?: string[];
+  /*
+   * possibility to all users connect in room ,when poker start
+   */
   participation_in_game_for_new_users?: boolean;
+  /*
+   * chage choice after card will be flip
+   */
   changeChoice: boolean;
+  /*
+   *revote after round with voting end
+   */
   revote_before_round_end?: boolean;
+  /*
+   * timer on/off
+   */
   timerIsNeed: boolean | number;
+  /*
+   * possibility to load file with issues
+   */
   scoreForIssuesFromFile: boolean;
-  gameStatus?: 'lobby' | 'poker' | 'cancelGame';
+  /*
+   * hadle Click
+   */
+  autoreverse: boolean;
+  /*
+   * game status
+   */
+  gameStatus?: 'lobby' | 'poker' | 'cancel';
+}
+
+export interface IGameStatus {
+  gameStatus: 'lobby' | 'poker' | 'cancel';
 }

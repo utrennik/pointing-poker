@@ -10,7 +10,6 @@ import { LobbylButtons } from '@components/ui/lobby-buttons/lobby-buttons';
 import TitlePlaning from '@components/ui/title-planning/title-planning';
 
 import './master-section.sass';
-import { useHistory } from 'react-router-dom';
 
 const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => {
   const { firstName, lastName, jobPosition, avatar } = useSelector(
@@ -21,7 +20,6 @@ const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => 
   const linkButtonText = 'Copy';
   const startBtnText = 'Start Game';
   const cancelBtnText = 'Cancel Game';
-  const history = useHistory();
 
   const copyLinkHandler = (value: string) => {
     navigator.clipboard.writeText(value);
@@ -48,17 +46,16 @@ const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => 
         scoreForIssuesFromFile: lobbyGameSettings.scoreForIssues,
         timerIsNeed: timer,
         gameStatus: 'poker',
+        autoreverse: lobbyGameSettings.autoreverse,
         changeChoice: lobbyGameSettings.changeChoice,
       };
       ws.requestPokerGameStart(dataToServer);
     }
     console.log('Start game!');
-
-    // history.push('/game');
   };
 
   const handleCancelGame = () => {
-    console.log('Cancel game!');
+    // console.log('Cancel game!');
     ws.requestCancelGame();
   };
 

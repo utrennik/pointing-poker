@@ -35,6 +35,7 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
     revoteBeforeEndOfRound: false,
     scoreForIssues: false,
     participationInGameForNewUsers: false,
+    autoreverse: false,
   });
 
   const [cardSet, setCardSet] = useState(CardSet.fibonacci);
@@ -131,7 +132,7 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
 
   useEffect(() => {
     const timer = switchSettings.timerIsNeed ? valueTimer : null;
-    const customDeck = isCustomCardSet ? valuesOfNewDeck : undefined;
+    const customDeck = isCustomCardSet ? valuesOfNewDeck : null;
     const coverCardforServer = coverCard.find((item) => item.coverCardID === activeCoverCardID);
 
     changePokerGameSettings({
@@ -151,8 +152,6 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
     inputSettingsForDeck,
     valuesOfNewDeck,
   ]);
-
-  // пока в массиве лежат те данные,которые хочу прокинуть ....абы не забыть :)
 
   return (
     <>
@@ -225,6 +224,18 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
               id="participationInGameForNewUsers"
               name="participationInGameForNewUsers"
               checked={switchSettings.participationInGameForNewUsers}
+              color="primary"
+              onChange={handleSwitch}
+            />
+          </div>
+        </div>
+        <div className="switch-lobby">
+          <h4 className="switch-lobby-label">Cards autoreverse in the end of round:</h4>
+          <div className="switch-lobby-switch">
+            <Switch
+              id="autoreverse"
+              name="autoreverse"
+              checked={switchSettings.autoreverse}
               color="primary"
               onChange={handleSwitch}
             />

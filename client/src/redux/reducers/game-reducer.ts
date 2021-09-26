@@ -2,7 +2,7 @@
 // import { IGame, IIssue } from '../../models/types';
 import { types } from '../actions';
 
-const initialState = {
+export const initialState = {
   users: [],
   title: '',
   room: '',
@@ -113,6 +113,12 @@ export const gameReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         gameStatus: payload.gameStatus,
+      }
+    }
+    case types.GET_POKER_GAME_SETTINGS: {
+      return {
+        ...state,
+        settings: { ...payload },
       };
     }
 
