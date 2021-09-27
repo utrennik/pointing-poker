@@ -8,6 +8,8 @@ export const ValueCard = ({ valueCardID, name, value, handleDataFromValueCard }:
   const [isEditable, setIsEditable] = useState(false);
   const [newValue, setNewValue] = useState(value);
 
+  const cardName = name.match(/^.{1,3}/);
+
   const handleEdit = () => {
     setIsEditable(!isEditable);
   };
@@ -24,7 +26,7 @@ export const ValueCard = ({ valueCardID, name, value, handleDataFromValueCard }:
 
   return (
     <Card key={valueCardID} className="value-card">
-      <div className="value-card-name">{name.match(/^.{1,3}/)}</div>
+      <div className="value-card-name">{cardName}</div>
       <div className="value-card-value">
         <DarkerDisabledTextField
           id="card-value"

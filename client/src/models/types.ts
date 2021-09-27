@@ -593,7 +593,7 @@ export interface ICoverCard {
   /*
    * Unique card identifier
    */
-  coverCardID?: number | string;
+  coverCardID: string;
   /*
    * Image for cover card
    */
