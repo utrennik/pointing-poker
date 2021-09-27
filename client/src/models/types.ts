@@ -90,6 +90,11 @@ export interface ICustomAvatar {
    * avatar image
    */
   avatarImage?: string;
+
+  stylesProps?: {
+    width: string;
+    height: string;
+  };
 }
 
 export interface IConnectModalErrors {
@@ -189,6 +194,20 @@ export interface IMemberCard {
    * Remove user button enabled
    */
   isRemoveButtonDisabled: boolean;
+  /*
+   * Remove user button enabled
+   */
+  stylesProps: {
+    widthCard: string;
+    heightCard: string;
+    widthHeader: string;
+    widthAvatar: string;
+    heightAvatar:string;
+    nameTruncate: number;
+    roleTruncate: number;
+    titleTypography: string;
+    subtitleTypography: string;
+  };
 }
 
 export interface IMessageCard {

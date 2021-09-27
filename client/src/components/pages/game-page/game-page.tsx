@@ -1,9 +1,10 @@
 import '@styles/page.sass';
+import { PlayersSection } from './players-section/players-section';
 
 const GamePage = () => (
   <main className="main">
     <div className="container content-wrapper">
-      <h1>Game page</h1>
+      <PlayersSection />
     </div>
   </main>
 );
