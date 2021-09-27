@@ -13,6 +13,7 @@ export const GameTopSection = ({ timerSecs }) => {
     (state: RootState) => state.game.dealer as IUser
   );
   const client: IUser = useSelector((state: RootState) => state.client as IUser);
+  const isClientDealer = client.clientUser && client.clientUser.role === config.DEALER;
 
   return (
     <div className="game-top-section">
@@ -24,7 +25,7 @@ export const GameTopSection = ({ timerSecs }) => {
             lastName={lastName}
             role={jobPosition || ''}
             avatarImage={avatar}
-            isScramMasterLobby={client && client.id === id}
+            isScramMasterLobby={isClientDealer}
           />
         </div>
 
@@ -34,9 +35,7 @@ export const GameTopSection = ({ timerSecs }) => {
 
         <div className="game-top-section-btn game-top-col">
           <Button variant="contained" size="medium" color="primary">
-            {client.clientUser && client.clientUser.role === config.DEALER
-              ? 'Stop game'
-              : 'Exit game'}
+            {isClientDealer ? 'Stop game' : 'Exit game'}
           </Button>
         </div>
       </div>
