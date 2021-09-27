@@ -365,9 +365,13 @@ export interface IGame {
    */
   gameStatus: IGameStatus;
   /*
+   * Round timer
+   */
+  timer: number;
+  /*
    * Game issues
    */
-  issues: IIssue;
+  issues: IIssue[];
 }
 
 export enum GameStatus {

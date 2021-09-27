@@ -10,6 +10,21 @@ const initialState = {
   issues: [],
 };
 
+// // TODO: For testing Game page TOP section, should be removed
+
+// const testInitialState: IGame = {
+//   users: [],
+//   title: 'My Game Title',
+//   room: 'abcd',
+//   dealer: {
+//     firstName: 'Alejandro',
+//     lastName: 'Sanchez',
+//   },
+//   settings: {},
+//   gameStatus: 'poker',
+//   timer: 20,
+// };
+
 export const gameReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.SET_GAME: {

@@ -48,6 +48,13 @@ export default ({ children }) => {
   const [notification, setNotification] = useState('');
   let client = {} as IUser; // TODO: used bacause the state is unavailable in socket.on callbacks
 
+  // // TODO: REMOVE after game page test
+  // const gamePageTest = () => {
+  //   history.push('/game');
+  // };
+
+  // gamePageTest();
+
   const resetClient = () => {
     history.push('/');
     dispatch(resetState());
