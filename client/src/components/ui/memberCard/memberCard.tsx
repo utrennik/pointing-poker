@@ -12,8 +12,10 @@ import {
 import { WebSocketContext } from '@models/web-socket';
 import { IMemberCard } from '@models/types';
 import React, { useContext } from 'react';
+import { truncateString } from '@utils/stringUtils';
 import { CustomAvatar } from '../customAvatar/customAvatar.tsx';
 import './memberCard.sass';
+import config from '../../../config.json';
 
 const useStyles = makeStyles({
   dialogTitle: {
@@ -46,7 +48,10 @@ export const MemberCard = ({
     ws.requestUserDelete(id);
   };
 
-  const nameWithoutLastName = lastName ? `${firstName} ${lastName}` : firstName;
+  const nameWithoutLastName = truncateString(
+    lastName ? `${firstName} ${lastName}` : firstName,
+    config.truncateSettings.maxSymbolsValueTitle
+  );
 
   return (
     <Card className="member-card">
@@ -54,7 +59,7 @@ export const MemberCard = ({
       <CardHeader
         className="member-card-header"
         title={nameWithoutLastName}
-        subheader={role}
+        subheader={truncateString(role, config.truncateSettings.maxSymbolsValueSubtitle)}
         subheaderTypographyProps={{ variant: 'subtitle1' }}
       />
       <IconButton

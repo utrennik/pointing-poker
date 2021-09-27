@@ -29,5 +29,9 @@
   "ISSUE_TITLE_MAX_SYMBOLS": 14,
   "transition": {
     "timeout": 300
+  },
+  "truncateSettings": {
+    "maxSymbolsValueTitle": 12,
+    "maxSymbolsValueSubtitle": 20
   }
 }
