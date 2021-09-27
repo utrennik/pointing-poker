@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { Card, CardHeader, IconButton, makeStyles } from '@material-ui/core';
-import { IIssueCard } from '@models/types';
+import { RootState } from 'src/redux/store';
+import { IIssueCard, IIssueDelete } from '@models/types';
+import { WebSocketContext } from '@models/web-socket';
 import { truncateString } from '@utils/stringUtils';
 import EditIssueModal from '@components/modals/edit-issue-modal/edit-issue-modal';
+import config from '@src/config.json';
 import './issueCard.sass';
 
 interface StyleProps {
@@ -15,8 +19,10 @@ const useStyles = makeStyles({
   },
 });
 
-export const IssueCard = ({ name, priority, isSelected, isGame }: IIssueCard) => {
+export const IssueCard = ({ id, name, priority, isActive, isGame, isDealer }: IIssueCard) => {
   const [editIssueModalOpen, setEditIssueModalOpen] = useState(false);
+  const roomID: string = useSelector((state: RootState) => state.game.room);
+  const ws = useContext(WebSocketContext);
 
   const handleEditIssueModalOpen = () => {
     setEditIssueModalOpen(true);
@@ -28,34 +34,45 @@ export const IssueCard = ({ name, priority, isSelected, isGame }: IIssueCard) =>
 
   const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log(event.target);
+    console.log(id);
   };
 
-  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event.target);
+  const handleDelete = () => {
+    const issueDeleteData: IIssueDelete = {
+      id,
+      room: roomID,
+    };
+    ws.requestDeleteIssue(issueDeleteData);
   };
 
-  const classes = useStyles({ isSelected });
+  const classes = useStyles({ isActive });
   const isueCardStyles = `issue-card ${classes.card}`;
 
   return (
-    <>
+    <div title={name}>
       <Card className={isueCardStyles}>
         <CardHeader
           className="issue-card-header"
-          title={truncateString(name)}
+          title={truncateString(name, config.ISSUE_TITLE_MAX_SYMBOLS)}
           subheader={truncateString(priority)}
           subheaderTypographyProps={{ variant: 'subtitle1' }}
         />
-        {isGame ? (
+        {isGame && isDealer ? (
           <IconButton className="issue-card-close-btn" onClick={handleClose} />
         ) : (
-          [
+          isDealer && [
             <IconButton className="issue-card-edit-btn" onClick={handleEditIssueModalOpen} />,
             <IconButton className="issue-card-delete-btn" onClick={handleDelete} />,
           ]
         )}
+        <EditIssueModal
+          isOpen={editIssueModalOpen}
+          onClose={handleEditIssueModalClose}
+          issueID={id}
+          name={name}
+          priority={priority}
+        />
       </Card>
-      <EditIssueModal isOpen={editIssueModalOpen} onClose={handleEditIssueModalClose} />
-    </>
+    </div>
   );
 };

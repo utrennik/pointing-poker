@@ -1,23 +1,29 @@
-import { ChangeEvent, useState, useEffect } from 'react';
+import { ChangeEvent, useState, useEffect, useContext } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/redux/store';
+import { WebSocketContext } from '@models/web-socket';
 import { InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
-import { IIssueModalErrors, IssuePriority } from '@models/types';
+import { IIssue, IIssueModalErrors, IssuePriority } from '@models/types';
+import { id } from '@src/utils/utils';
 import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
 import { issueData } from './issueData';
 import './issue-modal.sass';
 
 const IssueModal = ({ isOpen, onClose }) => {
-  const [titleIssue, setTitleIssue] = useState('');
+  const [issueName, setIssueName] = useState('');
   const [issuePriority, setIssuePriority] = useState(IssuePriority.HIGH);
   const [errors, setErrors] = useState({} as IIssueModalErrors);
+  const roomID: string = useSelector((state: RootState) => state.game.room);
+  const ws = useContext(WebSocketContext);
 
   const clearForm = () => {
-    setTitleIssue('');
-    setIssuePriority(IssuePriority.HIGH);
+    setIssueName('');
+    setIssuePriority(IssuePriority.NORMAL);
     setErrors({} as IIssueModalErrors);
   };
 
   const validate = () => {
-    if (titleIssue === '') {
+    if (issueName === '') {
       setErrors({ ...errors, isTitleIssueError: true });
     } else {
       const newErrors = { ...errors };
@@ -32,17 +38,29 @@ const IssueModal = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     validate();
-  }, [titleIssue, isOpen]);
+  }, [issueName, isOpen]);
 
   const handleTitleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitleIssue(e.target.value);
+    setIssueName(e.target.value);
   };
 
   const handlePriorityChange = (event: ChangeEvent<any>) => {
     setIssuePriority(event.target.value);
   };
 
-  const handleConfirm = () => {};
+  const handleConfirm = () => {
+    const issueID = id();
+    const newIssue: IIssue = {
+      id: issueID,
+      name: issueName,
+      room: roomID,
+      isActive: false,
+      priority: issuePriority,
+    };
+
+    ws.requestAddIssue(newIssue);
+    onClose();
+  };
 
   const modalBody = (
     <div className="issue-modal">
@@ -53,7 +71,7 @@ const IssueModal = ({ isOpen, onClose }) => {
             name="title-issue"
             autoComplete="off"
             fullWidth
-            value={titleIssue}
+            value={issueName}
             onChange={handleTitleInput}
             error={errors.isTitleIssueError}
             required

@@ -15,6 +15,8 @@ import {
   resetState,
   setDeleteVoting,
   resetDeleteVoting,
+  setIssues,
+  setGameStatus,
 } from '@src/redux/actions';
 import {
   IUser,
@@ -24,6 +26,9 @@ import {
   IUserDeleteVoteData,
   IDeleteVoteFinishData,
   IDeleteVoteResults,
+  IIssue,
+  IIssueDelete,
+  GameStatus,
 } from './types';
 import config from '../config.json';
 
@@ -46,6 +51,7 @@ export default ({ children }) => {
   const resetClient = () => {
     history.push('/');
     dispatch(resetState());
+    dispatch(setGameStatus(GameStatus.CANCEL));
     socket = io(SERVER_URL);
     client = {} as IUser;
   };
@@ -84,6 +90,7 @@ export default ({ children }) => {
       client = res;
       dispatch(setGame({ dealer: res, room: res.room }));
       dispatch(setIsDealerLobby(true));
+      dispatch(setGameStatus(GameStatus.LOBBY));
       history.push('/lobby');
     });
   };
@@ -120,6 +127,7 @@ export default ({ children }) => {
       console.log(`Game data received...`);
       dispatch(setGame(res));
       dispatch(setIsDealerLobby(false));
+      dispatch(setGameStatus(GameStatus.LOBBY));
       history.push('/lobby');
     });
   };
@@ -156,6 +164,21 @@ export default ({ children }) => {
       result: isDelete,
     };
     socket.emit(config.REQ_FINISH_DELETE_VOTE, deleteVoteFinishData);
+  };
+
+  const requestAddIssue = (issueData: IIssue) => {
+    socket.emit(config.REQ_ISSUE_ADD, issueData);
+    console.log(`Requested add issue: ${JSON.stringify(issueData)}`);
+  };
+
+  const requestUpdateIssue = (issueData: IIssue) => {
+    console.log(`Requested update issue: ${JSON.stringify(issueData)}`);
+    socket.emit(config.REQ_ISSUE_UPDATE, issueData);
+  };
+
+  const requestDeleteIssue = (issueDeleteData: IIssueDelete) => {
+    console.log(`Requested delete issue: ${JSON.stringify(issueDeleteData)}`);
+    socket.emit(config.REQ_ISSUE_DELETE, issueDeleteData);
   };
 
   socket.on('connect', () => {
@@ -201,6 +224,11 @@ export default ({ children }) => {
     dispatch(resetDeleteVoting());
   });
 
+  socket.on(config.RES_ISSUES_GET, (issues: IIssue[]) => {
+    console.log(`Issues received: ${issues}`);
+    dispatch(setIssues(issues));
+  });
+
   const ws: any = {
     socket,
     requestStartGame,
@@ -212,6 +240,9 @@ export default ({ children }) => {
     requestDeleteVoteFinish,
     notification,
     setNotification,
+    requestAddIssue,
+    requestUpdateIssue,
+    requestDeleteIssue,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;
