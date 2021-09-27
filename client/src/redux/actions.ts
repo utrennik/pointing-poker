@@ -1,4 +1,4 @@
-import { IUser, IGame, IUserDeleteVoteData } from '../models/types';
+import { IUser, IGame, IUserDeleteVoteData, IIssue, GameStatus } from '../models/types';
 
 export const types = {
   SOCKET_CONNECTED: 'SOCKET_CONNECTED',
@@ -13,6 +13,8 @@ export const types = {
   SET_DELETE_VOTING: 'SET_DELETE_VOTING',
   RESET_DELETE_VOTING: 'RESET_DELETE_VOTING',
   SET_DELETE_VOTING_MODAL_OPEN: 'SET_DELETE_VOTING_MODAL_OPEN',
+  SET_ISSUES: 'SET_ISSUES',
+  SET_GAME_STATUS: 'SET_GAME_STATUS',
 };
 
 export const setSocketConnected = () => ({
@@ -69,4 +71,14 @@ export const setDeleteVotingModalOpen = (deleteVotingModalOpen: boolean) => ({
 
 export const resetDeleteVoting = () => ({
   type: types.RESET_DELETE_VOTING,
+});
+
+export const setIssues = (issues: IIssue[]) => ({
+  type: types.SET_ISSUES,
+  payload: { issues },
+});
+
+export const setGameStatus = (gameStatus: GameStatus) => ({
+  type: types.SET_GAME_STATUS,
+  payload: { gameStatus },
 });

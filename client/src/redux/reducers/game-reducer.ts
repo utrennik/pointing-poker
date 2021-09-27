@@ -7,6 +7,7 @@ const initialState = {
   dealer: {},
   settings: {},
   gameStatus: '',
+  issues: [],
 };
 
 // // TODO: For testing Game page TOP section, should be removed
@@ -54,6 +55,20 @@ export const gameReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         title: payload.title,
+      };
+    }
+
+    case types.SET_ISSUES: {
+      return {
+        ...state,
+        issues: payload.issues,
+      };
+    }
+
+    case types.SET_GAME_STATUS: {
+      return {
+        ...state,
+        gameStatus: payload.gameStatus,
       };
     }
 

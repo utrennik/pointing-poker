@@ -132,36 +132,59 @@ export interface IIssue {
    */
   name: string;
   /*
+   * Game room id
+   */
+  room: string;
+  /*
    * Priority of the issue in sprint
    */
   priority: keyof typeof IssuePriority;
   /*
-   * Select card in estimate mode
+   * Is the issue active
    */
-  isSelected: boolean;
-  /*
-   * Select card in estimate mode
-   */
-  isGame: boolean;
+  isActive: boolean;
 }
 
 export interface IIssueCard {
   /*
-   * Name of the issue card
+   * id of the issue
+   */
+  id: string;
+  /*
+   * Name of the issue
    */
   name: string;
+  /*
+   * Game room id
+   */
+  room: string;
   /*
    * Priority of the issue in sprint
    */
   priority: keyof typeof IssuePriority;
   /*
-   * Select card in estimate mode
+   * Is the issue active
    */
-  isSelected: boolean;
+  isActive: boolean;
   /*
-   * Select card in estimate mode
+   * Is the client in the game mode
    */
   isGame: boolean;
+  /*
+   * Is the client a dealer
+   */
+  isDealer: boolean;
+}
+
+export interface IIssueDelete {
+  /*
+   * id of the issue
+   */
+  id: string;
+  /*
+   * Game room id
+   */
+  room: string;
 }
 
 export interface IMemberCard {
@@ -340,11 +363,21 @@ export interface IGame {
   /*
    * Game status
    */
-  gameStatus: 'lobby' | 'poker' | 'cancelGame';
+  gameStatus: IGameStatus;
   /*
    * Round timer
    */
   timer: number;
+  /*
+   * Game issues
+   */
+  issues: IIssue[];
+}
+
+export enum GameStatus {
+  LOBBY = 'lobby',
+  POKER = 'poker',
+  CANCEL = 'cancelGame',
 }
 
 export interface IGameSettings {}
@@ -425,6 +458,10 @@ export interface IMembersSection {
    * Is this the dealer lobby
    */
   isDealerLobby: boolean;
+  /*
+   * game members
+   */
+  members: IUser;
 }
 
 export interface ICoverCard {

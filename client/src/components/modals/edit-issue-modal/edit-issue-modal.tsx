@@ -1,54 +1,55 @@
-import { ChangeEvent, useState, useEffect } from 'react';
+import { ChangeEvent, useState, useEffect, useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
-import { IEditIssueModalErrors, IModalWindow, IssuePriority } from '@models/types';
+import { IEditIssueModalErrors, IIssue } from '@models/types';
+import { WebSocketContext } from '@models/web-socket';
+import { RootState } from '@src/redux/store';
+import { id } from '@src/utils/utils';
 import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
 import { issueData } from './edit-issueData';
 import './edit-issue-modal.sass';
 
-const EditIssueModal = ({ isOpen, onClose }: IModalWindow) => {
-  const [inputSettings, setInputSettings] = useState({
-    titleIssue: '',
-    linkIssue: '',
-  });
-  const [priopityIssue, setPriopityIssue] = useState(IssuePriority.HIGH);
+const EditIssueModal = ({ isOpen, onClose, issueID, name, priority }) => {
+  const [issueName, setIssueName] = useState(name);
+  const [issuePriority, setIssuePriority] = useState(priority);
   const [errors, setErrors] = useState({} as IEditIssueModalErrors);
-
-  const clearForm = () => {
-    setInputSettings({ titleIssue: '', linkIssue: '' });
-    setPriopityIssue(IssuePriority.HIGH);
-    setErrors({} as IEditIssueModalErrors);
-  };
+  const roomID: string = useSelector((state: RootState) => state.game.room);
+  const ws = useContext(WebSocketContext);
 
   const validate = () => {
-    if (!inputSettings.titleIssue) {
-      setErrors({ ...errors, titleIssueError: true });
-    } else if (!inputSettings.linkIssue) {
-      setErrors({ ...errors, linkIssueError: true });
+    if (!issueName) {
+      setErrors({ ...errors, issueNameError: true });
     } else {
       const newErrors = { ...errors };
-      delete newErrors.titleIssueError;
-      delete newErrors.linkIssueError;
+      delete newErrors.issueNameError;
       setErrors(newErrors);
     }
   };
 
   useEffect(() => {
-    if (!isOpen) clearForm();
-  }, [isOpen]);
-
-  useEffect(() => {
     validate();
-  }, [inputSettings.titleIssue, inputSettings.linkIssue, isOpen]);
+  }, [issueName, isOpen]);
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputSettings({ ...inputSettings, [event.target.name]: event.target.value });
+    setIssueName(event.target.value);
   };
 
   const handleChange = (event: ChangeEvent<any>) => {
-    setPriopityIssue(event.target.value);
+    setIssuePriority(event.target.value);
   };
 
-  const handleConfirm = () => {};
+  const handleConfirm = () => {
+    const issueToUpdate: IIssue = {
+      id: issueID,
+      name: issueName,
+      room: roomID,
+      isActive: false,
+      priority: issuePriority,
+    };
+
+    ws.requestUpdateIssue(issueToUpdate);
+    onClose();
+  };
 
   const modalBody = (
     <div className="issue-modal">
@@ -59,21 +60,9 @@ const EditIssueModal = ({ isOpen, onClose }: IModalWindow) => {
             name="titleIssue"
             autoComplete="off"
             fullWidth
-            value={inputSettings.titleIssue}
+            value={issueName}
             onChange={handleInput}
             error={errors.titleIssueError}
-            required
-          />
-        </div>
-        <div className="input-modal">
-          <TextField
-            label="Link"
-            name="linkIssue"
-            autoComplete="off"
-            fullWidth
-            value={inputSettings.linkIssue}
-            onChange={handleInput}
-            error={errors.linkIssueError}
             required
           />
         </div>
@@ -83,9 +72,9 @@ const EditIssueModal = ({ isOpen, onClose }: IModalWindow) => {
           <InputLabel className="select-label" htmlFor="priority-issue">
             Set priority
           </InputLabel>
-          <Select id="priority-issue" value={priopityIssue} onChange={handleChange}>
+          <Select id="priority-issue" value={issuePriority} onChange={handleChange}>
             {issueData.map(({ title, value }) => (
-              <MenuItem key={title} value={value}>
+              <MenuItem key={id()} value={value}>
                 {title}
               </MenuItem>
             ))}
