@@ -8,22 +8,62 @@ import {
   DialogTitle,
   IconButton,
   makeStyles,
+  Theme,
 } from '@material-ui/core';
 import { WebSocketContext } from '@models/web-socket';
 import { IMemberCard } from '@models/types';
 import React, { useContext } from 'react';
 import { truncateString } from '@utils/stringUtils';
-import { CustomAvatar } from '../customAvatar/customAvatar';
-import './memberCard.sass';
 import config from '../../../config.json';
+import { Variant } from '@material-ui/core/styles/createTypography';
+import { CustomAvatar } from '@components/ui/customAvatar/customAvatar';
+import './memberCard.sass';
 
-const useStyles = makeStyles({
+interface IStyleProps {
+  widthCard: string;
+  heightCard: string;
+  widthHeader: string;
+  widthAvatar: string;
+  heightAvatar:string;
+  nameTruncate: number;
+  roleTruncate: number;
+  titleTypography: string;
+  subtitleTypography: string;
+}
+const defaultProps = {
+  widthCard: '280px',
+  heightCard: '76px',
+  widthHeader: '200px',
+  nameTruncate: config.truncateSettings.maxSymbolsValueTitle,
+  roleTruncate: config.truncateSettings.maxSymbolsValueSubtitle,
+  titleTypography: "h5",
+  subtitleTypography: "subtitle1",
+  widthAvatar: "50px",
+  heightAvatar:"50px"
+};
+
+const useStyles = makeStyles<Theme, IStyleProps>({
   dialogTitle: {
     textAlign: 'center',
   },
   dialogActions: {
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  card: {
+    width: (props) => props.widthCard,
+    height: (props) => props.heightCard,
+    padding: '0 5px 0 5px',
+    display: 'flex',
+    columnGap: '10px',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  header: {
+    width: (props) => props.widthHeader,
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    padding: '5px',
   },
 });
 
@@ -34,9 +74,10 @@ export const MemberCard = ({
   avatarImage,
   id,
   isRemoveButtonDisabled,
+  stylesProps = defaultProps
 }: IMemberCard) => {
   const [deleteUserModalOpen, setDeleteUserModalOpen] = React.useState<boolean>(false);
-  const classes = useStyles();
+  const classes = useStyles(stylesProps);
   const ws = useContext(WebSocketContext);
 
   const handleDelete = () => {
@@ -50,17 +91,23 @@ export const MemberCard = ({
 
   const nameWithoutLastName = truncateString(
     lastName ? `${firstName} ${lastName}` : firstName,
-    config.truncateSettings.maxSymbolsValueTitle
+    stylesProps.nameTruncate
   );
 
   return (
-    <Card className="member-card">
-      <CustomAvatar firstName={firstName} lastName={lastName} avatarImage={avatarImage} />
+    <Card className={classes.card}>
+      <CustomAvatar
+      firstName={firstName}
+      lastName={lastName}
+      avatarImage={avatarImage}
+      stylesProps={{width:stylesProps.widthAvatar,height:stylesProps.heightAvatar}}
+      />
       <CardHeader
-        className="member-card-header"
+        className={classes.header}
         title={nameWithoutLastName}
-        subheader={truncateString(role, config.truncateSettings.maxSymbolsValueSubtitle)}
-        subheaderTypographyProps={{ variant: 'subtitle1' }}
+        titleTypographyProps={{ variant: stylesProps.titleTypography as Variant}}
+        subheader={truncateString(role, stylesProps.roleTruncate)}
+        subheaderTypographyProps={{ variant: stylesProps.subtitleTypography as Variant}}
       />
       <IconButton
         className="member-card-delete-btn"
