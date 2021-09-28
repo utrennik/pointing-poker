@@ -1,5 +1,5 @@
 import '@styles/page.sass';
-import { PlayersSection } from './players-section/players-section';
+import { PlayersSection } from '@components/pages/game-page/players-section/players-section';
 
 const GamePage = () => (
   <main className="main">

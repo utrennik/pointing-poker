@@ -10,6 +10,7 @@ export const members: IMemberCard[] = [
     lastName: 'Blane',
     role: 'Senior Software Engineer',
     avatarImage: blane,
+    gameRole: 'member',
   },
   {
     id: 158,
@@ -17,6 +18,7 @@ export const members: IMemberCard[] = [
     lastName: 'Ross',
     role: 'Junior Software Engineer',
     avatarImage: ross,
+    gameRole: 'observer',
   },
   {
     id: 546,
@@ -38,6 +40,7 @@ export const members: IMemberCard[] = [
     lastName: 'Ring',
     role: 'Software Engineer',
     avatarImage: '',
+    gameRole: 'observer',
   },
   {
     id: 413,
@@ -52,5 +55,6 @@ export const members: IMemberCard[] = [
     lastName: '',
     role: 'QA Engineer',
     avatarImage: '',
+    gameRole: 'observer',
   },
 ];

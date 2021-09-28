@@ -7,9 +7,9 @@ export const theme = createTheme({
         color: '#424242',
         fontSize: '0.75rem',
       },
-      subtitle2:{
+      subtitle2: {
         color: '#424242',
-        fontSize:'0.5rem',
+        fontSize: '0.5rem',
       },
       h5: {
         color: '#424242',
@@ -17,13 +17,13 @@ export const theme = createTheme({
         lineHeight: '1.2',
         letterSpacing: '0.01em',
       },
-      h6:{
+      h6: {
         color: '#424242',
         fontSize: '1rem',
         lineHeight: '1.2',
         letterSpacing: '0.01em',
-        fontWeight:'normal'
-      }
+        fontWeight: 'normal',
+      },
     },
   },
 });

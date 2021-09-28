@@ -11,7 +11,7 @@ const MembersSection = ({ isDealerLobby }: IMembersSection) => {
     <section className="lobby-content-members">
       <h3 className="section-header">Members:</h3>
       <div className="members-lobby">
-        {members.map(({ id, firstName, lastName, jobPosition, avatar }) => (
+        {members.map(({ id, firstName, lastName, jobPosition, avatar, role }) => (
           <div key={id}>
             <MemberCard
               firstName={firstName}
@@ -19,6 +19,7 @@ const MembersSection = ({ isDealerLobby }: IMembersSection) => {
               role={jobPosition || ''}
               avatarImage={avatar}
               id={id}
+              gameRole={role}
               isRemoveButtonDisabled={!isDealerLobby && members.length < config.USER_DELETE_QUORUM}
             />
           </div>
