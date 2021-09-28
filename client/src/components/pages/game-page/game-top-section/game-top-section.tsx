@@ -9,7 +9,7 @@ import './game-top-section.sass';
 
 export const GameTopSection = ({ timerSecs }) => {
   const gameTitle: string = useSelector((state: RootState) => state.game.title);
-  const { firstName, lastName, jobPosition, avatar, id } = useSelector(
+  const { firstName, lastName, jobPosition, avatar } = useSelector(
     (state: RootState) => state.game.dealer as IUser
   );
   const client: IUser = useSelector((state: RootState) => state.client as IUser);
