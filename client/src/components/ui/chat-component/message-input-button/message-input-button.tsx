@@ -1,31 +1,59 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import { Box, IconButton, TextField } from '@material-ui/core';
 import './message-input-button.sass';
+import { IMessage, IUser } from '@models/types';
+import { useSelector } from 'react-redux';
+import { WebSocketContext } from '@models/web-socket';
+import { RootState } from 'src/redux/store';
+import { id } from '@utils/utils';
 
 const MessageInputButton = () => {
-  const inputInitialValue = '';
-  const [inputValue, setInputValue] = useState(inputInitialValue);
+  const messageInitialValue = '';
+  const [messageText, setMessageText] = useState(messageInitialValue);
 
-  const inputHandler = (e: ChangeEvent<HTMLInputElement>): void => {
+  const roomID: string = useSelector((state: RootState) => state.game.room);
+  const clientUser: IUser = useSelector((state: RootState) => state.client.clientUser);
+  const ws = useContext(WebSocketContext);
+
+  const onChangeMessageHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.target.value !== 'Enter') {
-      setInputValue(e.target.value);
+      setMessageText(e.target.value);
       console.log('set value', e.target.value);
     }
   };
 
+  const sendMessage = () => {
+    const messageID = id();
+    const newMessage: IMessage = {
+      messageID,
+      room: roomID,
+      userID: clientUser.id,
+      avatarImage: clientUser.avatar,
+      firstName: clientUser.firstName,
+      lastName: clientUser.lastName,
+      message: messageText,
+      isCurrentUser: false,
+    };
+
+    ws.requestAddMessage(newMessage);
+    setMessageText(messageInitialValue);
+  };
+
   const onKeyEnterHandler = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'Enter' && !inputInitialValue) {
+    if (e.key === 'Enter') {
       e.preventDefault();
-      console.log('enter event', e.key);
-      setInputValue(inputInitialValue);
+      if (messageText !== messageInitialValue) {
+        console.log('enter event', e.key);
+        sendMessage();
+      }
     }
   };
 
-  const sendMessageHandler = (e: any): void => {
-    if (inputValue !== inputInitialValue) {
+  const onClickHandler = (e: any): void => {
+    if (messageText !== messageInitialValue) {
       e.preventDefault();
       console.log('click event', e);
-      setInputValue(inputInitialValue);
+      sendMessage();
     }
   };
 
@@ -42,15 +70,15 @@ const MessageInputButton = () => {
           {' '}
           <TextField
             variant="outlined"
-            value={inputValue}
-            onChange={inputHandler}
+            value={messageText}
+            onChange={onChangeMessageHandler}
             onKeyDown={onKeyEnterHandler}
             fullWidth
           />
         </Box>
       </div>
       <div className="message-input-button-button">
-        <IconButton className="send-btn" component="span" onClick={sendMessageHandler} />
+        <IconButton className="send-btn" component="span" onClick={onClickHandler} />
       </div>
     </form>
   );

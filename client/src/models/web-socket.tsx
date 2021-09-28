@@ -15,6 +15,7 @@ import {
   resetState,
   setDeleteVoting,
   resetDeleteVoting,
+  setMessages,
 } from '@src/redux/actions';
 import {
   IUser,
@@ -24,6 +25,7 @@ import {
   IUserDeleteVoteData,
   IDeleteVoteFinishData,
   IDeleteVoteResults,
+  IMessage,
 } from './types';
 import config from '../config.json';
 
@@ -158,6 +160,16 @@ export default ({ children }) => {
     socket.emit(config.REQ_FINISH_DELETE_VOTE, deleteVoteFinishData);
   };
 
+  const requestAddMessage = (messageData: IMessage) => {
+    socket.emit(config.REQ_MESSAGE_ADD, messageData);
+    console.log(`Requested add message: ${JSON.stringify(messageData)}`);
+  };
+
+  socket.on(config.RES_MESSAGES_GET, (messages: IMessage[]) => {
+    console.log(`Messages received: ${messages}`);
+    dispatch(setMessages(messages));
+  });
+
   socket.on('connect', () => {
     dispatch(setSocketConnected());
     console.log('Server connected...');
@@ -212,6 +224,7 @@ export default ({ children }) => {
     requestDeleteVoteFinish,
     notification,
     setNotification,
+    requestAddMessage,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

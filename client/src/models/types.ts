@@ -191,7 +191,57 @@ export interface IMemberCard {
   isRemoveButtonDisabled: boolean;
 }
 
+export interface IMessage {
+  /*
+   * id of the message
+   */
+  messageID: string;
+  /*
+   * Game room id
+   */
+  room: string;
+  /*
+   * id of the User
+   */
+  userID: string;
+  /*
+   * avatar image
+   */
+  avatarImage?: string;
+  /*
+   * first name of User
+   */
+  firstName: string;
+  /*
+   * last name of User
+   */
+  lastName?: string;
+  /*
+   * user message
+   */
+  message: string;
+  /*
+   * is message of current user
+   */
+  isCurrentUser: boolean;
+}
 export interface IMessageCard {
+  /*
+   * id of the message
+   */
+  messageID: string;
+  /*
+   * Game room id
+   */
+  room: string;
+  /*
+   * id of the User
+   */
+  userID: string;
+  /*
+   * сhat should be active only in the lobby
+   */
+  isLobby: boolean;
   /*
    * first name of User
    */
@@ -341,6 +391,12 @@ export interface IGame {
    * Game status
    */
   gameStatus: 'lobby' | 'poker' | 'cancelGame';
+}
+
+export enum GameStatus {
+  LOBBY = 'lobby',
+  POKER = 'poker',
+  CANCEL = 'cancelGame',
 }
 
 export interface IGameSettings {}

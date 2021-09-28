@@ -21,6 +21,7 @@ const useStyles = makeStyles({
   },
   content: {
     padding: '5px',
+    wordBreak: 'break-all',
   },
   header: {
     width: '200px',

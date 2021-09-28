@@ -11,6 +11,9 @@
   "RES_START_USER_DELETE_VOTE": "res-start-vote",
   "REQ_FINISH_DELETE_VOTE": "req-result-vote",
   "RES_USER_DELETE_VOTE": "res-result-vote",
+  "REQ_MESSAGE_ADD": "req-message-add",
+  "REQ_MESSAGES_GET": "req-messages-get",
+  "RES_MESSAGES_GET": "res-messages-get",
   "KICKED_NOTIFICATION": "Sorry, you have been kicked from the game!",
   "DISCONNECT": "disconnect",
   "DEALER": "dealer",
@@ -21,6 +24,8 @@
   "SERVER_HOME_URL": "http://localhost:8000/",
   "CONNECT_ERROR_MESSAGE": "Error! Server is not connected!",
   "NO_ROOM_ERROR_MESSAGE": "Error! Game not found!",
+  "POKER": "poker",
+  "LOBBY": "lobby",
   "transition": {
     "timeout": 300
   }
