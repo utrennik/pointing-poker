@@ -27,7 +27,7 @@ const useStyles = makeStyles({
     width: '200px',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
-    padding: '12px',
+    padding: '8px',
   },
 });
 
@@ -35,6 +35,7 @@ const MessageItem = ({
   firstName,
   lastName,
   avatarImage,
+  messageTime,
   message,
   isCurrentUser,
 }: IMessageCard) => {
@@ -51,7 +52,11 @@ const MessageItem = ({
       <Card className={messageCardStyles}>
         <div className="message-user">
           <CustomAvatar firstName={firstName} lastName={lastName} avatarImage={avatarImage} />
-          <CardHeader className={messageHeaderStyles} title={nameWithoutLastName} />
+          <CardHeader
+            className={messageHeaderStyles}
+            title={nameWithoutLastName}
+            subheader={messageTime}
+          />
         </div>
         <div className="message-msg">
           <Typography className={messageContentStyles} variant="body2">

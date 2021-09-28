@@ -18,14 +18,18 @@ const MessageInputButton = () => {
   const onChangeMessageHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.target.value !== 'Enter') {
       setMessageText(e.target.value);
-      console.log('set value', e.target.value);
     }
   };
 
   const sendMessage = () => {
     const messageID = id();
+    const today = new Date();
+    const hours = today.getHours();
+    const minutes = today.getMinutes();
+    const messageTime = `${hours}:${minutes}`;
     const newMessage: IMessage = {
       messageID,
+      messageTime,
       room: roomID,
       userID: clientUser.id,
       message: messageText,
@@ -39,7 +43,6 @@ const MessageInputButton = () => {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (messageText !== messageInitialValue) {
-        console.log('enter event', e.key);
         sendMessage();
       }
     }
@@ -48,7 +51,6 @@ const MessageInputButton = () => {
   const onClickHandler = (e: any): void => {
     if (messageText !== messageInitialValue) {
       e.preventDefault();
-      console.log('click event', e);
       sendMessage();
     }
   };

@@ -13,6 +13,7 @@ const MessageList = () => {
   const isLobby: boolean = useSelector(
     (state: RootState) => state.game.gameStatus === config.LOBBY
   );
+  const roomID: string = useSelector((state: RootState) => state.game.room);
   const users: IUser[] = useSelector((state: RootState) => state.game.users);
   const client: IUser = useSelector((state: RootState) => state.client.clientUser as IUser);
   const dealer: IUser = useSelector((state: RootState) => state.game.dealer as IUser);
@@ -33,41 +34,46 @@ const MessageList = () => {
 
   return (
     <div className="message-list-container">
-      {messages.map(
-        (msg) =>
-          (dealer.id === msg.userID && dealer.room === msg.room && (
+      {messages.map((msg) => {
+        const isCurrentDealer = client.id === dealer.id;
+        return (
+          (dealer.id === msg.userID && (
             <MessageItem
               key={msg.messageID}
               messageID={msg.messageID}
-              room={msg.room}
+              messageTime={msg.messageTime}
+              room={roomID}
               userID={dealer.id}
               isLobby={isLobby}
               firstName={dealer.firstName}
               lastName={dealer.lastName}
               avatarImage={dealer.avatar}
               message={msg.message}
-              isCurrentUser={client.id === dealer.id}
+              isCurrentUser={isCurrentDealer}
             />
           )) ||
-          users.map(
-            (user) =>
-              user.id === msg.userID &&
-              user.room === msg.room && (
+          users.map((user) => {
+            const isCurrentUser = client.id === user.id;
+            return (
+              user.id === msg.userID && (
                 <MessageItem
                   key={msg.messageID}
                   messageID={msg.messageID}
-                  room={msg.room}
+                  messageTime={msg.messageTime}
+                  room={roomID}
                   userID={user.id}
                   isLobby={isLobby}
                   firstName={user.firstName}
                   lastName={user.lastName}
                   avatarImage={user.avatar}
                   message={msg.message}
-                  isCurrentUser={client.id === user.id}
+                  isCurrentUser={isCurrentUser}
                 />
               )
-          )
-      )}
+            );
+          })
+        );
+      })}
       <div ref={messagesEndRef} />
     </div>
   );

@@ -220,6 +220,10 @@ export interface IMessage {
    */
   messageID: string;
   /*
+   * message sending time
+   */
+  messageTime: string;
+  /*
    * Game room id
    */
   room: string;
@@ -237,6 +241,10 @@ export interface IMessageCard {
    * id of the message
    */
   messageID: string;
+  /*
+   * message sending time
+   */
+  messageTime: string;
   /*
    * Game room id
    */
