@@ -281,7 +281,7 @@ export interface IMemberCard {
    */
   lastName?: string;
   /*
-   * role in the team
+   * job Position  ( we has a little slip with naming )
    */
   role: string;
   /*
@@ -293,19 +293,24 @@ export interface IMemberCard {
    */
   isRemoveButtonDisabled: boolean;
   /*
-   * Remove user button enabled
+   * Styles props for MUI component card
    */
-  stylesProps: {
+  stylesProps?: {
     widthCard: string;
     heightCard: string;
     widthHeader: string;
     widthAvatar: string;
-    heightAvatar:string;
+    heightAvatar: string;
     nameTruncate: number;
     roleTruncate: number;
     titleTypography: string;
     subtitleTypography: string;
+    gameRole?: string;
   };
+  /*
+   * role in the game
+   */
+  gameRole: 'dealer' | 'member' | 'observer';
 }
 
 export interface IMessage {
@@ -787,4 +792,10 @@ export interface ISwitchLobby {
     autoreverse: boolean;
   };
   handleSwitch: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface IIssueCardStatus {
+  id: string;
+  score?: string;
+  cardValueScore: string;
 }

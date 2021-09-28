@@ -24,22 +24,23 @@ interface IStyleProps {
   heightCard: string;
   widthHeader: string;
   widthAvatar: string;
-  heightAvatar:string;
+  heightAvatar: string;
   nameTruncate: number;
   roleTruncate: number;
   titleTypography: string;
   subtitleTypography: string;
+  gameRole?: string;
 }
-const defaultProps = {
+const defaultProps: IStyleProps = {
   widthCard: '280px',
   heightCard: '76px',
   widthHeader: '200px',
   nameTruncate: config.truncateSettings.maxSymbolsValueTitle,
   roleTruncate: config.truncateSettings.maxSymbolsValueSubtitle,
-  titleTypography: "h5",
-  subtitleTypography: "subtitle1",
-  widthAvatar: "50px",
-  heightAvatar:"50px"
+  titleTypography: 'h5',
+  subtitleTypography: 'subtitle1',
+  widthAvatar: '50px',
+  heightAvatar: '50px',
 };
 
 const useStyles = makeStyles<Theme, IStyleProps>({
@@ -57,7 +58,8 @@ const useStyles = makeStyles<Theme, IStyleProps>({
     display: 'flex',
     columnGap: '10px',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    opacity: (props) => (props.gameRole === 'observer' ? '0.25' : '1'),
   },
   header: {
     width: (props) => props.widthHeader,
@@ -74,10 +76,12 @@ export const MemberCard = ({
   avatarImage,
   id,
   isRemoveButtonDisabled,
-  stylesProps = defaultProps
+  stylesProps = defaultProps,
+  gameRole = 'member',
 }: IMemberCard) => {
   const [deleteUserModalOpen, setDeleteUserModalOpen] = React.useState<boolean>(false);
-  const classes = useStyles(stylesProps);
+  const styles = { ...stylesProps, gameRole };
+  const classes = useStyles(styles);
   const ws = useContext(WebSocketContext);
 
   const handleDelete = () => {
@@ -97,17 +101,17 @@ export const MemberCard = ({
   return (
     <Card className={classes.card}>
       <CustomAvatar
-      firstName={firstName}
-      lastName={lastName}
-      avatarImage={avatarImage}
-      stylesProps={{width:stylesProps.widthAvatar,height:stylesProps.heightAvatar}}
+        firstName={firstName}
+        lastName={lastName}
+        avatarImage={avatarImage}
+        stylesProps={{ width: stylesProps.widthAvatar, height: stylesProps.heightAvatar }}
       />
       <CardHeader
         className={classes.header}
         title={nameWithoutLastName}
-        titleTypographyProps={{ variant: stylesProps.titleTypography as Variant}}
+        titleTypographyProps={{ variant: stylesProps.titleTypography as Variant }}
         subheader={truncateString(role, stylesProps.roleTruncate)}
-        subheaderTypographyProps={{ variant: stylesProps.subtitleTypography as Variant}}
+        subheaderTypographyProps={{ variant: stylesProps.subtitleTypography as Variant }}
       />
       <IconButton
         className="member-card-delete-btn"

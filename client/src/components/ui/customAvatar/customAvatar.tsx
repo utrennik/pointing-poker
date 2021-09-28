@@ -15,10 +15,12 @@ const useStyles = makeStyles<Theme, IStylesProps>({
   },
 });
 
-export const CustomAvatar = (
-  { lastName, firstName, avatarImage,stylesProps = { width: '50px', height: '50px' } }: ICustomAvatar,
-
-) => {
+export const CustomAvatar = ({
+  lastName,
+  firstName,
+  avatarImage,
+  stylesProps = { width: '50px', height: '50px' },
+}: ICustomAvatar) => {
   const classes = useStyles(stylesProps);
 
   const avatarName = lastName
