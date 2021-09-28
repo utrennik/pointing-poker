@@ -1,14 +1,20 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
+import { IUser } from '@models/types';
+import config from '@src/config.json';
 import { GameTopSection } from './game-top-section/game-top-section.tsx';
+import { GameRoundSection } from './game-round-section/game-round-section.tsx';
+import IssuesSection from '../lobby-page/issues-section/issues-section.tsx';
 import '@styles/page.sass';
 import './game-page.sass';
 
 const GamePage = () => {
   const timerStartSecs: number = useSelector((state: RootState) => state.game.timer);
+  const client: IUser = useSelector((state: RootState) => state.client.clientUser);
   const [totalSecs, setTotalSecs] = useState(timerStartSecs);
   const [intervalID, setIntervalID] = useState(null);
+  const isClientDealer = client && client.role === config.DEALER;
 
   const onTimeOver = () => {
     console.log('The time is over');
@@ -40,10 +46,21 @@ const GamePage = () => {
   return (
     <main className="main">
       <div className="container content-wrapper game-page">
-        <GameTopSection timerSecs={totalSecs} />
+        <GameTopSection timerSecs={totalSecs} isClientDealer={isClientDealer} />
         <h5>Test buttons:</h5>
         <button onClick={startTimer}>Start timer</button>
         <button onClick={resetTimer}>Reset timer</button>
+        <div className="game-round-issues-section">
+          <div className="game-issues-section">
+            <IssuesSection
+              className="game-page-issues"
+              sectionTitle={isClientDealer ? 'Select Issue:' : 'Issues:'}
+            />
+          </div>
+          <div className="game-round-section">
+            <GameRoundSection />
+          </div>
+        </div>
       </div>
     </main>
   );

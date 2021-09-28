@@ -122,6 +122,19 @@ export enum IssuePriority {
   LOW = 'low',
 }
 
+export interface IStatsItem {
+  score: string | 'pass' | 'coffee'[];
+  percentage: number;
+  pointsShortName: string;
+}
+
+export type VotingData = string | 'pass' | 'coffee';
+
+export interface IRoundVoteResults {
+  score: VotingData;
+  percentage: number;
+}
+
 export interface IIssue {
   /*
    * id of the issue
@@ -131,6 +144,10 @@ export interface IIssue {
    * Name of the issue
    */
   name: string;
+  /*
+   * Issue description
+   */
+  description: string;
   /*
    * Game room id
    */
@@ -143,6 +160,14 @@ export interface IIssue {
    * Is the issue active
    */
   isActive: boolean;
+  /*
+   * Score of the Issue
+   */
+  score: string;
+  /*
+   * Issue voting data (which card the user has selected)
+   */
+  votingData: VotingData[];
 }
 
 export interface IIssueCard {
@@ -174,6 +199,17 @@ export interface IIssueCard {
    * Is the client a dealer
    */
   isDealer: boolean;
+  /*
+   * Is the issue played
+   */
+  isPlayed: boolean;
+}
+
+export interface IIssuesSection {
+  /*
+   * Is the client a dealer
+   */
+  sectionTitle: string;
 }
 
 export interface IIssueDelete {
@@ -363,7 +399,7 @@ export interface IGame {
   /*
    * Game status
    */
-  gameStatus: IGameStatus;
+  gameStatus: GameStatus;
   /*
    * Round timer
    */
@@ -372,6 +408,10 @@ export interface IGame {
    * Game issues
    */
   issues: IIssue[];
+  /*
+   * Game current issue
+   */
+  currentIssue: IIssue;
 }
 
 export enum GameStatus {
@@ -505,4 +545,15 @@ export interface IValueCard {
    * Value for card
    */
   value: string | number;
+}
+
+export interface IGameTopSection {
+  /*
+   * Round timer start value in seconds
+   */
+  timerSecs: number;
+  /*
+   * Is the client user a dealer
+   */
+  isClientDealer: boolean;
 }

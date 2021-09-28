@@ -2,18 +2,15 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
 import { Button } from '@material-ui/core';
 import { ScramMasterCard } from '@components/ui/scram-master-card/scram-master-card';
-import { IUser } from '@models/types';
-import config from '@src/config.json';
+import { IGameTopSection, IUser } from '@models/types';
 import { GameTimer } from './game-timer/game-timer.tsx';
 import './game-top-section.sass';
 
-export const GameTopSection = ({ timerSecs }) => {
+export const GameTopSection = ({ timerSecs, isClientDealer }: IGameTopSection) => {
   const gameTitle: string = useSelector((state: RootState) => state.game.title);
-  const { firstName, lastName, jobPosition, avatar, id } = useSelector(
+  const { firstName, lastName, jobPosition, avatar } = useSelector(
     (state: RootState) => state.game.dealer as IUser
   );
-  const client: IUser = useSelector((state: RootState) => state.client as IUser);
-  const isClientDealer = client.clientUser && client.clientUser.role === config.DEALER;
 
   return (
     <div className="game-top-section">

@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { Card, CardHeader, IconButton, makeStyles } from '@material-ui/core';
+import { Card, CardHeader, IconButton } from '@material-ui/core';
 import { RootState } from 'src/redux/store';
 import { IIssueCard, IIssueDelete } from '@models/types';
 import { WebSocketContext } from '@models/web-socket';
@@ -9,17 +9,15 @@ import EditIssueModal from '@components/modals/edit-issue-modal/edit-issue-modal
 import config from '@src/config.json';
 import './issueCard.sass';
 
-interface StyleProps {
-  isSelected: boolean;
-}
-
-const useStyles = makeStyles({
-  card: {
-    backgroundColor: ({ isSelected }: StyleProps) => (isSelected ? '#60DABF' : '#fff'),
-  },
-});
-
-export const IssueCard = ({ id, name, priority, isActive, isGame, isDealer }: IIssueCard) => {
+export const IssueCard = ({
+  id,
+  name,
+  priority,
+  isActive,
+  isGame,
+  isDealer,
+  isPlayed,
+}: IIssueCard) => {
   const [editIssueModalOpen, setEditIssueModalOpen] = useState(false);
   const roomID: string = useSelector((state: RootState) => state.game.room);
   const ws = useContext(WebSocketContext);
@@ -45,12 +43,16 @@ export const IssueCard = ({ id, name, priority, isActive, isGame, isDealer }: II
     ws.requestDeleteIssue(issueDeleteData);
   };
 
-  const classes = useStyles({ isActive });
-  const isueCardStyles = `issue-card ${classes.card}`;
-
   return (
     <div title={name}>
-      <Card className={isueCardStyles}>
+      <Card
+        className={
+          (isActive && isPlayed && 'issue-card selected played') ||
+          (isActive && 'issue-card selected') ||
+          (isPlayed && 'issue-card played') ||
+          'issue-card'
+        }
+      >
         <CardHeader
           className="issue-card-header"
           title={truncateString(name, config.ISSUE_TITLE_MAX_SYMBOLS)}
