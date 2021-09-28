@@ -14,6 +14,10 @@
   "REQ_MESSAGE_ADD": "req-message-add",
   "REQ_MESSAGES_GET": "req-messages-get",
   "RES_MESSAGES_GET": "res-messages-get",
+  "REQ_ISSUE_ADD": "req-issue-add",
+  "REQ_ISSUE_DELETE": "req-issue-delete",
+  "REQ_ISSUE_UPDATE": "req-issue-update",
+  "RES_ISSUES_GET": "res-issues-get",
   "KICKED_NOTIFICATION": "Sorry, you have been kicked from the game!",
   "DISCONNECT": "disconnect",
   "DEALER": "dealer",
@@ -26,7 +30,12 @@
   "NO_ROOM_ERROR_MESSAGE": "Error! Game not found!",
   "POKER": "poker",
   "LOBBY": "lobby",
+  "ISSUE_TITLE_MAX_SYMBOLS": 14,
   "transition": {
     "timeout": 300
+  },
+  "truncateSettings": {
+    "maxSymbolsValueTitle": 12,
+    "maxSymbolsValueSubtitle": 20
   }
 }
