@@ -10,7 +10,6 @@ const MessageList = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const messages: IMessage[] = useSelector((state: RootState) => state.chat.messages);
-  const roomID: string = useSelector((state: RootState) => state.game.room);
   const isLobby: boolean = useSelector(
     (state: RootState) => state.game.gameStatus === config.LOBBY
   );
@@ -40,7 +39,7 @@ const MessageList = () => {
             <MessageItem
               key={msg.messageID}
               messageID={msg.messageID}
-              room={roomID}
+              room={msg.room}
               userID={dealer.id}
               isLobby={isLobby}
               firstName={dealer.firstName}
@@ -57,7 +56,7 @@ const MessageList = () => {
                 <MessageItem
                   key={msg.messageID}
                   messageID={msg.messageID}
-                  room={roomID}
+                  room={msg.room}
                   userID={user.id}
                   isLobby={isLobby}
                   firstName={user.firstName}

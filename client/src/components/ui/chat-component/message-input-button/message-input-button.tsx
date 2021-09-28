@@ -28,11 +28,7 @@ const MessageInputButton = () => {
       messageID,
       room: roomID,
       userID: clientUser.id,
-      avatarImage: clientUser.avatar,
-      firstName: clientUser.firstName,
-      lastName: clientUser.lastName,
       message: messageText,
-      isCurrentUser: false,
     };
 
     ws.requestAddMessage(newMessage);
