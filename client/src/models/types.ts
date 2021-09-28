@@ -605,7 +605,7 @@ export interface ICoverCard {
   /*
    * handle click for active class
    */
-  handleClick?: (id: string) => void;
+  handleClick: (id: string) => void;
 }
 
 export interface ICreateCoverProps {
@@ -652,7 +652,7 @@ export interface IGameTopSection {
 }
 export interface ILobbySettings {
   /*
-   * room in websocket
+   * id of room for Game
    */
   room?: string;
   /*
@@ -688,7 +688,7 @@ export interface ILobbySettings {
    */
   scoreForIssuesFromFile: boolean;
   /*
-   * hadle Click
+   * autoreverse cards at the end of each round
    */
   autoreverse: boolean;
   /*

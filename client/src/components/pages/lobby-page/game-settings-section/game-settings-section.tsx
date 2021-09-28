@@ -7,7 +7,7 @@ import { CoverCard } from '@components/ui/cover-card/cover-card';
 import { CoverCreateCard } from '@components/ui/cover-card/cover-create-card';
 import { ValueCard } from '@components/ui/value-card/value-card';
 import { ValueCreateCard } from '@components/ui/value-card/value-create-card';
-import { CardSet, IGameSettingsErrors } from '@models/types';
+import { CardSet, ICoverCard, IGameSettingsErrors } from '@models/types';
 import { id } from '@utils/utils';
 
 import { cardSetData } from './cardSetData';
@@ -67,7 +67,7 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
           image: reader.result as string,
           isSelected: false,
         };
-        setCoverCard((arr) => [...arr, newImage]);
+        setCoverCard((arr) => [...arr, newImage as ICoverCard]);
       };
     }
   };
