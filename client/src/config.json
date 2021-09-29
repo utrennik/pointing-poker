@@ -29,8 +29,10 @@
   "CONNECT_ERROR_MESSAGE": "Error! Server is not connected!",
   "NO_ROOM_ERROR_MESSAGE": "Error! Game not found!",
   "POKER": "poker",
+  "PASS": "pass",
+  "COFFEE": "coffee",
+  "ISSUE_TITLE_MAX_SYMBOLS": 15,
   "LOBBY": "lobby",
-  "ISSUE_TITLE_MAX_SYMBOLS": 14,
   "transition": {
     "timeout": 300
   },

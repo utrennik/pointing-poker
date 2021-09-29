@@ -1,3 +1,5 @@
+@import '@styles/variables'
+
 .issue-card
   width: 280px
   height: 76px
@@ -6,6 +8,7 @@
   align-items: center
   column-gap: 10px
   justify-content: space-between
+  box-sizing: border-box
 
   &-header
     width: 220px
@@ -32,3 +35,11 @@
     width: 30px
     height: 30px
     background-image: url('../../../assets/icons/addIssue.svg')
+
+  &.selected
+    background-color: $green
+
+  &.played
+    border-left: 10px solid forestgreen
+    padding-left: 0
+    position: relative

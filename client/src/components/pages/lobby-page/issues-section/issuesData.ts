@@ -5,7 +5,7 @@ export const issues: IIssue[] = [
     id: '258',
     name: 'Issue 1',
     priority: 'HIGH',
-    isSelected: true,
+    isActive: true,
     isGame: true,
   },
   {

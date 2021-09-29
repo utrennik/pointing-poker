@@ -122,6 +122,58 @@ export enum IssuePriority {
   LOW = 'low',
 }
 
+export type VotingData = string | 'pass' | 'coffee';
+
+export interface IStatsItem {
+  /*
+   * Voting stats card value
+   */
+  score: VotingData;
+  /*
+   * Voting card percentage
+   */
+  percentage: number;
+  /*
+   * Voting points short name
+   */
+  pointsShortName: string;
+}
+
+export interface IUserScore {
+  /*
+   * User ID
+   */
+  userID: string;
+  /*
+   * Card selected by user
+   */
+  score: VotingData;
+}
+
+export interface IUsercore {
+  /*
+   * Room ID
+   */
+  roomID: string;
+  /*
+   * Issue ID
+   */
+  issueID: string;
+
+  userScore: IUserScore;
+}
+
+export interface IRoundVoteResults {
+  /*
+   * ID of the issue
+   */
+  issueID: string;
+  /*
+   * Users round voting data
+   */
+  score: IUserScore[];
+}
+
 export interface IIssue {
   /*
    * id of the issue
@@ -131,6 +183,10 @@ export interface IIssue {
    * Name of the issue
    */
   name: string;
+  /*
+   * Issue description
+   */
+  description: string;
   /*
    * Game room id
    */
@@ -143,6 +199,14 @@ export interface IIssue {
    * Is the issue active
    */
   isActive: boolean;
+  /*
+   * Score of the Issue
+   */
+  score: string;
+  /*
+   * Issue voting data (which card the user has selected)
+   */
+  votingData: VotingData[];
 }
 
 export interface IIssueCard {
@@ -174,6 +238,17 @@ export interface IIssueCard {
    * Is the client a dealer
    */
   isDealer: boolean;
+  /*
+   * Is the issue played
+   */
+  isPlayed: boolean;
+}
+
+export interface IIssuesSection {
+  /*
+   * Is the client a dealer
+   */
+  sectionTitle: string;
 }
 
 export interface IIssueDelete {
@@ -414,6 +489,10 @@ export interface IGame {
    * Game issues
    */
   issues: IIssue[];
+  /*
+   * Game current issue
+   */
+  currentIssue: IIssue;
 }
 
 export enum GameStatus {
@@ -578,4 +657,14 @@ export interface IGameCard {
    * The action will be called on Create value card
    */
   onSelectedHandler: () => void;
+}
+export interface IGameTopSection {
+  /*
+   * Round timer start value in seconds
+   */
+  timerSecs: number;
+  /*
+   * Is the client user a dealer
+   */
+  isClientDealer: boolean;
 }

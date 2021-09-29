@@ -15,6 +15,7 @@ export const types = {
   SET_DELETE_VOTING_MODAL_OPEN: 'SET_DELETE_VOTING_MODAL_OPEN',
   SET_MESSAGES: 'SET_MESSAGES',
   SET_ISSUES: 'SET_ISSUES',
+  SET_CURRENT_ISSUE: 'SET_CURRENT_ISSUE',
   SET_GAME_STATUS: 'SET_GAME_STATUS',
 };
 
@@ -82,6 +83,11 @@ export const setMessages = (messages: IMessage[]) => ({
 export const setIssues = (issues: IIssue[]) => ({
   type: types.SET_ISSUES,
   payload: { issues },
+});
+
+export const setCurrentIssue = (currentIssue: IIssue) => ({
+  type: types.SET_CURRENT_ISSUE,
+  payload: { currentIssue },
 });
 
 export const setGameStatus = (gameStatus: GameStatus) => ({
