@@ -289,7 +289,49 @@ export interface IMemberCard {
   isRemoveButtonDisabled: boolean;
 }
 
+export interface IMessage {
+  /*
+   * id of the message
+   */
+  messageID: string;
+  /*
+   * message sending time
+   */
+  messageTime: string;
+  /*
+   * Game room id
+   */
+  room: string;
+  /*
+   * id of the User
+   */
+  userID: string;
+  /*
+   * user message
+   */
+  message: string;
+}
 export interface IMessageCard {
+  /*
+   * id of the message
+   */
+  messageID: string;
+  /*
+   * message sending time
+   */
+  messageTime: string;
+  /*
+   * Game room id
+   */
+  room: string;
+  /*
+   * id of the User
+   */
+  userID: string;
+  /*
+   * сhat should be active only in the lobby
+   */
+  isLobby: boolean;
   /*
    * first name of User
    */
