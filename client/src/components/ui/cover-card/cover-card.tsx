@@ -17,7 +17,7 @@ export const CoverCard = ({ coverCardID, image, isSelected, handleClick }: ICove
   const coverCardStyles = `cover-card ${classes.card}`;
 
   return (
-    <Card key={coverCardID} className={coverCardStyles} onClick={() => handleClick(coverCardID)}>
+    <Card key={coverCardID} className={coverCardStyles} onClick={() => handleClick!(coverCardID)}>
       <div className="cover-card-image">
         <CardMedia component="img" alt="cover card" height="160" image={image} />
         {isSelected && (

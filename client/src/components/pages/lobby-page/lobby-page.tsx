@@ -20,12 +20,12 @@ const LobbyPage = () => {
     <div className="container">
       <div className="lobby-page">
         <div className="lobby-content">
-          <MasterSection isDealerLobby={isDealerLobby} lobbyGameSettings={lobbyGameSettings!}/>
+          <MasterSection isDealerLobby={isDealerLobby} lobbyGameSettings={lobbyGameSettings!} />
           {!!members.length && <MembersSection isDealerLobby={isDealerLobby} members={members} />}
           {isDealerLobby && (
             <>
               {<IssuesSection sectionTitle="Issues:" />}
-              <GameSettingsSection changePokerGameSettings={changePokerGameSettings}/>
+              <GameSettingsSection changePokerGameSettings={changePokerGameSettings} />
             </>
           )}
         </div>

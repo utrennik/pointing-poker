@@ -113,7 +113,7 @@ export const gameReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         gameStatus: payload.gameStatus,
-      }
+      };
     }
     case types.GET_POKER_GAME_SETTINGS: {
       return {
