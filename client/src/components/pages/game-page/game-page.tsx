@@ -5,6 +5,7 @@ import { IUser } from '@models/types';
 import config from '@src/config.json';
 import { GameTopSection } from './game-top-section/game-top-section.tsx';
 import { GameRoundSection } from './game-round-section/game-round-section.tsx';
+import { GameVotingSection } from './game-voting-section/game-voting-section.tsx';
 import IssuesSection from '../lobby-page/issues-section/issues-section.tsx';
 import '@styles/page.sass';
 import './game-page.sass';
@@ -61,6 +62,7 @@ const GamePage = () => {
             <GameRoundSection />
           </div>
         </div>
+        <GameVotingSection />
       </div>
     </main>
   );
