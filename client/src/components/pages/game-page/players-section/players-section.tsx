@@ -1,7 +1,6 @@
-import { members } from '@components/pages/lobby-page/members-section/membersData';
 import { IssueCardStatus } from '@components/ui/issue-card-status/issue-card-status';
 import { MemberCard } from '@components/ui/memberCard/memberCard';
-import { issuesStatus } from './players-section-data';
+import { issuesStatus, members } from './players-section-data';
 import './players-section.sass';
 
 export const PlayersSection = () => {
@@ -26,7 +25,7 @@ export const PlayersSection = () => {
       <div className="players-section-items">
         <div className="players-section-title">Score:</div>
         {issuesStatus.map((item) => (
-          <IssueCardStatus id={item.id} score={item.score} cardValueScore={item.cardValueScore} />
+          <IssueCardStatus id={item.id} score={item.score} cardValueScore={item.cardValueScore} roleInGame={item.roleInGame}/>
         ))}
       </div>
       <div className="players-section-items">

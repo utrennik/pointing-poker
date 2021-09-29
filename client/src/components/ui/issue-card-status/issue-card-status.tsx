@@ -2,7 +2,7 @@ import { Card, CardHeader, makeStyles, Theme } from '@material-ui/core';
 import { IIssueCardStatus } from '@models/types';
 
 interface IStyleProps {
-  score?: string;
+  roleInGame: string;
 }
 
 const useStyles = makeStyles<Theme, IStyleProps>({
@@ -16,19 +16,24 @@ const useStyles = makeStyles<Theme, IStyleProps>({
   status: {
     width: '120px',
     textAlign: 'center',
-    opacity: (props) => (props.score ? '1' : '0.3'),
+    opacity: (props) => (props.roleInGame === "observer" ? '0.3' : '1'),
   },
+  unit:{
+    opacity: (props) => (props.roleInGame === "observer" ? '0.3' : '1')
+  }
 });
 
-export const IssueCardStatus = ({ score, cardValueScore }: IIssueCardStatus) => {
-  const styles = useStyles({ score });
+export const IssueCardStatus = ({ score, cardValueScore,roleInGame }: IIssueCardStatus) => {
+  const styles = useStyles({ roleInGame });
 
-  const issueStatus = score || 'In progress';
+  const issueScore = score ? score : 'in progress';
+
+  const resultOfVoiting = roleInGame === "observer" ? " -" : issueScore;
 
   return (
     <Card className={styles.card}>
-      <CardHeader className={styles.status} title={issueStatus} />
-      <CardHeader title={cardValueScore} titleTypographyProps={{ variant: 'h6' }} />
+      <CardHeader className={styles.status} title={resultOfVoiting} />
+      <CardHeader className={styles.unit} title={cardValueScore} titleTypographyProps={{ variant: 'h6' }} />
     </Card>
   );
 };
