@@ -1,5 +1,5 @@
-import { IssuePriority } from '@models/types';
-import { IGame, IIssue } from '../../models/types';
+// import { IssuePriority } from '@models/types';
+// import { IGame, IIssue } from '../../models/types';
 import { types } from '../actions';
 
 const initialState = {

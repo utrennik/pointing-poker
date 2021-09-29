@@ -122,17 +122,56 @@ export enum IssuePriority {
   LOW = 'low',
 }
 
+export type VotingData = string | 'pass' | 'coffee';
+
 export interface IStatsItem {
-  score: string | 'pass' | 'coffee'[];
+  /*
+   * Voting stats card value
+   */
+  score: VotingData;
+  /*
+   * Voting card percentage
+   */
   percentage: number;
+  /*
+   * Voting points short name
+   */
   pointsShortName: string;
 }
 
-export type VotingData = string | 'pass' | 'coffee';
+export interface IUserScore {
+  /*
+   * User ID
+   */
+  userID: string;
+  /*
+   * Card selected by user
+   */
+  score: VotingData;
+}
+
+export interface IUsercore {
+  /*
+   * Room ID
+   */
+  roomID: string;
+  /*
+   * Issue ID
+   */
+  issueID: string;
+
+  userScore: IUserScore;
+}
 
 export interface IRoundVoteResults {
-  score: VotingData;
-  percentage: number;
+  /*
+   * ID of the issue
+   */
+  issueID: string;
+  /*
+   * Users round voting data
+   */
+  score: IUserScore[];
 }
 
 export interface IIssue {

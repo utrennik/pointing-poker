@@ -43,16 +43,15 @@ export const IssueCard = ({
     ws.requestDeleteIssue(issueDeleteData);
   };
 
+  const cardClass =
+    (isActive && isPlayed && 'issue-card selected played') ||
+    (isActive && 'issue-card selected') ||
+    (isPlayed && 'issue-card played') ||
+    'issue-card';
+
   return (
     <div title={name}>
-      <Card
-        className={
-          (isActive && isPlayed && 'issue-card selected played') ||
-          (isActive && 'issue-card selected') ||
-          (isPlayed && 'issue-card played') ||
-          'issue-card'
-        }
-      >
+      <Card className={cardClass}>
         <CardHeader
           className="issue-card-header"
           title={truncateString(name, config.ISSUE_TITLE_MAX_SYMBOLS)}
