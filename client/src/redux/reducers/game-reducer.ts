@@ -1,3 +1,5 @@
+// import { IssuePriority } from '@models/types';
+// import { IGame, IIssue } from '../../models/types';
 import { types } from '../actions';
 
 const initialState = {
@@ -10,7 +12,40 @@ const initialState = {
   issues: [],
 };
 
-// // TODO: For testing Game page TOP section, should be removed
+// TODO: For testing Game page TOP section, should be removed
+
+// const testIssues: IIssue[] = [
+//   {
+//     id: '1',
+//     name: 'Create welcome page',
+//     description: 'Issue full description',
+//     room: '123',
+//     priority: IssuePriority.LOW,
+//     isActive: true,
+//     score: '',
+//     votingData: [2, 4, 8, 8, 'coffee', 'pass'],
+//   },
+
+//   {
+//     id: '2',
+//     name: 'Create lobby page',
+//     description: 'Issue full description',
+//     room: '123',
+//     priority: IssuePriority.NORMAL,
+//     isActive: false,
+//     score: '20',
+//   },
+
+//   {
+//     id: '3',
+//     name: 'Create game page',
+//     description: 'Issue full description',
+//     room: '123',
+//     priority: IssuePriority.HIGH,
+//     isActive: false,
+//     score: '',
+//   },
+// ];
 
 // const testInitialState: IGame = {
 //   users: [],
@@ -23,6 +58,8 @@ const initialState = {
 //   settings: {},
 //   gameStatus: 'poker',
 //   timer: 20,
+//   issues: testIssues,
+//   currentIssue: testIssues[0],
 // };
 
 export const gameReducer = (state = initialState, { type, payload }) => {
@@ -62,6 +99,13 @@ export const gameReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         issues: payload.issues,
+      };
+    }
+
+    case types.SET_CURRENT_ISSUE: {
+      return {
+        ...state,
+        currentIssue: payload.currentIssue,
       };
     }
 
