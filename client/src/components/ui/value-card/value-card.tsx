@@ -8,7 +8,7 @@ export const ValueCard = ({ valueCardID, name, value, handleDataFromValueCard }:
   const [isEditable, setIsEditable] = useState(false);
   const [newValue, setNewValue] = useState(value);
 
-  const cardName = name.match(/^.{1,3}/);
+  const cardName = valueCardID !== '1' && valueCardID !== '2' && name.match(/^.{1,3}/);
 
   const handleEdit = () => {
     setIsEditable(!isEditable);
@@ -40,7 +40,9 @@ export const ValueCard = ({ valueCardID, name, value, handleDataFromValueCard }:
       </div>
       <div className="value-card-edit-delete">
         <CardActions>
-          <IconButton className="value-card-edit-btn" onClick={handleEdit} />
+          {valueCardID !== '1' && valueCardID !== '2' && (
+            <IconButton className="value-card-edit-btn" onClick={handleEdit} />
+          )}
         </CardActions>
       </div>
     </Card>

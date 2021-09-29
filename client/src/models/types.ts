@@ -605,7 +605,7 @@ export interface ICoverCard {
   /*
    * handle click for active class
    */
-  handleClick: (id: string) => void;
+  handleClick?: (id: string) => void;
 }
 
 export interface ICreateCoverProps {
@@ -706,4 +706,36 @@ export interface ILobbySettings {
 
 export interface IGameStatus {
   gameStatus: 'lobby' | 'poker' | 'cancel';
+}
+
+export interface IGameSettingsSection {
+  changePokerGameSettings: (value: any) => void;
+}
+
+export interface ICardDeckLobby {
+  coverCard: ICoverCard[];
+  activeCoverCardID: string;
+  handleIsActiveCoverCard: (ID: string) => void;
+  onCreateCoverHandler: (event: ChangeEvent<HTMLInputElement>) => void;
+  isCustomCardSet: boolean;
+  valueCard: IValueCard[];
+  onCreateValueHandler: () => void;
+  inputSettingsForDeck: {
+    scoreType: string;
+    scoreTypeShort: string;
+  };
+  handleValuesFromNewDeck: (value: string, ind: number) => void;
+}
+
+export interface ISwitchLobby {
+  switchSettings: {
+    dealerAsPlr: boolean;
+    changeChoice: boolean;
+    timerIsNeed: boolean;
+    revoteBeforeEndOfRound: boolean;
+    scoreForIssues: boolean;
+    participationInGameForNewUsers: boolean;
+    autoreverse: boolean;
+  };
+  handleSwitch: (event: ChangeEvent<HTMLInputElement>) => void;
 }
