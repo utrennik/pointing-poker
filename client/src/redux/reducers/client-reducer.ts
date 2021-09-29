@@ -1,4 +1,3 @@
-// import config from '@src/config.json';
 import { types } from '../actions';
 
 const initialState = {

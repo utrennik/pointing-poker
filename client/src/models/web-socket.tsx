@@ -16,6 +16,7 @@ import {
   setDeleteVoting,
   resetDeleteVoting,
   setIssues,
+  setMessages,
   setGameStatus,
 } from '@src/redux/actions';
 import {
@@ -28,6 +29,7 @@ import {
   IDeleteVoteResults,
   IIssue,
   IIssueDelete,
+  IMessage,
   GameStatus,
 } from './types';
 import config from '../config.json';
@@ -173,6 +175,11 @@ export default ({ children }) => {
     socket.emit(config.REQ_FINISH_DELETE_VOTE, deleteVoteFinishData);
   };
 
+  const requestAddMessage = (messageData: IMessage) => {
+    socket.emit(config.REQ_MESSAGE_ADD, messageData);
+    console.log(`Requested add message: ${JSON.stringify(messageData)}`);
+  };
+
   const requestAddIssue = (issueData: IIssue) => {
     socket.emit(config.REQ_ISSUE_ADD, issueData);
     console.log(`Requested add issue: ${JSON.stringify(issueData)}`);
@@ -231,6 +238,11 @@ export default ({ children }) => {
     dispatch(resetDeleteVoting());
   });
 
+  socket.on(config.RES_MESSAGES_GET, (messages: IMessage[]) => {
+    console.log(`Messages received: ${messages}`);
+    dispatch(setMessages(messages));
+  });
+
   socket.on(config.RES_ISSUES_GET, (issues: IIssue[]) => {
     console.log(`Issues received: ${issues}`);
     dispatch(setIssues(issues));
@@ -247,6 +259,7 @@ export default ({ children }) => {
     requestDeleteVoteFinish,
     notification,
     setNotification,
+    requestAddMessage,
     requestAddIssue,
     requestUpdateIssue,
     requestDeleteIssue,
