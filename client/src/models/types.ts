@@ -491,7 +491,20 @@ export interface IValueCard {
 }
 
 export interface IIssueCardStatus {
+  /*
+   * ID of user
+   */
   id: string;
+  /*
+   * result of voiting user
+   */
   score?: string;
+  /*
+   * Unit of measure
+   */
   cardValueScore: string;
+  /*
+   * Value for card
+   */
+  roleInGame: 'dealer' | 'member' | 'observer';
 }
