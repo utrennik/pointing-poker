@@ -548,3 +548,34 @@ export interface IValueCard {
    */
   value: string | number;
 }
+
+export interface IGameCard {
+  /*
+   * Unique game card identifier
+   */
+  gameCardID: string;
+  /*
+   * Name of game card
+   */
+  name: string;
+  /*
+   * Value for game card
+   */
+  value: string | number;
+  /*
+   * Image for game card
+   */
+  image: string;
+  /*
+   * Flip game card
+   */
+  isFlipped: boolean;
+  /*
+   * Select game card
+   */
+  isSelected: boolean;
+  /*
+   * The action will be called on Create value card
+   */
+  onSelectedHandler: () => void;
+}
