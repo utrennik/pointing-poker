@@ -1,4 +1,12 @@
-import { IUser, IGame, IUserDeleteVoteData, IIssue, GameStatus, IMessage } from '../models/types';
+import {
+  IUser,
+  IGame,
+  IUserDeleteVoteData,
+  ILobbySettings,
+  IIssue,
+  GameStatus,
+  IMessage,
+} from '../models/types';
 
 export const types = {
   SOCKET_CONNECTED: 'SOCKET_CONNECTED',
@@ -17,6 +25,7 @@ export const types = {
   SET_ISSUES: 'SET_ISSUES',
   SET_CURRENT_ISSUE: 'SET_CURRENT_ISSUE',
   SET_GAME_STATUS: 'SET_GAME_STATUS',
+  GET_POKER_GAME_SETTINGS: 'GET_POKER_GAME_SETTINGS',
 };
 
 export const setSocketConnected = () => ({
@@ -93,4 +102,8 @@ export const setCurrentIssue = (currentIssue: IIssue) => ({
 export const setGameStatus = (gameStatus: GameStatus) => ({
   type: types.SET_GAME_STATUS,
   payload: { gameStatus },
+});
+export const getPokerGameSettings = (pokerGameSettingsData: ILobbySettings) => ({
+  type: types.GET_POKER_GAME_SETTINGS,
+  payload: pokerGameSettingsData,
 });

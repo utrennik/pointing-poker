@@ -1,16 +1,12 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import { makeStyles, MenuItem, Select, Switch, TextField } from '@material-ui/core';
+import { ChangeEvent } from 'react';
+import { makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
 import SecondsTimePicker from '@components/ui/time-picker/time-picker';
-import { coverCardData } from '@components/ui/cover-card/cover-cardData';
-import { valueCardData } from '@components/ui/value-card/value-cardData';
-import { CoverCard } from '@components/ui/cover-card/cover-card';
-import { CoverCreateCard } from '@components/ui/cover-card/cover-create-card';
-import { ValueCard } from '@components/ui/value-card/value-card';
-import { ValueCreateCard } from '@components/ui/value-card/value-create-card';
-import { CardSet, IGameSettingsErrors } from '@models/types';
+import { ICoverCard, IGameSettingsSection } from '@models/types';
 import { id } from '@utils/utils';
-import { cardSetData } from './cardSetData';
-
+import { SwitchLobby } from '@components/pages/lobby-page/game-settings-section/switch-lobby';
+import { useLobbySettings } from '@components/pages/lobby-page/game-settings-section/useLobbySettings';
+import { cardSetData } from '@components/pages/lobby-page/game-settings-section/cardSetData';
+import { CardsDeckLobby } from '@components/pages/lobby-page/game-settings-section/cards-deck-lobby';
 import './game-settings-section.sass';
 
 const useStyles = makeStyles((theme) => ({
@@ -21,26 +17,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const GameSettingsSection = () => {
+const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) => {
   const classes = useStyles();
 
-  const [switchSettings, setSwitchSettings] = useState({
-    dealerAsPlr: false,
-    changeChoice: false,
-    timerIsNeed: false,
-  });
-
-  const [cardSet, setCardSet] = useState(CardSet.fibonacci);
-
-  const isCustomCardSet = cardSet === CardSet.customCardSet;
-
-  const [inputSettings, setInputSettings] = useState({
-    scoreType: '',
-    scoreTypeShort: '',
-  });
-
-  const [coverCard, setCoverCard] = useState(coverCardData);
-  const [valueCard, setValueCard] = useState(valueCardData);
+  const {
+    switchSettings,
+    setSwitchSettings,
+    cardSet,
+    setCardSet,
+    isCustomCardSet,
+    inputSettingsForDeck,
+    setInputSettingsForDeck,
+    coverCard,
+    setCoverCard,
+    valueCard,
+    setValueCard,
+    setValueTimer,
+    activeCoverCardID,
+    setIsActiveCoverCard,
+    setValuesOfNewDeck,
+    errors,
+  } = useLobbySettings(changePokerGameSettings);
 
   const onCreateCoverHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -50,13 +47,13 @@ const GameSettingsSection = () => {
       reader.readAsDataURL(file);
 
       reader.onload = () => {
-        const coverCardID = id();
+        const ID = id();
         const newImage = {
-          id: coverCardID,
+          coverCardID: ID,
           image: reader.result as string,
           isSelected: false,
         };
-        setCoverCard([...coverCard, newImage]);
+        setCoverCard((arr) => [...arr, newImage as ICoverCard]);
       };
     }
   };
@@ -65,7 +62,7 @@ const GameSettingsSection = () => {
     const valueCardID = id();
     const newValueCard = {
       id: valueCardID,
-      name: 'SP',
+      name: '',
       value: '',
     };
 
@@ -80,72 +77,38 @@ const GameSettingsSection = () => {
     setCardSet(event.target.value);
   };
 
-  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputSettings({ ...inputSettings, [event.target.name]: event.target.value });
+  const handleInputForDeck = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputSettingsForDeck({
+      ...inputSettingsForDeck,
+      [event.target.name]: event.target.value,
+    });
   };
 
-  const [errors, setErrors] = useState({} as IGameSettingsErrors);
-
-  const validate = () => {
-    if (!inputSettings.scoreType) {
-      setErrors({ ...errors, scoreTypeError: true });
-    } else if (!inputSettings.scoreTypeShort) {
-      setErrors({ ...errors, scoreTypeShortError: true });
-    } else {
-      const newErrors = { ...errors };
-      delete newErrors.scoreTypeError;
-      delete newErrors.scoreTypeShortError;
-      setErrors(newErrors);
-    }
+  const changeValueTimer = (data: Date | null) => {
+    setValueTimer(data);
   };
 
-  useEffect(() => {
-    validate();
-  }, [inputSettings.scoreType, inputSettings.scoreTypeShort]);
+  const handleIsActiveCoverCard = (ID: string) => {
+    setIsActiveCoverCard(ID);
+  };
+
+  const handleValuesFromNewDeck = (value: string, idCard: string) => {
+    const index = valueCard.findIndex((card) => card.valueCardID === idCard);
+    if (index < 0) return;
+    const currentCard = valueCard[index];
+    currentCard.value = value;
+    setValueCard([...valueCard]);
+    setValuesOfNewDeck([...valueCard.map((card) => card.value)]);
+  };
 
   return (
     <>
       <section className="lobby-content-game-settings">
         <h3 className="section-header">Game settings:</h3>
-        <div className="switch-lobby">
-          <h4 className="switch-lobby-label">Scram master as player:</h4>
-          <div className="switch-lobby-switch">
-            <Switch
-              id="dealer-as-plr-switch"
-              name="dealerAsPlr"
-              checked={switchSettings.dealerAsPlr}
-              color="primary"
-              onChange={handleSwitch}
-            />
-          </div>
-        </div>
-        <div className="switch-lobby">
-          <h4 className="switch-lobby-label">Changing card in round end:</h4>
-          <div className="switch-lobby-switch">
-            <Switch
-              id="change-choice-switch"
-              name="changeChoice"
-              checked={switchSettings.changeChoice}
-              color="primary"
-              onChange={handleSwitch}
-            />
-          </div>
-        </div>
-        <div className="switch-lobby">
-          <h4 className="switch-lobby-label">Is timer needed:</h4>
-          <div className="switch-lobby-switch">
-            <Switch
-              id="is-timer-needed"
-              name="timerIsNeed"
-              checked={switchSettings.timerIsNeed}
-              color="primary"
-              onChange={handleSwitch}
-            />
-          </div>
-        </div>
+        <SwitchLobby switchSettings={switchSettings} handleSwitch={handleSwitch} />
         {switchSettings.timerIsNeed && (
           <div className="timer-lobby">
-            <SecondsTimePicker />
+            <SecondsTimePicker changeValueTimer={changeValueTimer} />
           </div>
         )}
         <div className="select-lobby">
@@ -158,83 +121,64 @@ const GameSettingsSection = () => {
                 </MenuItem>
               ))}
             </Select>
-            {isCustomCardSet && (
-              <div className="input-lobby-wrapper">
-                <div className="input-lobby-container error-down">
-                  <div className="input-lobby">
-                    <TextField
-                      label="Score type:"
-                      name="scoreType"
-                      autoComplete="off"
-                      placeholder="Story Point"
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                      value={inputSettings.scoreType}
-                      onChange={handleInput}
-                      error={errors.scoreTypeError}
-                    />
-                  </div>
-                  {errors.scoreTypeError && (
-                    <div className="error">* Field &quotScore type&quot must be filled in</div>
-                  )}
-                </div>
 
-                <div className="input-lobby-container error-down">
-                  <div className="input-lobby">
-                    <TextField
-                      label="Score type (Short):"
-                      name="scoreTypeShort"
-                      autoComplete="off"
-                      placeholder="SP"
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                      value={inputSettings.scoreTypeShort}
-                      onChange={handleInput}
-                      error={errors.scoreTypeShortError}
-                    />
-                  </div>
-                  {errors.scoreTypeShortError && (
-                    <div className="error">
-                      * Field &quotScore type (Short)&quot must be filled in
-                    </div>
-                  )}
+            <div className="input-lobby-wrapper">
+              <div className="input-lobby-container error-down">
+                <div className="input-lobby">
+                  <TextField
+                    label="Score type:"
+                    name="scoreType"
+                    autoComplete="off"
+                    placeholder="Story Point"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    value={inputSettingsForDeck.scoreType}
+                    onChange={handleInputForDeck}
+                    error={errors.scoreTypeError}
+                  />
                 </div>
+                {errors.scoreTypeError && (
+                  <div className="error">* Field &quot;Score type&quot; must be filled in</div>
+                )}
               </div>
-            )}
+
+              <div className="input-lobby-container error-down">
+                <div className="input-lobby">
+                  <TextField
+                    label="Score type (Short):"
+                    name="scoreTypeShort"
+                    autoComplete="off"
+                    placeholder="SP"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    value={inputSettingsForDeck.scoreTypeShort}
+                    onChange={handleInputForDeck}
+                    error={errors.scoreTypeShortError}
+                  />
+                </div>
+                {errors.scoreTypeShortError && (
+                  <div className="error">
+                    * Field &quot;Score type (Short)&quot; must be filled in
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>
-      <section className="lobby-content-game-cards">
-        <h3 className="section-header">Game cards:</h3>
-        <div className="game-cards-lobby-container">
-          <div className="game-cards-select-cover">
-            <h4 className="game-cards-lobby-label">Select cover:</h4>
-            <div className="cover-card-container">
-              {coverCard.map(({ coverCardID, image, isSelected }) => (
-                <div key={coverCardID}>
-                  <CoverCard coverCardID={coverCardID} image={image} isSelected={isSelected} />
-                </div>
-              ))}
-              <CoverCreateCard onCreateCoverHandler={onCreateCoverHandler} />
-            </div>
-          </div>
-          {isCustomCardSet && (
-            <div className="game-cards-add-value">
-              <h4 className="game-cards-lobby-label">Add card values:</h4>
-              <div className="cover-card-container">
-                {valueCard.map(({ valueCardID, name, value }) => (
-                  <div key={valueCardID}>
-                    <ValueCard valueCardID={valueCardID} name={name} value={value} />
-                  </div>
-                ))}
-                <ValueCreateCard onCreateValueHandler={onCreateValueHandler} />
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
+      <CardsDeckLobby
+        coverCard={coverCard}
+        activeCoverCardID={activeCoverCardID}
+        handleIsActiveCoverCard={handleIsActiveCoverCard}
+        onCreateCoverHandler={onCreateCoverHandler}
+        isCustomCardSet={isCustomCardSet}
+        valueCard={valueCard}
+        inputSettingsForDeck={inputSettingsForDeck}
+        handleValuesFromNewDeck={handleValuesFromNewDeck}
+        onCreateValueHandler={onCreateValueHandler}
+      />
     </>
   );
 };

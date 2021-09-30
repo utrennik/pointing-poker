@@ -12,16 +12,12 @@ const useStyles = makeStyles({
   },
 });
 
-export const CoverCard = ({ coverCardID, image, isSelected }: ICoverCard) => {
+export const CoverCard = ({ coverCardID, image, isSelected, handleClick }: ICoverCard) => {
   const classes = useStyles({ isSelected });
   const coverCardStyles = `cover-card ${classes.card}`;
 
-  const handleSelect = () => {
-    console.log(isSelected);
-  };
-
   return (
-    <Card key={coverCardID} className={coverCardStyles} onClick={handleSelect}>
+    <Card key={coverCardID} className={coverCardStyles} onClick={() => handleClick!(coverCardID)}>
       <div className="cover-card-image">
         <CardMedia component="img" alt="cover card" height="160" image={image} />
         {isSelected && (

@@ -18,7 +18,10 @@ import {
   setIssues,
   setMessages,
   setGameStatus,
+  getPokerGameSettings,
 } from '@src/redux/actions';
+
+import { initialState } from '@src/redux/reducers/game-reducer';
 import {
   IUser,
   IUserDelete,
@@ -31,6 +34,8 @@ import {
   IIssueDelete,
   IMessage,
   GameStatus,
+  ILobbySettings,
+  IGameStatus,
 } from './types';
 import config from '../config.json';
 
@@ -194,6 +199,16 @@ export default ({ children }: { children: ReactChild[] }) => {
     console.log(`Requested delete issue: ${JSON.stringify(issueDeleteData)}`);
     socket.emit(config.REQ_ISSUE_DELETE, issueDeleteData);
   };
+  const requestPokerGameStart = (settings: ILobbySettings) => {
+    socket.emit(config.REQ_START_POKER_GAME, settings);
+  };
+
+  const requestCancelGame = () => {
+    const cancelGameData = {
+      room: currentGame.room,
+    };
+    socket.emit(config.REQ_CANCEL_GAME, cancelGameData);
+  };
 
   socket.on('connect', () => {
     dispatch(setSocketConnected());
@@ -222,7 +237,7 @@ export default ({ children }: { children: ReactChild[] }) => {
       dispatch(setDeleteVoting(deleteVotingData));
     }
     console.log(
-      `Voting to delete user ${deleteVotingData.deleteUserFullName} 
+      `Voting to delete user ${deleteVotingData.deleteUserFullName}
       by ${deleteVotingData.removerUserFullName} started...
       Data: ${JSON.stringify(deleteVotingData)}`
     );
@@ -248,6 +263,24 @@ export default ({ children }: { children: ReactChild[] }) => {
     dispatch(setIssues(issues));
   });
 
+  socket.on(config.RES_START_POKER_GAME, (data: ILobbySettings) => {
+    console.log(data);
+  });
+
+  socket.on(config.RES_START_POKER_GAME, (pokerGameSettingsData: ILobbySettings) => {
+    dispatch(getPokerGameSettings(pokerGameSettingsData));
+    history.push('/game');
+  });
+
+  socket.on(config.RES_CANCEL_GAME, (gameStatusData: IGameStatus) => {
+    console.log(`Game canceled !`);
+
+    if (gameStatusData.gameStatus === 'cancel') {
+      history.push('/');
+      dispatch(setGame(initialState));
+    }
+  });
+
   const ws: any = {
     socket,
     requestStartGame,
@@ -263,6 +296,8 @@ export default ({ children }: { children: ReactChild[] }) => {
     requestAddIssue,
     requestUpdateIssue,
     requestDeleteIssue,
+    requestCancelGame,
+    requestPokerGameStart,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

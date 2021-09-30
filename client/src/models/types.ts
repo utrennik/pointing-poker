@@ -572,6 +572,10 @@ export interface IMasterSection {
    * Is this the dealer lobby
    */
   isDealerLobby: boolean;
+  /*
+   * props with Poker Game Settings
+   */
+  lobbyGameSettings: any;
 }
 
 export interface IMembersSection {
@@ -589,7 +593,7 @@ export interface ICoverCard {
   /*
    * Unique card identifier
    */
-  coverCardID?: number | string;
+  coverCardID: string;
   /*
    * Image for cover card
    */
@@ -598,6 +602,10 @@ export interface ICoverCard {
    * Select cover card
    */
   isSelected: boolean;
+  /*
+   * handle click for active class
+   */
+  handleClick?: (id: string) => void;
 }
 
 export interface ICreateCoverProps {
@@ -625,7 +633,11 @@ export interface IValueCard {
   /*
    * Value for card
    */
-  value: string | number;
+  value: string;
+  /*
+   * hadle Click
+   */
+  handleDataFromValueCard?: (val: string, id: string) => void;
 }
 
 export interface IGameTopSection {
@@ -637,4 +649,97 @@ export interface IGameTopSection {
    * Is the client user a dealer
    */
   isClientDealer: boolean;
+}
+export interface ILobbySettings {
+  /*
+   * id of room for Game
+   */
+  room?: string;
+  /*
+   * dealer can play poker with members
+   */
+  dealerAsPlr: boolean;
+  /*
+   * variant of deck with card
+   */
+  cardSet: CardSet;
+  /*
+   * custom deck,which make by dealer
+   */
+  customCardSet?: string[];
+  /*
+   * possibility to all users connect in room ,when poker start
+   */
+  participation_in_game_for_new_users?: boolean;
+  /*
+   * chage choice after card will be flip
+   */
+  changeChoice: boolean;
+  /*
+   *revote after round with voting end
+   */
+  revote_before_round_end?: boolean;
+  /*
+   * timer on/off
+   */
+  timerIsNeed: boolean | number;
+  /*
+   * possibility to load file with issues
+   */
+  scoreForIssuesFromFile: boolean;
+  /*
+   * autoreverse cards at the end of each round
+   */
+  autoreverse: boolean;
+  /*
+   * game status
+   */
+  gameStatus?: 'lobby' | 'poker' | 'cancel';
+  /*
+   * units of estimation
+   */
+  estimationUnits: {
+    scoreType: string;
+    scoreTypeShort: string;
+  };
+  /*
+   * cover card for game
+   */
+  coverCardforServer: ICoverCard;
+}
+
+export interface IGameStatus {
+  gameStatus: 'lobby' | 'poker' | 'cancel';
+}
+
+export interface IGameSettingsSection {
+  changePokerGameSettings: (value: any) => void;
+}
+
+export interface ICardDeckLobby {
+  coverCard: ICoverCard[];
+  activeCoverCardID: string;
+  handleIsActiveCoverCard: (ID: string) => void;
+  onCreateCoverHandler: (event: ChangeEvent<HTMLInputElement>) => void;
+  isCustomCardSet: boolean;
+  valueCard: IValueCard[];
+  onCreateValueHandler: () => void;
+  inputSettingsForDeck: {
+    scoreType: string;
+    scoreTypeShort: string;
+  };
+  handleValuesFromNewDeck: (value: string, id: string) => void;
+}
+
+export interface ISwitchLobby {
+  switchSettings: {
+    dealerAsPlr: boolean;
+    changeChoice: boolean;
+    timerIsNeed: boolean;
+    revoteBeforeEndOfRound: boolean;
+    scoreForIssues: boolean;
+    participationInGameForNewUsers: boolean;
+    autoreverse: boolean;
+  };
+  handleSwitch: (event: ChangeEvent<HTMLInputElement>) => void;
 }
