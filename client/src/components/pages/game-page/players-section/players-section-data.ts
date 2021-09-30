@@ -8,42 +8,42 @@ export const issuesStatus: IIssueCardStatus[] = [
     id: '1',
     score: '',
     cardValueScore: 'SP',
-    roleInGame: "member"
+    roleInGame: 'member',
   },
   {
     id: '2',
     score: '200',
     cardValueScore: 'SP',
-    roleInGame: "observer"
+    roleInGame: 'observer',
   },
   {
     id: '3',
     score: 'parrot',
     cardValueScore: 'SP',
-    roleInGame: "member"
+    roleInGame: 'member',
   },
   {
     id: '4',
     score: '600',
     cardValueScore: 'SP',
-    roleInGame: "member"
+    roleInGame: 'member',
   },
   {
     id: '5',
     cardValueScore: 'SP',
-    roleInGame: "member"
+    roleInGame: 'member',
   },
   {
     id: '6',
     score: 'medved',
     cardValueScore: 'SP',
-    roleInGame: "member"
+    roleInGame: 'member',
   },
   {
     id: '7',
     score: '200',
     cardValueScore: 'SP',
-    roleInGame: "observer"
+    roleInGame: 'observer',
   },
 ];
 
@@ -55,7 +55,7 @@ export const members: IMemberCard[] = [
     role: 'Senior Software Engineer',
     avatarImage: blane,
     gameRole: 'member',
-    isRemoveButtonDisabled: true
+    isRemoveButtonDisabled: false,
   },
   {
     id: '158',
@@ -64,7 +64,7 @@ export const members: IMemberCard[] = [
     role: 'Junior Software Engineer',
     avatarImage: ross,
     gameRole: 'observer',
-    isRemoveButtonDisabled: true
+    isRemoveButtonDisabled: false,
   },
   {
     id: '546',
@@ -73,7 +73,7 @@ export const members: IMemberCard[] = [
     role: '',
     avatarImage: horn,
     gameRole: 'member',
-    isRemoveButtonDisabled: true
+    isRemoveButtonDisabled: false,
   },
   {
     id: '387',
@@ -82,7 +82,7 @@ export const members: IMemberCard[] = [
     role: 'Senior Software Engineer',
     avatarImage: '',
     gameRole: 'member',
-    isRemoveButtonDisabled: true
+    isRemoveButtonDisabled: true,
   },
   {
     id: '246',
@@ -91,7 +91,7 @@ export const members: IMemberCard[] = [
     role: 'Software Engineer',
     avatarImage: '',
     gameRole: 'member',
-    isRemoveButtonDisabled: true
+    isRemoveButtonDisabled: true,
   },
   {
     id: '413',
@@ -100,7 +100,7 @@ export const members: IMemberCard[] = [
     role: 'Junior Software Engineer',
     avatarImage: '',
     gameRole: 'member',
-    isRemoveButtonDisabled: true
+    isRemoveButtonDisabled: true,
   },
   {
     id: '651',
@@ -109,6 +109,6 @@ export const members: IMemberCard[] = [
     role: 'QA Engineer',
     avatarImage: '',
     gameRole: 'observer',
-    isRemoveButtonDisabled: true
+    isRemoveButtonDisabled: true,
   },
 ];

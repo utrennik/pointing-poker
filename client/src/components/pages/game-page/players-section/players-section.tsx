@@ -4,9 +4,7 @@ import { issuesStatus, members } from './players-section-data';
 import './players-section.sass';
 
 export const PlayersSection = () => {
-  // const users = useSelector((state: RootState) => state.game.users as IUser[]);
-  // add issues from socket.io
-  // const cardValueUnit = useSelector((state:RootState) => state.game.settings.scoreTypeShort)
+  // TODO: select data from socket,score and put to issues and members
 
   const stypePropsPlayers = {
     widthCard: '190px',
@@ -24,23 +22,49 @@ export const PlayersSection = () => {
     <div className="players-section">
       <div className="players-section-items">
         <div className="players-section-title">Score:</div>
-        {issuesStatus.map((item) => (
-          <IssueCardStatus id={item.id} score={item.score} cardValueScore={item.cardValueScore} roleInGame={item.roleInGame}/>
-        ))}
+        {issuesStatus
+          .filter((item) => item.roleInGame !== 'observer')
+          .map((item) => (
+            <IssueCardStatus
+              key={item.id}
+              id={item.id}
+              score={item.score}
+              cardValueScore={item.cardValueScore}
+              roleInGame={item.roleInGame}
+            />
+          ))}
       </div>
       <div className="players-section-items">
         <div className="players-section-title">Players:</div>
-        {members.map((item) => (
-          <MemberCard
-            firstName={item.firstName}
-            lastName={item.lastName}
-            id={item.id}
-            role={item.role}
-            isRemoveButtonDisabled={item.isRemoveButtonDisabled}
-            stylesProps={stypePropsPlayers}
-            gameRole={item.gameRole}
-          />
-        ))}
+        {members
+          .filter((item) => item.gameRole === 'member')
+          .map((item) => (
+            <MemberCard
+              key={item.id}
+              firstName={item.firstName}
+              lastName={item.lastName}
+              id={item.id}
+              role={item.role}
+              isRemoveButtonDisabled={item.isRemoveButtonDisabled}
+              stylesProps={stypePropsPlayers}
+              gameRole={item.gameRole}
+            />
+          ))}
+        <div className="players-section-title">Observers:</div>
+        {members
+          .filter((item) => item.gameRole === 'observer')
+          .map((item) => (
+            <MemberCard
+              key={item.id}
+              firstName={item.firstName}
+              lastName={item.lastName}
+              id={item.id}
+              role={item.role}
+              isRemoveButtonDisabled={item.isRemoveButtonDisabled}
+              stylesProps={stypePropsPlayers}
+              gameRole={item.gameRole}
+            />
+          ))}
       </div>
     </div>
   );
