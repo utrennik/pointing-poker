@@ -62,7 +62,7 @@ export const DeleteVotingModal = () => {
 
   return (
     <Dialog className="modal-dialog" open={isOpen} onClose={handleClose}>
-      <DialogTitle className={classes.dialogTitle}>{'Kick'}</DialogTitle>
+      <DialogTitle className={classes.dialogTitle}>Kick</DialogTitle>
       <DialogContent>
         {`${removerUserFullName} want to kick ${
           clientUser && deleteUserID === clientUser.id ? 'You' : deleteUserFullName || ''

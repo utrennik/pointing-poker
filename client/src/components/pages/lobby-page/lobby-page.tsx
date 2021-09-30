@@ -18,7 +18,7 @@ const LobbyPage = () => {
           {!!members.length && <MembersSection isDealerLobby={isDealerLobby} members={members} />}
           {isDealerLobby && (
             <>
-              {<IssuesSection sectionTitle="Issues:" />}
+              <IssuesSection sectionTitle="Issues:" />
               <GameSettingsSection />
             </>
           )}

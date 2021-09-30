@@ -3,7 +3,7 @@ import { RootState } from 'src/redux/store';
 import { Button } from '@material-ui/core';
 import { ScramMasterCard } from '@components/ui/scram-master-card/scram-master-card';
 import { IGameTopSection, IUser } from '@models/types';
-import { GameTimer } from './game-timer/game-timer.tsx';
+import { GameTimer } from './game-timer/game-timer';
 import './game-top-section.sass';
 
 export const GameTopSection = ({ timerSecs, isClientDealer }: IGameTopSection) => {

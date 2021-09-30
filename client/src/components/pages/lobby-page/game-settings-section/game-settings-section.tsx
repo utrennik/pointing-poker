@@ -176,7 +176,7 @@ const GameSettingsSection = () => {
                     />
                   </div>
                   {errors.scoreTypeError && (
-                    <div className="error">* Field "Score type" must be filled in</div>
+                    <div className="error">* Field &quotScore type&quot must be filled in</div>
                   )}
                 </div>
 
@@ -196,7 +196,9 @@ const GameSettingsSection = () => {
                     />
                   </div>
                   {errors.scoreTypeShortError && (
-                    <div className="error">* Field "Score type (Short)" must be filled in</div>
+                    <div className="error">
+                      * Field &quotScore type (Short)&quot must be filled in
+                    </div>
                   )}
                 </div>
               </div>

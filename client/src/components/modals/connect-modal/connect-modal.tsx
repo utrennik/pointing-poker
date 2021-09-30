@@ -7,10 +7,16 @@ import { WebSocketContext } from '@models/web-socket';
 import { id } from '@src/utils/utils';
 import { filterIDfromURL } from '@utils/stringUtils';
 import config from '@src/config.json';
-import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
+import { ModalWrapper } from '../modal-wrapper/modal-wrapper';
 import './connect-modal.sass';
 
-const ConnectModal = ({ isOpen, onClose, roomID }) => {
+interface IConnectModal {
+  isOpen: boolean;
+  onClose: Function;
+  roomID: string;
+}
+
+const ConnectModal = ({ isOpen, onClose, roomID }: IConnectModal) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [jobPosition, setJobPosition] = useState('');
@@ -143,16 +149,16 @@ const ConnectModal = ({ isOpen, onClose, roomID }) => {
         </div>
 
         <div className="avatar-input">
-          <input
-            id="avatar-upload"
-            className="invisible"
-            accept="image/*"
-            name="avatar-image"
-            type="file"
-            onInput={handleInput}
-          />
           <label htmlFor="avatar-upload">
-            <Button variant="contained" component="span">
+            <input
+              id="avatar-upload"
+              className="invisible"
+              accept="image/*"
+              name="avatar-image"
+              type="file"
+              onInput={handleInput}
+            />
+            <Button id="avatar-upload" variant="contained" component="span">
               Upload avatar
             </Button>
           </label>

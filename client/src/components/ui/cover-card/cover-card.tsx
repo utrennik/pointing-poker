@@ -26,7 +26,7 @@ export const CoverCard = ({ coverCardID, image, isSelected }: ICoverCard) => {
         <CardMedia component="img" alt="cover card" height="160" image={image} />
         {isSelected && (
           <div className="cover-card-select-bg-color">
-            <div className="cover-card-select-icon"></div>
+            <div className="cover-card-select-icon" />
           </div>
         )}
       </div>
