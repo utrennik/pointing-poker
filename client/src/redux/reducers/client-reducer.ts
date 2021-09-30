@@ -1,24 +1,24 @@
-// import config from '@src/config.json';
+import config from '@src/config.json';
 import { types } from '../actions';
 
 // TODO: For GAME PAGE TEST
 
-// const testInitialState = {
-//   clientUser: {
-//     firstName: 'Alejandro',
-//     lastName: 'Sanchez',
-//     id: 123,
-//     role: config.DEALER,
-//   },
-//   isDealerLobby: false,
-// };
-
-const initialState = {
-  clientUser: null,
+const testInitialState = {
+  clientUser: {
+    firstName: 'Alejandro',
+    lastName: 'Sanchez',
+    id: 123,
+    role: config.DEALER,
+  },
   isDealerLobby: false,
 };
 
-export const clientReducer = (state = initialState, { type, payload }) => {
+// const initialState = {
+//   clientUser: null,
+//   isDealerLobby: false,
+// };
+
+export const clientReducer = (state = testInitialState, { type, payload }) => {
   switch (type) {
     case types.SET_CLIENT_USER: {
       return {

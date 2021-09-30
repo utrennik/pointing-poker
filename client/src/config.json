@@ -17,11 +17,13 @@
   "REQ_ISSUE_ADD": "req-issue-add",
   "REQ_ISSUE_DELETE": "req-issue-delete",
   "REQ_ISSUE_UPDATE": "req-issue-update",
+  "REQ_SELECT_ISSUE": "req-select-issue",
+  "RES_SELECT_ISSUE": "res-select-issue",
   "RES_ISSUES_GET": "res-issues-get",
   "REQ_START_POKER_GAME": "req-start-poker",
   "RES_START_POKER_GAME": "res-start-poker",
-  "REQ_CANCEL_GAME":"req-cancel-game",
-  "RES_CANCEL_GAME":"res-cancel-game",
+  "REQ_CANCEL_GAME": "req-cancel-game",
+  "RES_CANCEL_GAME": "res-cancel-game",
   "KICKED_NOTIFICATION": "Sorry, you have been kicked from the game!",
   "DISCONNECT": "disconnect",
   "DEALER": "dealer",
@@ -35,21 +37,22 @@
   "POKER": "poker",
   "PASS": "pass",
   "COFFEE": "coffee",
-  "ISSUE_TITLE_MAX_SYMBOLS": 15,
   "LOBBY": "lobby",
   "transition": {
     "timeout": 300
   },
   "truncateSettings": {
     "maxSymbolsValueTitle": 12,
-    "maxSymbolsValueSubtitle": 20
+    "maxSymbolsValueSubtitle": 20,
+    "maxDealerNameSymbols": 17,
+    "issueTitleMaxSymbols": 15,
+    "issueTitleMaxSymbolsGame": 22
   },
-  "colors" :{
+  "colors": {
     "green": "#60DABF75"
   },
-  "CARDSET" :{
-    "FIBONACCI" : ["0","1","2","3","5","8","13","21","pass","coffee"],
-    "POWERS_OF_TWO" : ["0","1","2","4","8","16","pass","coffee"]
+  "CARDSET": {
+    "FIBONACCI": ["0", "1", "2", "3", "5", "8", "13", "21", "pass", "coffee"],
+    "POWERS_OF_TWO": ["0", "1", "2", "4", "8", "16", "pass", "coffee"]
   }
-
 }

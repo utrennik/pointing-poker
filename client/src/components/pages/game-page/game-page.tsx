@@ -58,10 +58,9 @@ const GamePage = () => {
         </button>
         <div className="game-round-issues-section">
           <div className="game-issues-section">
-            <IssuesSection
-              className="game-page-issues"
-              sectionTitle={isClientDealer ? 'Select Issue:' : 'Issues:'}
-            />
+            <div className="game-page-issues">
+              <IssuesSection sectionTitle={isClientDealer ? 'Select Issue:' : 'Issues:'} />
+            </div>
           </div>
           <div className="game-round-section">
             <GameRoundSection />

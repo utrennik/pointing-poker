@@ -20,7 +20,7 @@ export const ScramMasterCard = ({
 }: IScramMasterCard) => {
   const nameWithoutLastName = truncateString(
     lastName ? `${firstName} ${lastName}` : firstName,
-    config.truncateSettings.maxSymbolsValueTitle
+    config.truncateSettings.maxDealerNameSymbols
   );
 
   const classes = useStyles();

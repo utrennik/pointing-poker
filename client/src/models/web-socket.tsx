@@ -56,11 +56,11 @@ export default ({ children }: { children: ReactChild[] }) => {
   let client = {} as IUser; // TODO: used bacause the state is unavailable in socket.on callbacks
 
   // TODO: For testing game page, PLEASE REMOVE after test
-  // const gamePageTest = () => {
-  //   history.push('/game');
-  // };
+  const gamePageTest = () => {
+    history.push('/game');
+  };
 
-  // gamePageTest();
+  gamePageTest();
 
   const resetClient = () => {
     history.push('/');
@@ -210,6 +210,11 @@ export default ({ children }: { children: ReactChild[] }) => {
     socket.emit(config.REQ_CANCEL_GAME, cancelGameData);
   };
 
+  const requestSelectIssue = (issueID: string) => {
+    console.log(`Requested select issue with id ${issueID}`);
+    socket?.emit(config.REQ_SELECT_ISSUE, { issueID });
+  };
+
   socket.on('connect', () => {
     dispatch(setSocketConnected());
     console.log('Server connected...');
@@ -282,6 +287,11 @@ export default ({ children }: { children: ReactChild[] }) => {
     }
   });
 
+  socket.on(config.RES_SELECT_ISSUE, (issueID: string) => {
+    console.log(`Issue selected: ${issueID}`);
+    dispatch(setCurrentIssue(issueID));
+  });
+
   const ws: any = {
     socket,
     requestStartGame,
@@ -299,6 +309,7 @@ export default ({ children }: { children: ReactChild[] }) => {
     requestDeleteIssue,
     requestCancelGame,
     requestPokerGameStart,
+    requestSelectIssue,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

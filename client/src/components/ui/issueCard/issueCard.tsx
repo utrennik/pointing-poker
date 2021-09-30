@@ -49,12 +49,16 @@ export const IssueCard = ({
     (isPlayed && 'issue-card played') ||
     'issue-card';
 
+  const maxSymbols = isGame
+    ? config.truncateSettings.issueTitleMaxSymbolsGame
+    : config.truncateSettings.issueTitleMaxSymbols;
+
   return (
     <div title={name}>
       <Card className={cardClass}>
         <CardHeader
           className="issue-card-header"
-          title={truncateString(name, config.ISSUE_TITLE_MAX_SYMBOLS)}
+          title={truncateString(name, maxSymbols)}
           subheader={truncateString(priority)}
           subheaderTypographyProps={{ variant: 'subtitle1' }}
         />

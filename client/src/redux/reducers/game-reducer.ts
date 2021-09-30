@@ -1,68 +1,103 @@
-// import { IssuePriority } from '@models/types';
-// import { IGame, IIssue } from '../../models/types';
+import { IssuePriority } from '@models/types';
+import { IGame, IIssue } from '../../models/types';
 import { types } from '../actions';
 
-export const initialState = {
-  users: [],
-  title: '',
-  room: '',
-  dealer: {},
-  settings: {},
-  gameStatus: '',
-  issues: [],
-};
+// export const initialState = {
+//   users: [],
+//   title: '',
+//   room: '',
+//   dealer: {},
+//   settings: {},
+//   gameStatus: '',
+//   issues: [],
+// };
 
 // TODO: For testing Game page TOP section, should be removed
 
-// const testIssues: IIssue[] = [
-//   {
-//     id: '1',
-//     name: 'Create welcome page',
-//     description: 'Issue full description',
-//     room: '123',
-//     priority: IssuePriority.LOW,
-//     isActive: true,
-//     score: '',
-//     votingData: [2, 4, 8, 8, 'coffee', 'pass'],
-//   },
+const testIssues: IIssue[] = [
+  {
+    id: '1',
+    name: 'Create welcome page',
+    description: 'Issue full description',
+    room: '123',
+    priority: IssuePriority.LOW,
+    isActive: true,
+    score: '',
+    votingData: [2, 4, 8, 8, 'coffee', 'pass'],
+  },
 
-//   {
-//     id: '2',
-//     name: 'Create lobby page',
-//     description: 'Issue full description',
-//     room: '123',
-//     priority: IssuePriority.NORMAL,
-//     isActive: false,
-//     score: '20',
-//   },
+  {
+    id: '2',
+    name: 'Create lobby page',
+    description: 'Issue full description',
+    room: '123',
+    priority: IssuePriority.NORMAL,
+    isActive: false,
+    score: '20',
+  },
 
-//   {
-//     id: '3',
-//     name: 'Create game page',
-//     description: 'Issue full description',
-//     room: '123',
-//     priority: IssuePriority.HIGH,
-//     isActive: false,
-//     score: '',
-//   },
-// ];
+  {
+    id: '3',
+    name: 'Create game page',
+    description: 'Issue full description',
+    room: '123',
+    priority: IssuePriority.HIGH,
+    isActive: false,
+    score: '',
+  },
+];
 
-// const testInitialState: IGame = {
-//   users: [],
-//   title: 'My Game Title',
-//   room: 'abcd',
-//   dealer: {
-//     firstName: 'Alejandro',
-//     lastName: 'Sanchez',
-//   },
-//   settings: {},
-//   gameStatus: 'poker',
-//   timer: 20,
-//   issues: testIssues,
-//   currentIssue: testIssues[0],
-// };
+// TODO: For testing Game page TOP section, should be removed
 
-export const gameReducer = (state = initialState, { type, payload }) => {
+const testIssues: IIssue[] = [
+  {
+    id: '1',
+    name: 'Create welcome page',
+    description: 'Issue full description',
+    room: '123',
+    priority: IssuePriority.LOW,
+    isActive: true,
+    score: '',
+    votingData: [2, 4, 8, 8, 'coffee', 'pass'],
+  },
+
+  {
+    id: '2',
+    name: 'Create lobby page',
+    description: 'Issue full description',
+    room: '123',
+    priority: IssuePriority.NORMAL,
+    isActive: false,
+    score: '20',
+  },
+
+  {
+    id: '3',
+    name: 'Create game page',
+    description: 'Issue full description',
+    room: '123',
+    priority: IssuePriority.HIGH,
+    isActive: false,
+    score: '',
+  },
+];
+
+const testInitialState: IGame = {
+  users: [],
+  title: 'My Game Title',
+  room: 'abcd',
+  dealer: {
+    firstName: 'Alejandro',
+    lastName: 'Sanchez',
+  },
+  settings: {},
+  gameStatus: 'poker',
+  timer: 20,
+  issues: testIssues,
+  currentIssue: testIssues[0],
+};
+
+export const gameReducer = (state = testInitialState, { type, payload }) => {
   switch (type) {
     case types.SET_GAME: {
       return {
@@ -102,13 +137,6 @@ export const gameReducer = (state = initialState, { type, payload }) => {
       };
     }
 
-    case types.SET_CURRENT_ISSUE: {
-      return {
-        ...state,
-        currentIssue: payload.currentIssue,
-      };
-    }
-
     case types.SET_GAME_STATUS: {
       return {
         ...state,
@@ -120,6 +148,29 @@ export const gameReducer = (state = initialState, { type, payload }) => {
         ...state,
         settings: { ...payload },
       };
+    }
+
+    case types.SET_CURRENT_ISSUE: {
+      let selectedIssue;
+
+      const newIssues = state.issues.slice().forEach((issue) => {
+        if (issue.id === payload.issueID) {
+          selectedIssue = issue;
+          issue.isActive = true;
+        } else {
+          issue.isActive = false;
+        }
+      });
+
+      if (selectedIssue) {
+        return {
+          ...state,
+          currentIssue: selectedIssue,
+          issues: newIssues,
+        };
+      }
+
+      return state;
     }
 
     default:

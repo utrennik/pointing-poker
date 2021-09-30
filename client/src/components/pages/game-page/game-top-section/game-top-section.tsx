@@ -12,6 +12,10 @@ export const GameTopSection = ({ timerSecs, isClientDealer }: IGameTopSection) =
     (state: RootState) => state.game.dealer as IUser
   );
 
+  const handleStopExitGame = () => {
+    console.log(isClientDealer ? 'Stop game' : 'Exit game');
+  };
+
   return (
     <div className="game-top-section">
       <div className="game-top-section-title">{gameTitle}</div>
@@ -31,7 +35,7 @@ export const GameTopSection = ({ timerSecs, isClientDealer }: IGameTopSection) =
         </div>
 
         <div className="game-top-section-btn game-top-col">
-          <Button variant="contained" size="medium" color="primary">
+          <Button variant="contained" size="medium" color="primary" onClick={handleStopExitGame}>
             {isClientDealer ? 'Stop game' : 'Exit game'}
           </Button>
         </div>
