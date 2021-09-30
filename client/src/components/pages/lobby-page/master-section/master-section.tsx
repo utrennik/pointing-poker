@@ -49,6 +49,7 @@ const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => 
         gameStatus: 'poker',
         autoreverse: lobbyGameSettings.autoreverse,
         changeChoice: lobbyGameSettings.changeChoice,
+        coverCardforServer: lobbyGameSettings.coverCardforServer,
       };
       ws.requestPokerGameStart(dataToServer);
     }

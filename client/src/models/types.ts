@@ -633,11 +633,11 @@ export interface IValueCard {
   /*
    * Value for card
    */
-  value: string | number;
+  value: string;
   /*
    * hadle Click
    */
-  handleDataFromValueCard?: (val: string, ind: number) => void;
+  handleDataFromValueCard?: (val: string, id: string) => void;
 }
 
 export interface IGameTopSection {
@@ -702,6 +702,10 @@ export interface ILobbySettings {
     scoreType: string;
     scoreTypeShort: string;
   };
+  /*
+   * cover card for game
+   */
+  coverCardforServer: ICoverCard;
 }
 
 export interface IGameStatus {
@@ -724,7 +728,7 @@ export interface ICardDeckLobby {
     scoreType: string;
     scoreTypeShort: string;
   };
-  handleValuesFromNewDeck: (value: string, ind: number) => void;
+  handleValuesFromNewDeck: (value: string, id: string) => void;
 }
 
 export interface ISwitchLobby {

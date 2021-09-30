@@ -35,7 +35,6 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
     setValueTimer,
     activeCoverCardID,
     setIsActiveCoverCard,
-    valuesOfNewDeck,
     setValuesOfNewDeck,
     errors,
   } = useLobbySettings(changePokerGameSettings);
@@ -63,7 +62,7 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
     const valueCardID = id();
     const newValueCard = {
       id: valueCardID,
-      name: 'SP',
+      name: '',
       value: '',
     };
 
@@ -93,9 +92,13 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
     setIsActiveCoverCard(ID);
   };
 
-  const handleValuesFromNewDeck = (value: string, ind: number) => {
-    valuesOfNewDeck[ind] = value;
-    setValuesOfNewDeck(() => [...valuesOfNewDeck]);
+  const handleValuesFromNewDeck = (value: string, idCard: string) => {
+    const index = valueCard.findIndex((card) => card.valueCardID === idCard);
+    if (index < 0) return;
+    const currentCard = valueCard[index];
+    currentCard.value = value;
+    setValueCard([...valueCard]);
+    setValuesOfNewDeck([...valueCard.map((card) => card.value)]);
   };
 
   return (

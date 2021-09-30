@@ -1,30 +1,30 @@
 import { IValueCard } from '@models/types';
 
-export const defaultValueForCustomDeck = ['PASS', '?', '1', '10', '50'];
+export const defaultValueForCustomDeck = ['PASS', 'COFFEE', '1', '10', '50'];
 export const valueCardData: IValueCard[] = [
   {
-    valueCardID: '1',
+    valueCardID: 'asdsdf23423af',
     name: 'SP',
     value: 'PASS',
   },
   {
-    valueCardID: '2',
+    valueCardID: 'asdgsdgsdfsdfdsg',
     name: 'SP',
-    value: '?',
+    value: 'COFFEE',
   },
   {
-    valueCardID: '3',
+    valueCardID: 'sdgsdfsdfsdf',
     name: 'SP',
-    value: 1,
+    value: '1',
   },
   {
-    valueCardID: '4',
+    valueCardID: '123123sdfsdf',
     name: 'SP',
-    value: 10,
+    value: '10',
   },
   {
-    valueCardID: '5',
+    valueCardID: 'sdfsdf1134234',
     name: 'SP',
-    value: 50,
+    value: '50',
   },
 ];

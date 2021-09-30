@@ -1,5 +1,5 @@
 import { coverCardData } from '@components/ui/cover-card/cover-cardData';
-import { defaultValueForCustomDeck, valueCardData } from '@components/ui/value-card/value-cardData';
+import { valueCardData } from '@components/ui/value-card/value-cardData';
 import { CardSet, IGameSettingsErrors } from '@models/types';
 import { useEffect, useState } from 'react';
 
@@ -26,7 +26,9 @@ export const useLobbySettings = (changePokerGameSettings: (value: any) => void) 
   const [valueCard, setValueCard] = useState(valueCardData);
   const [valueTimer, setValueTimer] = useState<Date | null>(new Date(1970, 1, 1, 0, 2, 20));
   const [activeCoverCardID, setIsActiveCoverCard] = useState<string>('1');
-  const [valuesOfNewDeck, setValuesOfNewDeck] = useState<string[]>(defaultValueForCustomDeck);
+  const [valuesOfNewDeck, setValuesOfNewDeck] = useState<string[]>(
+    valueCard.map((card) => card.value)
+  );
   const [errors, setErrors] = useState({} as IGameSettingsErrors);
 
   const validate = () => {

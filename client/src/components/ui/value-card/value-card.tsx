@@ -8,14 +8,14 @@ export const ValueCard = ({ valueCardID, name, value, handleDataFromValueCard }:
   const [isEditable, setIsEditable] = useState(false);
   const [newValue, setNewValue] = useState(value);
 
-  const cardName = valueCardID !== '1' && valueCardID !== '2' && name.match(/^.{1,3}/);
+  const cardName = value !== 'PASS' && value !== 'COFFEE' && name.match(/^.{1,3}/);
 
   const handleEdit = () => {
     setIsEditable(!isEditable);
   };
 
   const handleOnChange = (event: ChangeEvent<any>) => {
-    handleDataFromValueCard!(event.target.value, +valueCardID!);
+    handleDataFromValueCard!(event.target.value, String(valueCardID));
 
     setNewValue(event.target.value);
   };
@@ -40,7 +40,7 @@ export const ValueCard = ({ valueCardID, name, value, handleDataFromValueCard }:
       </div>
       <div className="value-card-edit-delete">
         <CardActions>
-          {valueCardID !== '1' && valueCardID !== '2' && (
+          {value !== 'PASS' && value !== 'COFFEE' && (
             <IconButton className="value-card-edit-btn" onClick={handleEdit} />
           )}
         </CardActions>
