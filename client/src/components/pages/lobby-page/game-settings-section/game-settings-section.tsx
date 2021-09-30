@@ -139,7 +139,7 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
                   />
                 </div>
                 {errors.scoreTypeError && (
-                  <div className="error">* Field "Score type" must be filled in</div>
+                  <div className="error">* Field &quot;Score type&quot; must be filled in</div>
                 )}
               </div>
 
@@ -159,7 +159,9 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
                   />
                 </div>
                 {errors.scoreTypeShortError && (
-                  <div className="error">* Field "Score type (Short)" must be filled in</div>
+                  <div className="error">
+                    * Field &quot;Score type (Short)&quot; must be filled in
+                  </div>
                 )}
               </div>
             </div>

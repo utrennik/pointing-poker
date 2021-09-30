@@ -53,7 +53,6 @@ const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => 
       };
       ws.requestPokerGameStart(dataToServer);
     }
-    console.log('Start game!');
   };
 
   const handleCancelGame = () => {
