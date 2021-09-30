@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core';
 import WebSocketProvider from '@models/web-socket';
 
-import App from './App.tsx';
+import App from './App';
 
 import store from './redux/store';
 import { theme } from './ThemeUI/theme';

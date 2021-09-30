@@ -1,7 +1,7 @@
 import { Card, CardHeader, makeStyles, Typography } from '@material-ui/core';
 import { IScramMasterCard } from '@models/types';
 import { truncateString } from '@utils/stringUtils';
-import { CustomAvatar } from '../customAvatar/customAvatar.tsx';
+import { CustomAvatar } from '../customAvatar/customAvatar';
 import config from '../../../config.json';
 import './scram-master-card.sass';
 

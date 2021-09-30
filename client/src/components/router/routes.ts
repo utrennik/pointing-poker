@@ -8,25 +8,31 @@ export default [
   {
     path: '/',
     component: WelcomePage,
+    key: '1',
   },
   {
     path: '/lobby',
     component: LobbyPage,
+    key: '2',
   },
   {
     path: '/game',
     component: GamePage,
+    key: '3',
   },
   {
     path: '/result',
     component: ResultPage,
+    key: '4',
   },
   {
     path: '/test',
     component: TestPage,
+    key: '5',
   },
   {
     path: '/link/:id',
     component: WelcomePage,
+    key: '6',
   },
 ];

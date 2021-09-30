@@ -1,6 +1,10 @@
 import './game-timer.sass';
 
-export const GameTimer = ({ timerSecs }) => {
+interface IGameTimer {
+  timerSecs: number;
+}
+
+export const GameTimer = ({ timerSecs }: IGameTimer) => {
   const MINUTE_SECS = 60;
 
   return (

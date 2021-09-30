@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import { Card, CardActions, IconButton } from '@material-ui/core';
 import { IValueCard } from '@models/types';
-import { DarkerDisabledTextField } from '../title-planning/title-planning.tsx';
+import { DarkerDisabledTextField } from '../title-planning/title-planning';
 import './value-card.sass';
 
 export const ValueCard = ({ valueCardID, name, value }: IValueCard) => {

@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { TimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -10,7 +10,7 @@ function SecondsTimePicker() {
   };
 
   return (
-    <Fragment>
+    <>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <TimePicker
           ampm={false}
@@ -22,7 +22,7 @@ function SecondsTimePicker() {
           onChange={handleTimeChange}
         />
       </MuiPickersUtilsProvider>
-    </Fragment>
+    </>
   );
 }
 

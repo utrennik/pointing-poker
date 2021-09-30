@@ -1,6 +1,6 @@
 import { Modal } from '@material-ui/core';
 import { IModalWrapper } from '@models/types';
-import { ModalButtons } from '../modal-buttons/modal-buttons.tsx';
+import { ModalButtons } from '../modal-buttons/modal-buttons';
 
 export const ModalWrapper = ({
   isOpen,

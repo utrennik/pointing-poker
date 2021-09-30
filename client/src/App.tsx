@@ -14,7 +14,7 @@ import '@styles/main.sass';
 const App = () => {
   const location = useLocation();
 
-  const routeComponents = routes.map(({ path, component }, key) => (
+  const routeComponents = routes.map(({ path, component, key }) => (
     <Route exact path={path} component={component} key={key} />
   ));
 

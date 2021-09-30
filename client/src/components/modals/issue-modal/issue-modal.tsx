@@ -5,11 +5,16 @@ import { WebSocketContext } from '@models/web-socket';
 import { InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import { IIssue, IIssueModalErrors, IssuePriority } from '@models/types';
 import { id } from '@src/utils/utils';
-import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
+import { ModalWrapper } from '../modal-wrapper/modal-wrapper';
 import { issueData } from './issueData';
 import './issue-modal.sass';
 
-const IssueModal = ({ isOpen, onClose }) => {
+interface IIssueModal {
+  isOpen: boolean;
+  onClose: Function;
+}
+
+const IssueModal = ({ isOpen, onClose }: IIssueModal) => {
   const [issueName, setIssueName] = useState('');
   const [issuePriority, setIssuePriority] = useState(IssuePriority.HIGH);
   const [errors, setErrors] = useState({} as IIssueModalErrors);

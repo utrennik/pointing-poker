@@ -1,15 +1,23 @@
 import { ChangeEvent, useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
-import { IEditIssueModalErrors, IIssue } from '@models/types';
+import { IEditIssueModalErrors, IIssue, IssuePriority } from '@models/types';
 import { WebSocketContext } from '@models/web-socket';
 import { RootState } from '@src/redux/store';
 import { id } from '@src/utils/utils';
-import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
+import { ModalWrapper } from '../modal-wrapper/modal-wrapper';
 import { issueData } from './edit-issueData';
 import './edit-issue-modal.sass';
 
-const EditIssueModal = ({ isOpen, onClose, issueID, name, priority }) => {
+interface IEditIssueModal {
+  isOpen: boolean;
+  onClose: Function;
+  issueID: string;
+  name: string;
+  priority: IssuePriority;
+}
+
+const EditIssueModal = ({ isOpen, onClose, issueID, name, priority }: IEditIssueModal) => {
   const [issueName, setIssueName] = useState(name);
   const [issuePriority, setIssuePriority] = useState(priority);
   const [errors, setErrors] = useState({} as IEditIssueModalErrors);

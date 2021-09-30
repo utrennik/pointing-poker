@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, ReactChild, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
 import { useHistory } from 'react-router-dom';
@@ -39,7 +39,7 @@ const SERVER_URL = config.SERVER_BASE_URL;
 
 export { WebSocketContext };
 
-export default ({ children }) => {
+export default ({ children }: { children: ReactChild[] }) => {
   let socket: Socket | undefined;
 
   if (!socket) socket = io(SERVER_URL);
