@@ -33,7 +33,7 @@ export const GameCard = ({
           <div className="game-card-value">{value}</div>
           {isSelected && (
             <div className="game-card-select-bg-color">
-              <div className="game-card-select-icon"></div>
+              <div className="game-card-select-icon" />
             </div>
           )}
         </>

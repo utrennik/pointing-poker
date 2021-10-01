@@ -16,7 +16,7 @@ export const GameVotingSection = () => {
 
   return (
     <div className="game-voting-section">
-      <button className="flip-test-button" onClick={handleFlip}>
+      <button type="button" className="flip-test-button" onClick={handleFlip}>
         {isFlipped ? `Value` : `Cover`}
       </button>
       <div className="game-card-container">
