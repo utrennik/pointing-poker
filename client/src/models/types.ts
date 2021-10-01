@@ -640,6 +640,36 @@ export interface IValueCard {
   handleDataFromValueCard?: (val: string, id: string) => void;
 }
 
+export interface IGameCard {
+  /*
+   * Unique game card identifier
+   */
+  gameCardID: string;
+  /*
+   * Name of game card
+   */
+  name: string;
+  /*
+   * Value for game card
+   */
+  value: VotingData;
+  /*
+   * Image for game card
+   */
+  image: string;
+  /*
+   * Flip game card
+   */
+  isFlipped: boolean;
+  /*
+   * Select game card
+   */
+  isSelected: boolean;
+  /*
+   * The action will be called on Create value card
+   */
+  onSelectedHandler?: () => void;
+}
 export interface IGameTopSection {
   /*
    * Round timer start value in seconds
