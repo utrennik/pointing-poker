@@ -19,6 +19,7 @@ import {
   setMessages,
   setGameStatus,
   setPokerGameSettings,
+  setCurrentIssue,
 } from '@src/redux/actions';
 
 import {
@@ -212,10 +213,10 @@ export default ({ children }: { children: ReactChild[] }) => {
 
   const requestSelectIssue = (issueID: string) => {
     const selectIssueData: IIssueID = {
-      id: issueID,
-      room: currentGame.room,
+      issueID,
+      roomID: currentGame.room,
     };
-    console.log(`Requested select issue with id ${issueID}`);
+    console.log(`Requested select issue ${selectIssueData}}`);
     socket?.emit(config.REQ_SELECT_ISSUE, selectIssueData);
   };
 
@@ -278,7 +279,6 @@ export default ({ children }: { children: ReactChild[] }) => {
 
   socket.on(config.RES_START_POKER_GAME, (pokerGameSettingsData: ILobbySettings) => {
     dispatch(setPokerGameSettings(pokerGameSettingsData));
-    dispatch(setGameStatus(GameStatus.POKER));
     history.push('/game');
   });
 

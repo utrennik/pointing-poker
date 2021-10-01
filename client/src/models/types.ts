@@ -265,11 +265,11 @@ export interface IIssueID {
   /*
    * id of the issue
    */
-  id: string;
+  issueID: string;
   /*
    * Game room id
    */
-  room: string;
+  roomID: string;
 }
 
 export interface IMemberCard {

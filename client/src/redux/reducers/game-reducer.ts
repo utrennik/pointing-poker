@@ -98,9 +98,31 @@ export const gameReducer = (state = initialState, { type, payload }) => {
     }
 
     case types.SET_ISSUES: {
+      const newIssues = payload.issues;
+      const isCurrentIssue = !!state.currentIssue.id;
+      const isCurrentIssueInArrray = !!newIssues.filter(
+        (issue) => issue.id === state.currentIssue.id
+      )[0];
+
+      if (!isCurrentIssue || !isCurrentIssueInArrray) {
+        const defaultActiveIssue = newIssues[0];
+        defaultActiveIssue.isActive = true;
+
+        return {
+          ...state,
+          issues: newIssues,
+          currentIssue: defaultActiveIssue,
+        };
+      }
+
+      if (isCurrentIssueInArrray) {
+        const activeIssueInArray = newIssues.find((issue) => issue.id === state.currentIssue.id);
+        activeIssueInArray.isActive = true;
+      }
+
       return {
         ...state,
-        issues: payload.issues,
+        issues: newIssues,
       };
     }
 
@@ -110,6 +132,7 @@ export const gameReducer = (state = initialState, { type, payload }) => {
         gameStatus: payload.gameStatus,
       };
     }
+
     case types.SET_POKER_GAME_SETTINGS: {
       return {
         ...state,

@@ -12,7 +12,7 @@ import '@styles/page.sass';
 import './game-page.sass';
 
 const GamePage = () => {
-  const timerStartSecs: number = useSelector((state: RootState) => state.game.timer);
+  const timerStartSecs: number = useSelector((state: RootState) => state.game.settings.timer);
   const client: IUser = useSelector((state: RootState) => state.client.clientUser);
   const [totalSecs, setTotalSecs] = useState(timerStartSecs);
   const [intervalID, setIntervalID] = useState(null);
