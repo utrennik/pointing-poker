@@ -52,20 +52,19 @@ const addRound = (room, id) => {
 // };
 
 export default ({ socket, io }) => {
-  socket.on(EVENTS.REQ_SELECT_ISSUE, ({ room, id }) => {
-    addRound(room,id);
-    const issueID = id;
-    io.in(room).emit(EVENTS.RES_SELECT_ISSUE, { issueID });
+  socket.on(EVENTS.REQ_SELECT_ISSUE, ({ roomID, issueID }) => {
+    addRound(roomID,issueID);
+    io.in(room).emit(EVENTS.RES_SELECT_ISSUE,issueID );
   });
 
-  socket.on(EVENTS.REQ_START_ROUND, ({ roomID }) => {
+  socket.on(EVENTS.REQ_START_ROUND, ( roomID ) => {
     const { currentPokerGame, pokerGameError } = getPokerGame(roomID);
     if (pokerGameError) return pokerGameError;
     currentPokerGame.round.isRoundStart = true
     io.in(room).emit(EVENTS.RES_START_ROUND, true);
   });
 
-  socket.on(EVENTS.REQ_FINISH_ROUND, ({ roomID }) => {
+  socket.on(EVENTS.REQ_FINISH_ROUND, ( roomID ) => {
     const { currentPokerGame, pokerGameError } = getPokerGame(roomID);
     if (pokerGameError) return pokerGameError;
     currentPokerGame.round.isRoundStart = false;
