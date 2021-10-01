@@ -15,3 +15,4 @@ declare module '*.html' {
 }
 
 declare module 'react-export-excel';
+declare module 'react-csv';

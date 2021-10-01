@@ -1,5 +1,6 @@
 import '@styles/page.sass';
 import ReactExport from 'react-export-excel';
+import { CSVLink } from 'react-csv';
 
 const { ExcelFile } = ReactExport;
 const { ExcelSheet } = ReactExport.ExcelFile;
@@ -46,8 +47,29 @@ const gameResults = [
 
 export const GameResultsSave = () => (
   <div className="result-container">
-    {' '}
-    <ExcelFile element={<button type="button">Download Results as XLS</button>}>
+    <table id="table-to-xls">
+      <thead>
+        <tr>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Age</th>
+        </tr>
+      </thead>
+      <tbody>
+        {gameResults.map((item) => (
+          <tr>
+            <td>{item.issueName}</td>
+            <td>{item.issueDescription}</td>
+            <td>{item.issueScore}</td>
+            <td>{item.issueScoreTypeShort}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>{' '}
+    <ExcelFile
+      filename="Game Results"
+      element={<button type="button">Download Results as XLSX</button>}
+    >
       <ExcelSheet data={gameResults} name="Game Results">
         <ExcelColumn label="Issue Title" value="issueName" />
         <ExcelColumn label="Issue Description" value="issueDescription" />
@@ -55,5 +77,8 @@ export const GameResultsSave = () => (
         <ExcelColumn label="Score Type" value="issueScoreTypeShort" />
       </ExcelSheet>
     </ExcelFile>
+    <CSVLink filename="Game Results.csv" data={gameResults}>
+      Download Results as CSV
+    </CSVLink>
   </div>
 );
