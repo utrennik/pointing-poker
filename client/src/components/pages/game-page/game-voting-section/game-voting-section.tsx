@@ -1,8 +1,7 @@
-import './game-voting-section.sass';
-
+import { useState } from 'react';
 import { GameCard } from '@components/ui/game-card/game-card';
 import { gameCardData } from '@components/ui/game-card/game-cardData';
-import { useState } from 'react';
+import './game-voting-section.sass';
 
 export const GameVotingSection = () => {
   const initialSelectedValue = '';

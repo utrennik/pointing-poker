@@ -1,5 +1,5 @@
-import '@styles/page.sass';
 import { GameVotingSection } from '@components/pages/game-page/game-voting-section/game-voting-section';
+import '@styles/page.sass';
 
 const TestPage = () => (
   <main className="main">

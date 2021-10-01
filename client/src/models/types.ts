@@ -652,7 +652,7 @@ export interface IGameCard {
   /*
    * Value for game card
    */
-  value: string | number;
+  value: VotingData;
   /*
    * Image for game card
    */
@@ -668,7 +668,7 @@ export interface IGameCard {
   /*
    * The action will be called on Create value card
    */
-  onSelectedHandler: () => void;
+  onSelectedHandler?: () => void;
 }
 export interface IGameTopSection {
   /*

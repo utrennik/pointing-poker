@@ -1,20 +1,23 @@
 import { IGameCard } from '@models/types';
 import clarence from '@assets/images/back-side-card/clarence.svg';
+import config from '@src/config.json';
 
 export const gameCardData: IGameCard[] = [
   {
     gameCardID: '1',
     name: 'SP',
-    value: 'PASS',
+    value: config.PASS,
     image: clarence,
     isFlipped: false,
+    isSelected: false,
   },
   {
     gameCardID: '2',
     name: 'SP',
-    value: 'COFFEE',
+    value: config.COFFEE,
     image: clarence,
     isFlipped: false,
+    isSelected: false,
   },
   {
     gameCardID: '3',
@@ -22,6 +25,7 @@ export const gameCardData: IGameCard[] = [
     value: '1',
     image: clarence,
     isFlipped: false,
+    isSelected: false,
   },
   {
     gameCardID: '4',
@@ -29,6 +33,7 @@ export const gameCardData: IGameCard[] = [
     value: '5',
     image: clarence,
     isFlipped: false,
+    isSelected: false,
   },
   {
     gameCardID: '5',
@@ -36,5 +41,6 @@ export const gameCardData: IGameCard[] = [
     value: '10',
     image: clarence,
     isFlipped: false,
+    isSelected: false,
   },
 ];
