@@ -27,6 +27,7 @@ const EVENTS = {
   RES_RESULT_VOTE:"res-result-vote",
   REQ_MESSAGE_ADD:"req-message-add",
   RES_MESSAGES_GET:"res-messages-get",
+  REQ_MESSAGES_GET:"req-messages-get",
   REQ_SELECT_ISSUE: "req-select-issue",
   RES_SELECT_ISSUE: 'res-select-issue',
   REQ_START_ROUND: 'req-start-round',
@@ -35,5 +36,6 @@ const EVENTS = {
   RES_FINISH_ROUND: 'res-finish-round',
   REQ_SET_SCORE: 'req-set-score',
   RES_SET_SCORE: 'res-set-score'
+
 }
 export default EVENTS;

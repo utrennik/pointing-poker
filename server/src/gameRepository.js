@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import EVENTS from "./events.js";
+import { addPokerGame } from "./pokerRepository.js";
 
 const games = [];
 
@@ -41,7 +42,7 @@ export const getGame = (room) => {
 };
 
 export const deleteGame = (room) => {
-  const index = games.findIndex((game) => game.id === room);
+  const index = games.findIndex((game) => game.room === room);
   if (index === -1) {
     return new Error("Game not found");
   } else {
@@ -95,23 +96,6 @@ export default ({ socket, io }) => {
   socket.on(EVENTS.REQ_START_POKER, (data) => {
     const { currentGame, gameError } = getGame(data.room);
     if (gameError) return;
-    // interface ILobbySettings {
-    //   room?: string;
-    //   dealerAsPlr: boolean;
-    //   autoreverse:boolean;
-    //   cardSet: CardSet;
-    //   customCardSet?:string[];
-    //   participation_in_game_for_new_users?: boolean;
-    //   changeChoice: boolean;
-    //   revote_before_round_end?: boolean;
-    //   timerIsNeed: boolean | number;
-    //   scoreForIssuesFromFile: boolean;
-    //   estimationUnits: {
-    //     scoreType: string;
-    //     scoreTypeShort : string;
-    //   }
-    //   gameStatus?: 'lobby' | 'poker' | 'cancel';
-    // }
     currentGame.settings = data;
     io.in(data.room).emit(EVENTS.RES_START_POKER, data);
   });
@@ -122,6 +106,7 @@ export default ({ socket, io }) => {
     io.emit(EVENTS.NOTIFICATIONS, { message: "Current game cancelled." });
     currentGame.gameStatus = "cancel";
     const gameStatus = currentGame.gameStatus;
+    addPokerGame(room);
     io.in(room).emit(EVENTS.RES_CANCEL_GAME, { gameStatus });
     deleteGame(room);
   });

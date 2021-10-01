@@ -6,6 +6,7 @@ import gameHandler from "./gameRepository.js";
 import userHandler from "./usersRepository.js";
 import issuesHandler from "./issuesRepository.js";
 import messagesHandler from "./messagesRepository.js"
+import pokerRepository from "./pokerRepository.js";
 
 const app = express();
 app.use(cors());
@@ -25,6 +26,7 @@ io.on("connection", (socket) => {
   userHandler({ socket, io });
   issuesHandler({ socket, io });
   messagesHandler({socket,io});
+  pokerRepository({socket,io});
 });
 
 app.get("/", (req, res) => {
