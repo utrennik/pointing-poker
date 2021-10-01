@@ -50,9 +50,10 @@ export const GameResultsSave = () => (
     <table id="table-to-xls">
       <thead>
         <tr>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Age</th>
+          <th>Issue Title</th>
+          <th>Issue Description</th>
+          <th>Score</th>
+          <th>Score Type</th>
         </tr>
       </thead>
       <tbody>
