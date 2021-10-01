@@ -48,7 +48,7 @@ const GamePage = () => {
   return (
     <main className="main">
       <div className="container content-wrapper game-page">
-        <GameTopSection timerSecs={totalSecs} isClientDealer={isClientDealer} />
+        <GameTopSection timerSecs={totalSecs} client={client} />
         <h5>Test buttons:</h5>
         <button type="button" onClick={startTimer}>
           Start timer

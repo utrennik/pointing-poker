@@ -1,19 +1,25 @@
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
+import { useContext } from 'react';
 import { Button } from '@material-ui/core';
 import { ScramMasterCard } from '@components/ui/scram-master-card/scram-master-card';
+import { WebSocketContext } from '@models/web-socket';
 import { IGameTopSection, IUser } from '@models/types';
+import config from '@src/config.json';
 import { GameTimer } from './game-timer/game-timer';
 import './game-top-section.sass';
 
-export const GameTopSection = ({ timerSecs, isClientDealer }: IGameTopSection) => {
+export const GameTopSection = ({ timerSecs, client }: IGameTopSection) => {
   const gameTitle: string = useSelector((state: RootState) => state.game.title);
   const { firstName, lastName, jobPosition, avatar } = useSelector(
     (state: RootState) => state.game.dealer as IUser
   );
+  const isClientDealer = client.role === config.DEALER;
+  const ws = useContext(WebSocketContext);
 
   const handleStopExitGame = () => {
-    console.log(isClientDealer ? 'Stop game' : 'Exit game');
+    if (isClientDealer) ws.requestCancelGame();
+    else ws.requestUserDelete(client.id);
   };
 
   return (

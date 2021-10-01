@@ -256,7 +256,7 @@ export interface IIssuesSection {
   sectionTitle: string;
 }
 
-export interface IIssueDelete {
+export interface IIssueID {
   /*
    * id of the issue
    */
@@ -702,7 +702,7 @@ export interface IGameTopSection {
   /*
    * Is the client user a dealer
    */
-  isClientDealer: boolean;
+  client: IUser;
 }
 export interface ILobbySettings {
   /*

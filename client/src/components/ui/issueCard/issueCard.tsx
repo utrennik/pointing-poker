@@ -1,8 +1,8 @@
-import { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Card, CardHeader, IconButton } from '@material-ui/core';
 import { RootState } from 'src/redux/store';
-import { IIssueCard, IIssueDelete } from '@models/types';
+import { IIssueCard, IIssueID } from '@models/types';
 import { WebSocketContext } from '@models/web-socket';
 import { truncateString } from '@utils/stringUtils';
 import EditIssueModal from '@components/modals/edit-issue-modal/edit-issue-modal';
@@ -30,20 +30,21 @@ export const IssueCard = ({
     setEditIssueModalOpen(false);
   };
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event.target);
-    console.log(id);
-  };
-
   const handleDelete = () => {
-    const issueDeleteData: IIssueDelete = {
+    const issueDeleteData: IIssueID = {
       id,
       room: roomID,
     };
     ws.requestDeleteIssue(issueDeleteData);
   };
 
+  const handleIssueSelect = (e: React.MouseEvent<HTMLElement>) => {
+    if ((e.target && e.target.type === 'button') || !isGame) return;
+    ws.requestSelectIssue(id);
+  };
+
   const cardClass =
+    (isActive && isPlayed && 'issue-card selected played') ||
     (isActive && isPlayed && 'issue-card selected played') ||
     (isActive && 'issue-card selected') ||
     (isPlayed && 'issue-card played') ||
@@ -54,8 +55,8 @@ export const IssueCard = ({
     : config.truncateSettings.issueTitleMaxSymbols;
 
   return (
-    <div title={name}>
-      <Card className={cardClass}>
+    <div className={isGame ? 'clickable' : ''} title={name}>
+      <Card className={cardClass} onClick={handleIssueSelect}>
         <CardHeader
           className="issue-card-header"
           title={truncateString(name, maxSymbols)}
@@ -63,7 +64,7 @@ export const IssueCard = ({
           subheaderTypographyProps={{ variant: 'subtitle1' }}
         />
         {isGame && isDealer ? (
-          <IconButton className="issue-card-close-btn" onClick={handleClose} />
+          <IconButton className="issue-card-close-btn" onClick={handleDelete} />
         ) : (
           isDealer && [
             <IconButton className="issue-card-edit-btn" onClick={handleEditIssueModalOpen} />,

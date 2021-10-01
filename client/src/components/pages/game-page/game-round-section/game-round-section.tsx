@@ -8,18 +8,23 @@ import { StatsItem } from './stats-item/stats-item';
 import './game-round-section.sass';
 
 export const GameRoundSection = () => {
-  const currentIssue: IIssue = useSelector((state: RootState) => state.game.currentIssue);
+  const currentIssue: IIssue = useSelector(
+    (state: RootState) => state.game.currentIssue || state.game.issues[0]
+  );
   const isIssuePlayed: boolean = !!currentIssue.score;
-  const voteResults: IRoundVoteResults[] = getVoteResults(currentIssue.votingData);
+  const voteResults: IRoundVoteResults[] =
+    (currentIssue.votingData && getVoteResults(currentIssue.votingData)) || [];
 
-  const statsItems = voteResults.map((voteResultsItem: IRoundVoteResults) => (
-    <StatsItem
-      key={id()}
-      score={voteResultsItem.score}
-      percentage={voteResultsItem.percentage}
-      pointsShortName="SP"
-    />
-  ));
+  const statsItems =
+    voteResults &&
+    voteResults.map((voteResultsItem: IRoundVoteResults) => (
+      <StatsItem
+        key={id()}
+        score={voteResultsItem.score}
+        percentage={voteResultsItem.percentage}
+        pointsShortName="SP"
+      />
+    ));
 
   const handleSetScore = (score: string) => {
     console.log(`set current issue score: ${score}`);

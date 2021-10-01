@@ -21,7 +21,6 @@ import {
   setPokerGameSettings,
 } from '@src/redux/actions';
 
-import { initialState } from '@src/redux/reducers/game-reducer';
 import {
   IUser,
   IUserDelete,
@@ -31,11 +30,11 @@ import {
   IDeleteVoteFinishData,
   IDeleteVoteResults,
   IIssue,
-  IIssueDelete,
   IMessage,
   GameStatus,
   ILobbySettings,
   IGameStatus,
+  IIssueID,
 } from './types';
 import config from '../config.json';
 
@@ -56,11 +55,11 @@ export default ({ children }: { children: ReactChild[] }) => {
   let client = {} as IUser; // TODO: used bacause the state is unavailable in socket.on callbacks
 
   // TODO: For testing game page, PLEASE REMOVE after test
-  const gamePageTest = () => {
-    history.push('/game');
-  };
+  // const gamePageTest = () => {
+  //   history.push('/game');
+  // };
 
-  gamePageTest();
+  // gamePageTest();
 
   const resetClient = () => {
     history.push('/');
@@ -81,7 +80,7 @@ export default ({ children }: { children: ReactChild[] }) => {
 
   const clientExit = () => {
     console.log(`User ${clientUser.id} exit requested...`);
-    socket.emit(
+    socket?.emit(
       config.REQ_USER_DELETE,
       {
         dealerID: currentGame.dealer.id,
@@ -98,7 +97,7 @@ export default ({ children }: { children: ReactChild[] }) => {
   };
 
   const requestStartGame = (userData: IUser) => {
-    socket.emit(config.REQ_START_GAME, userData, (res: IUser) => {
+    socket?.emit(config.REQ_START_GAME, userData, (res: IUser) => {
       console.log(`Game ${res.room} started...`);
       dispatch(setClientUser(res));
       client = res;
@@ -110,7 +109,7 @@ export default ({ children }: { children: ReactChild[] }) => {
   };
 
   const requestTitleChange = (title: string) => {
-    socket.emit(config.REQ_TITLE_CHANGE, { title, room: clientUser.room });
+    socket?.emit(config.REQ_TITLE_CHANGE, { title, room: clientUser.room });
     console.log(`Title ${title} change requested...`);
   };
 
@@ -125,7 +124,7 @@ export default ({ children }: { children: ReactChild[] }) => {
     setConnectModalOpen: Function,
     setNoRoomError: Function
   ) => {
-    socket.emit(config.REQ_ROOM_CHECK, { room: roomID }, (res: boolean) => {
+    socket?.emit(config.REQ_ROOM_CHECK, { room: roomID }, (res: boolean) => {
       console.log(`Room ${roomID} ${res ? 'exists' : 'not exists'}...`);
       setConnectModalOpen(res);
       setNoRoomError(!res);
@@ -133,7 +132,7 @@ export default ({ children }: { children: ReactChild[] }) => {
   };
 
   const requestUserJoin = (userData: IUser) => {
-    socket.emit(config.REQ_USER_JOIN, userData, (res: IGame) => {
+    socket?.emit(config.REQ_USER_JOIN, userData, (res: IGame) => {
       console.log(`User ${userData.firstName} ${userData.lastName} join requested...`);
 
       dispatch(setClientUser(userData));
@@ -153,7 +152,7 @@ export default ({ children }: { children: ReactChild[] }) => {
         userID,
         room: currentGame.room,
       };
-      socket.emit(config.REQ_USER_DELETE, userDeleteData, (deletedUser: IUser) => {
+      socket?.emit(config.REQ_USER_DELETE, userDeleteData, (deletedUser: IUser) => {
         console.log(`User ${userID} delete requested...`);
         if (deletedUser.id) {
           console.log(`User ${deletedUser.id} deleted...`);
@@ -165,7 +164,7 @@ export default ({ children }: { children: ReactChild[] }) => {
         removerUserID: clientUser.id,
         deleteUserID: userID,
       };
-      socket.emit(config.REQ_START_USER_DELETE_VOTE, userDeleteVoteData);
+      socket?.emit(config.REQ_START_USER_DELETE_VOTE, userDeleteVoteData);
       console.log(
         `User ${userID} delete vote requested... Data: ${JSON.stringify(userDeleteVoteData)}`
       );
@@ -177,42 +176,47 @@ export default ({ children }: { children: ReactChild[] }) => {
       room: currentGame.room,
       result: isDelete,
     };
-    socket.emit(config.REQ_FINISH_DELETE_VOTE, deleteVoteFinishData);
+    socket?.emit(config.REQ_FINISH_DELETE_VOTE, deleteVoteFinishData);
   };
 
   const requestAddMessage = (messageData: IMessage) => {
-    socket.emit(config.REQ_MESSAGE_ADD, messageData);
+    socket?.emit(config.REQ_MESSAGE_ADD, messageData);
     console.log(`Requested add message: ${JSON.stringify(messageData)}`);
   };
 
   const requestAddIssue = (issueData: IIssue) => {
-    socket.emit(config.REQ_ISSUE_ADD, issueData);
+    socket?.emit(config.REQ_ISSUE_ADD, issueData);
     console.log(`Requested add issue: ${JSON.stringify(issueData)}`);
   };
 
   const requestUpdateIssue = (issueData: IIssue) => {
     console.log(`Requested update issue: ${JSON.stringify(issueData)}`);
-    socket.emit(config.REQ_ISSUE_UPDATE, issueData);
+    socket?.emit(config.REQ_ISSUE_UPDATE, issueData);
   };
 
-  const requestDeleteIssue = (issueDeleteData: IIssueDelete) => {
+  const requestDeleteIssue = (issueDeleteData: IIssueID) => {
     console.log(`Requested delete issue: ${JSON.stringify(issueDeleteData)}`);
-    socket.emit(config.REQ_ISSUE_DELETE, issueDeleteData);
+    socket?.emit(config.REQ_ISSUE_DELETE, issueDeleteData);
   };
   const requestPokerGameStart = (settings: ILobbySettings) => {
-    socket.emit(config.REQ_START_POKER_GAME, settings);
+    socket?.emit(config.REQ_START_POKER_GAME, settings);
   };
 
   const requestCancelGame = () => {
     const cancelGameData = {
       room: currentGame.room,
     };
-    socket.emit(config.REQ_CANCEL_GAME, cancelGameData);
+    socket?.emit(config.REQ_CANCEL_GAME, cancelGameData);
+    console.log('Game cancel requested');
   };
 
   const requestSelectIssue = (issueID: string) => {
+    const selectIssueData: IIssueID = {
+      id: issueID,
+      room: currentGame.room,
+    };
     console.log(`Requested select issue with id ${issueID}`);
-    socket?.emit(config.REQ_SELECT_ISSUE, { issueID });
+    socket?.emit(config.REQ_SELECT_ISSUE, selectIssueData);
   };
 
   socket.on('connect', () => {
@@ -282,8 +286,7 @@ export default ({ children }: { children: ReactChild[] }) => {
     console.log(`Game canceled !`);
 
     if (gameStatusData.gameStatus === 'cancel') {
-      history.push('/');
-      dispatch(setGame(initialState));
+      resetClient();
     }
   });
 
