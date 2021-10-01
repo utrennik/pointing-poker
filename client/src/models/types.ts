@@ -654,11 +654,11 @@ export interface ILobbySettings {
   /*
    * id of room for Game
    */
-  room?: string;
+  room: string;
   /*
    * dealer can play poker with members
    */
-  dealerAsPlr: boolean;
+  isDealerPlayer: boolean;
   /*
    * variant of deck with card
    */
@@ -666,39 +666,35 @@ export interface ILobbySettings {
   /*
    * custom deck,which make by dealer
    */
-  customCardSet?: string[];
+  customCardSet: string[];
   /*
    * possibility to all users connect in room ,when poker start
    */
-  participation_in_game_for_new_users?: boolean;
+  isFreeConnectionToGameForNewUsers: boolean;
   /*
    * chage choice after card will be flip
    */
-  changeChoice: boolean;
+  isChangeChoiceAfterFlip: boolean;
   /*
    *revote after round with voting end
    */
-  revote_before_round_end?: boolean;
+  isRevoteAfterRoundEnd?: boolean;
   /*
-   * timer on/off
+   * timer null if switch off or value
    */
-  timerIsNeed: boolean | number;
+  timer: number | null;
   /*
    * possibility to load file with issues
    */
-  scoreForIssuesFromFile: boolean;
+  isSetIssuesFromFile: boolean;
   /*
    * autoreverse cards at the end of each round
    */
-  autoreverse: boolean;
-  /*
-   * game status
-   */
-  gameStatus?: 'lobby' | 'poker' | 'cancel';
+  IsAutoreverseCards: boolean;
   /*
    * units of estimation
    */
-  estimationUnits: {
+  unitsOfEstimation: {
     scoreType: string;
     scoreTypeShort: string;
   };

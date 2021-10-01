@@ -25,7 +25,7 @@ export const types = {
   SET_ISSUES: 'SET_ISSUES',
   SET_CURRENT_ISSUE: 'SET_CURRENT_ISSUE',
   SET_GAME_STATUS: 'SET_GAME_STATUS',
-  GET_POKER_GAME_SETTINGS: 'GET_POKER_GAME_SETTINGS',
+  SET_POKER_GAME_SETTINGS: 'SET_POKER_GAME_SETTINGS',
 };
 
 export const setSocketConnected = () => ({
@@ -103,7 +103,7 @@ export const setGameStatus = (gameStatus: GameStatus) => ({
   type: types.SET_GAME_STATUS,
   payload: { gameStatus },
 });
-export const getPokerGameSettings = (pokerGameSettingsData: ILobbySettings) => ({
-  type: types.GET_POKER_GAME_SETTINGS,
+export const setPokerGameSettings = (pokerGameSettingsData: ILobbySettings) => ({
+  type: types.SET_POKER_GAME_SETTINGS,
   payload: pokerGameSettingsData,
 });

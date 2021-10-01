@@ -18,7 +18,7 @@ import {
   setIssues,
   setMessages,
   setGameStatus,
-  getPokerGameSettings,
+  setPokerGameSettings,
 } from '@src/redux/actions';
 
 import { initialState } from '@src/redux/reducers/game-reducer';
@@ -268,7 +268,8 @@ export default ({ children }: { children: ReactChild[] }) => {
   });
 
   socket.on(config.RES_START_POKER_GAME, (pokerGameSettingsData: ILobbySettings) => {
-    dispatch(getPokerGameSettings(pokerGameSettingsData));
+    dispatch(setPokerGameSettings(pokerGameSettingsData));
+    dispatch(setGameStatus(GameStatus.POKER))
     history.push('/game');
   });
 
