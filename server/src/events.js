@@ -35,7 +35,9 @@ const EVENTS = {
   REQ_FINISH_ROUND: 'req-finish-round',
   RES_FINISH_ROUND: 'res-finish-round',
   REQ_SET_SCORE: 'req-set-score',
-  RES_SET_SCORE: 'res-set-score'
+  RES_SET_SCORE: 'res-set-score',
+  REQ_TEST: "req-test",
+  RES_TEST:"res-test"
 
 }
 export default EVENTS;

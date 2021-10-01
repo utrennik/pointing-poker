@@ -10,17 +10,16 @@ const pokers = [];
 //     }
 // }
 
-export const addPokerGame = (roomID) => {
+export const addPokerGame = (room) => {
   const round = {};
-  const room = roomID;
-  const pokerGame = { room,round };
+  const roomID = room;
+  const pokerGame = { roomID,round };
   pokers.push(pokerGame);
   return { pokerGame };
 };
 
 const getPokerGame = (room) => {
-  const currentPokerGame = pokers.find((poker) => poker.room === room);
-  console.log(currentPokerGame + ` is HERE`)
+  const currentPokerGame = pokers.find((poker) => poker.roomID === room);
   if (!currentPokerGame) return new Error("Poker game not found");
   return { currentPokerGame };
 };
@@ -34,11 +33,11 @@ const deletePokerGame = (room) => {
 const addRound = (room, id) => {
   const { currentPokerGame, pokerGameError } = getPokerGame(room);
   if (pokerGameError) return pokerGameError;
-  console.log(currentPokerGame);
   const results = [];
-  const round = { id,results };
-  currentPokerGame.round = {id:id,results:[]}
-  return { round };
+  const round = { issueID:id,results,isRoundStart:false };
+  currentPokerGame.round = round;
+  const currentRound = currentPokerGame.round;
+  return {currentRound};
 };
 
 // const getRound = (room, id) => {
@@ -55,8 +54,13 @@ const addRound = (room, id) => {
 // };
 
 export default ({ socket, io }) => {
+  socket.on(EVENTS.REQ_TEST,(room) => {
+    // const {pokerGame} = addPokerGame(room);
+    // const {currentRound} = addRound(room,id)
+    console.log(room)
+  });
+
   socket.on(EVENTS.REQ_SELECT_ISSUE, ({ roomID, issueID }) => {
-    console.log({roomID,issueID})
     addRound(roomID,issueID);
     io.in(roomID).emit(EVENTS.RES_SELECT_ISSUE,issueID );
   });
@@ -65,7 +69,7 @@ export default ({ socket, io }) => {
     const { currentPokerGame, pokerGameError } = getPokerGame(roomID);
     if (pokerGameError) return pokerGameError;
     currentPokerGame.round.isRoundStart = true
-    io.in(room).emit(EVENTS.RES_START_ROUND, true);
+    io.in(roomID).emit(EVENTS.RES_START_ROUND, true);
   });
 
   socket.on(EVENTS.REQ_FINISH_ROUND, ( roomID ) => {
