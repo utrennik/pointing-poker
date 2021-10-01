@@ -16,13 +16,20 @@ const Header = () => {
         <div className="header-up">
           <div className="container header-up-wrapper">
             <div className="chat-wrapper">
-              <div className="chat-icon" onClick={onChatClickHandler}></div>
+              <div
+                tabIndex={0}
+                role="button"
+                className="chat-icon"
+                aria-label="Open chat"
+                onClick={onChatClickHandler}
+                onKeyDown={onChatClickHandler}
+              />
             </div>
           </div>
         </div>
         <div className="header-down">
           <div className="container logo-wrapper">
-            <NavLink exact className="logo" to="/"></NavLink>
+            <NavLink exact className="logo" to="/" />
           </div>
         </div>
         {isChatOpen && <Chat />}

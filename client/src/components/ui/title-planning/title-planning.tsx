@@ -50,7 +50,7 @@ const TitlePlaning = () => {
           'Planning title will appear here'
         }
         disabled={!isEditable}
-        fullWidth={true}
+        fullWidth
         size="small"
         value={gameTitle || ''}
         onChange={handleOnChange}

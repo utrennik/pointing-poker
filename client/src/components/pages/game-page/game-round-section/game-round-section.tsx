@@ -4,7 +4,7 @@ import InputButton from '@components/ui/input-button/input-button';
 import { IIssue, IRoundVoteResults } from '@models/types';
 import { Button } from '@material-ui/core';
 import { getVoteResults, id } from '@models/utils';
-import { StatsItem } from './stats-item/stats-item.tsx';
+import { StatsItem } from './stats-item/stats-item';
 import './game-round-section.sass';
 
 export const GameRoundSection = () => {

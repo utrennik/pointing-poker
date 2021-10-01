@@ -4,7 +4,7 @@ import { CustomAvatar } from '@components/ui/customAvatar/customAvatar';
 import { WebSocketContext } from '@models/web-socket';
 import { id } from '@src/utils/utils';
 import { IConnectModalErrors, IModalWindow } from '@models/types';
-import { ModalWrapper } from '../modal-wrapper/modal-wrapper.tsx';
+import { ModalWrapper } from '../modal-wrapper/modal-wrapper';
 import '../connect-modal/connect-modal.sass';
 
 const StartModal = ({ isOpen, onClose }: IModalWindow) => {
@@ -144,11 +144,10 @@ const StartModal = ({ isOpen, onClose }: IModalWindow) => {
             className="invisible"
             onInput={handleInput}
           />
-          <label htmlFor="avatar-upload">
-            <Button variant="contained" component="span">
-              Upload avatar
-            </Button>
-          </label>
+
+          <Button variant="contained" component="span">
+            Upload avatar
+          </Button>
         </div>
       </div>
     </div>

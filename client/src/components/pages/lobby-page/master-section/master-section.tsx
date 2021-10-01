@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
-import { IMasterSection, IUser } from '@models/types';
+import { CardSet, ILobbySettings, IMasterSection, IUser } from '@models/types';
 import InputButton from '@components/ui/input-button/input-button';
 import { Button } from '@material-ui/core';
 import { ScramMasterCard } from '@components/ui/scram-master-card/scram-master-card';
@@ -11,7 +11,7 @@ import TitlePlaning from '@components/ui/title-planning/title-planning';
 
 import './master-section.sass';
 
-const MasterSection = ({ isDealerLobby }: IMasterSection) => {
+const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => {
   const { firstName, lastName, jobPosition, avatar } = useSelector(
     (state: RootState) => state.game.dealer as IUser
   );
@@ -26,11 +26,37 @@ const MasterSection = ({ isDealerLobby }: IMasterSection) => {
   };
 
   const handleStartGame = () => {
-    console.log('Start game!');
+    if (lobbyGameSettings) {
+      const time = lobbyGameSettings.timerIsNeed
+        ? lobbyGameSettings.timer.getMinutes() * 60 + lobbyGameSettings.timer.getSeconds()
+        : undefined;
+
+      const timer = lobbyGameSettings.timerIsNeed ? time : undefined;
+
+      const customDeck =
+        lobbyGameSettings.cardSet === CardSet.customCardSet ? lobbyGameSettings.customDeck : [];
+
+      const dataToServer: ILobbySettings = {
+        room: roomID,
+        dealerAsPlr: lobbyGameSettings.dealerAsPlr,
+        cardSet: lobbyGameSettings.cardSet,
+        estimationUnits: lobbyGameSettings.inputSettingsForDeck,
+        customCardSet: customDeck,
+        participation_in_game_for_new_users: lobbyGameSettings.participationInGameForNewUsers,
+        revote_before_round_end: lobbyGameSettings.revoteBeforeEndOfRound,
+        scoreForIssuesFromFile: lobbyGameSettings.scoreForIssues,
+        timerIsNeed: timer,
+        gameStatus: 'poker',
+        autoreverse: lobbyGameSettings.autoreverse,
+        changeChoice: lobbyGameSettings.changeChoice,
+        coverCardforServer: lobbyGameSettings.coverCardforServer,
+      };
+      ws.requestPokerGameStart(dataToServer);
+    }
   };
 
   const handleCancelGame = () => {
-    console.log('Cancel game!');
+    ws.requestCancelGame();
   };
 
   const getGameLink = () => {

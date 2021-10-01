@@ -13,7 +13,7 @@ import { WebSocketContext } from '@models/web-socket';
 import { IMemberCard } from '@models/types';
 import React, { useContext } from 'react';
 import { truncateString } from '@utils/stringUtils';
-import { CustomAvatar } from '../customAvatar/customAvatar.tsx';
+import { CustomAvatar } from '../customAvatar/customAvatar';
 import './memberCard.sass';
 import config from '../../../config.json';
 
@@ -68,7 +68,7 @@ export const MemberCard = ({
         disabled={isRemoveButtonDisabled}
       />
       <Dialog className="modal-dialog" open={deleteUserModalOpen} onClose={handleDelete}>
-        <DialogTitle className={classes.dialogTitle}>{'Kick player?'}</DialogTitle>
+        <DialogTitle className={classes.dialogTitle}>Kick player?</DialogTitle>
         <DialogContent>
           Are you really want to remove {nameWithoutLastName} from game session?
         </DialogContent>
