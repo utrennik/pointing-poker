@@ -97,6 +97,7 @@ export default ({ socket, io }) => {
     const { currentGame, gameError } = getGame(data.room);
     if (gameError) return;
     currentGame.settings = data;
+    addPokerGame(data.room);
     io.in(data.room).emit(EVENTS.RES_START_POKER, data);
   });
 
@@ -106,7 +107,6 @@ export default ({ socket, io }) => {
     io.emit(EVENTS.NOTIFICATIONS, { message: "Current game cancelled." });
     currentGame.gameStatus = "cancel";
     const gameStatus = currentGame.gameStatus;
-    addPokerGame(room);
     io.in(room).emit(EVENTS.RES_CANCEL_GAME, { gameStatus });
     deleteGame(room);
   });

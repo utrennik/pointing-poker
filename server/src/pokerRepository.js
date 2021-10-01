@@ -10,15 +10,17 @@ const pokers = [];
 //     }
 // }
 
-export const addPokerGame = (room) => {
+export const addPokerGame = (roomID) => {
   const round = {};
-  const pokerGame = { room, round };
+  const room = roomID;
+  const pokerGame = { room,round };
   pokers.push(pokerGame);
   return { pokerGame };
 };
 
 const getPokerGame = (room) => {
   const currentPokerGame = pokers.find((poker) => poker.room === room);
+  console.log(currentPokerGame + ` is HERE`)
   if (!currentPokerGame) return new Error("Poker game not found");
   return { currentPokerGame };
 };
@@ -32,9 +34,10 @@ const deletePokerGame = (room) => {
 const addRound = (room, id) => {
   const { currentPokerGame, pokerGameError } = getPokerGame(room);
   if (pokerGameError) return pokerGameError;
+  console.log(currentPokerGame);
   const results = [];
   const round = { id,results };
-  currentPokerGame.round = round;
+  currentPokerGame.round = {id:id,results:[]}
   return { round };
 };
 
@@ -53,8 +56,9 @@ const addRound = (room, id) => {
 
 export default ({ socket, io }) => {
   socket.on(EVENTS.REQ_SELECT_ISSUE, ({ roomID, issueID }) => {
+    console.log({roomID,issueID})
     addRound(roomID,issueID);
-    io.in(room).emit(EVENTS.RES_SELECT_ISSUE,issueID );
+    io.in(roomID).emit(EVENTS.RES_SELECT_ISSUE,issueID );
   });
 
   socket.on(EVENTS.REQ_START_ROUND, ( roomID ) => {
