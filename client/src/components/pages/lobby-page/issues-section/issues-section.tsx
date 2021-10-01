@@ -14,11 +14,12 @@ const IssuesSection = ({ sectionTitle }: IIssuesSection) => {
   );
   const room: string = useSelector((state: RootState) => state.game.room);
 
-  const issuesList = issues.map(({ id, name, priority, isActive, score }) => (
+  const issuesList = issues.map(({ id, name, description, priority, isActive, score }) => (
     <IssueCard
       key={id}
       name={name}
       priority={priority}
+      description={description}
       isActive={isActive}
       isDealer={isDealer}
       isGame={isGame}

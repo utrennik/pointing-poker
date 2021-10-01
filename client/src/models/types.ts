@@ -224,8 +224,13 @@ export interface IIssueCard {
    */
   name: string;
   /*
+   * Issue description
+   */
+  description: string;
+  /*
    * Game room id
    */
+
   room: string;
   /*
    * Priority of the issue in sprint

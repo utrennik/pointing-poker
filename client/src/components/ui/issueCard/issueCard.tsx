@@ -12,6 +12,7 @@ import './issueCard.sass';
 export const IssueCard = ({
   id,
   name,
+  description,
   priority,
   isActive,
   isGame,
@@ -76,6 +77,7 @@ export const IssueCard = ({
           onClose={handleEditIssueModalClose}
           issueID={id}
           name={name}
+          description={description}
           priority={priority}
         />
       </Card>

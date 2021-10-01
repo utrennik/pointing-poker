@@ -14,11 +14,20 @@ interface IEditIssueModal {
   onClose: Function;
   issueID: string;
   name: string;
+  description: string;
   priority: IssuePriority;
 }
 
-const EditIssueModal = ({ isOpen, onClose, issueID, name, priority }: IEditIssueModal) => {
+const EditIssueModal = ({
+  isOpen,
+  onClose,
+  issueID,
+  description,
+  name,
+  priority,
+}: IEditIssueModal) => {
   const [issueName, setIssueName] = useState(name);
+  const [issueDescription, setIssueDescription] = useState(description);
   const [issuePriority, setIssuePriority] = useState(priority);
   const [errors, setErrors] = useState({} as IEditIssueModalErrors);
   const roomID: string = useSelector((state: RootState) => state.game.room);
@@ -40,6 +49,10 @@ const EditIssueModal = ({ isOpen, onClose, issueID, name, priority }: IEditIssue
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     setIssueName(event.target.value);
+  };
+
+  const handleDescriptionInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setIssueDescription(e.target.value);
   };
 
   const handleChange = (event: ChangeEvent<any>) => {
@@ -72,6 +85,18 @@ const EditIssueModal = ({ isOpen, onClose, issueID, name, priority }: IEditIssue
             onChange={handleInput}
             error={errors.titleIssueError}
             required
+          />
+        </div>
+        <div className="input-modal">
+          <TextField
+            variant="outlined"
+            label="Description"
+            autoComplete="off"
+            multiline
+            rows={5}
+            fullWidth
+            value={issueDescription}
+            onChange={handleDescriptionInput}
           />
         </div>
       </div>
