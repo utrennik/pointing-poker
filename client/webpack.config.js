@@ -89,6 +89,14 @@ module.exports = ({ development }) => ({
         ],
       },
     }),
+    new webpack.IgnorePlugin(/cptable/),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        vendor: ['xlsx'],
+        node: { fs: 'empty' },
+        externals: [{ './cptable': 'var cptable' }],
+      },
+    }),
   ],
 
   resolve: {
@@ -101,6 +109,11 @@ module.exports = ({ development }) => ({
       '@models': path.resolve(__dirname, 'src/models'),
       '@src': path.resolve(__dirname, 'src'),
       '@utils': path.resolve(__dirname, 'src/utils'),
+    },
+
+    fallback: {
+      crypto: false,
+      fs: false,
     },
   },
 
