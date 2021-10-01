@@ -1,11 +1,7 @@
-import { Card, CardHeader, makeStyles, Theme } from '@material-ui/core';
+import { Card, CardHeader, makeStyles } from '@material-ui/core';
 import { IIssueCardStatus } from '@models/types';
 
-interface IStyleProps {
-  roleInGame: string;
-}
-
-const useStyles = makeStyles<Theme, IStyleProps>({
+const useStyles = makeStyles({
   card: {
     width: '190px',
     height: '50px',
@@ -19,16 +15,14 @@ const useStyles = makeStyles<Theme, IStyleProps>({
   },
 });
 
-export const IssueCardStatus = ({ score, cardValueScore, roleInGame }: IIssueCardStatus) => {
-  const styles = useStyles({ roleInGame });
+export const IssueCardStatus = ({ score, cardValueScore }: IIssueCardStatus) => {
+  const styles = useStyles();
 
   const issueScore = score || 'in progress';
 
-  const resultOfVoiting = roleInGame === 'observer' ? ' -' : issueScore;
-
   return (
     <Card className={styles.card}>
-      <CardHeader className={styles.status} title={resultOfVoiting} />
+      <CardHeader className={styles.status} title={issueScore} />
       <CardHeader title={cardValueScore} titleTypographyProps={{ variant: 'h6' }} />
     </Card>
   );

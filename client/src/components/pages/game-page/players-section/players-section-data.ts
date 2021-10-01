@@ -8,46 +8,46 @@ export const issuesStatus: IIssueCardStatus[] = [
     id: '1',
     score: '',
     cardValueScore: 'SP',
-    roleInGame: 'member',
+    gameRole: 'member',
   },
   {
     id: '2',
     score: '200',
     cardValueScore: 'SP',
-    roleInGame: 'observer',
+    gameRole: 'observer',
   },
   {
     id: '3',
     score: 'parrot',
     cardValueScore: 'SP',
-    roleInGame: 'member',
+    gameRole: 'member',
   },
   {
     id: '4',
     score: '600',
     cardValueScore: 'SP',
-    roleInGame: 'member',
+    gameRole: 'member',
   },
   {
     id: '5',
     cardValueScore: 'SP',
-    roleInGame: 'member',
+    gameRole: 'member',
   },
   {
     id: '6',
     score: 'medved',
     cardValueScore: 'SP',
-    roleInGame: 'member',
+    gameRole: 'member',
   },
   {
     id: '7',
     score: '200',
     cardValueScore: 'SP',
-    roleInGame: 'observer',
+    gameRole: 'observer',
   },
 ];
 
-export const members: IMemberCard[] = [
+export const users: IMemberCard[] = [
   {
     id: '123',
     firstName: 'David',

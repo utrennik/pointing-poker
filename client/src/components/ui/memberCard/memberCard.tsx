@@ -59,7 +59,7 @@ const useStyles = makeStyles<Theme, IStyleProps>({
     columnGap: '10px',
     alignItems: 'center',
     justifyContent: 'space-between',
-    opacity: (props) => (props.gameRole === 'observer' ? '0.25' : '1'),
+    opacity: (props) => (props.gameRole === config.OBSERVER ? '0.8' : '1'),
   },
   header: {
     width: (props) => props.widthHeader,

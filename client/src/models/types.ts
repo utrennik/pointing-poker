@@ -808,7 +808,7 @@ export interface IIssueCardStatus {
    */
   cardValueScore: string;
   /*
-   * Value for card
+   * game role of voting user
    */
-  roleInGame: 'dealer' | 'member' | 'observer';
+  gameRole?: 'dealer' | 'member' | 'observer';
 }

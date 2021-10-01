@@ -1,5 +1,6 @@
 import { Avatar, makeStyles, Theme } from '@material-ui/core';
 import { ICustomAvatar } from '@models/types';
+import config from '../../../config.json';
 import './customAvatar.sass';
 
 type IStylesProps = {
@@ -9,7 +10,7 @@ type IStylesProps = {
 
 const useStyles = makeStyles<Theme, IStylesProps>({
   customAvatar: {
-    backgroundColor: '#60DABF',
+    backgroundColor: config.colors.green,
     width: (props) => props.width,
     height: (props) => props.height,
   },

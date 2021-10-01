@@ -1,12 +1,13 @@
-import { IssueCardStatus } from '@components/ui/issue-card-status/issue-card-status';
 import { MemberCard } from '@components/ui/memberCard/memberCard';
-import { issuesStatus, members } from './players-section-data';
+import { IssuesSection } from '@components/pages/game-page/players-section/players-section-issues';
+import { users } from './players-section-data';
+import config from '../../../../config.json';
 import './players-section.sass';
 
 export const PlayersSection = () => {
-  // TODO: select data from socket,score and put to issues and members
+  // TODO: select data from socket,score and put members
 
-  const stypePropsPlayers = {
+  const stylePropsPlayers = {
     widthCard: '190px',
     heightCard: '50px',
     widthHeader: '110px',
@@ -18,53 +19,39 @@ export const PlayersSection = () => {
     subtitleTypography: 'subtitle2',
   };
 
+  const usersMember = users.filter((item) => item.gameRole === config.MEMBER);
+  const usersObrerver = users.filter((item) => item.gameRole === config.OBSERVER);
+
   return (
     <div className="players-section">
-      <div className="players-section-items">
-        <div className="players-section-title">Score:</div>
-        {issuesStatus
-          .filter((item) => item.roleInGame !== 'observer')
-          .map((item) => (
-            <IssueCardStatus
-              key={item.id}
-              id={item.id}
-              score={item.score}
-              cardValueScore={item.cardValueScore}
-              roleInGame={item.roleInGame}
-            />
-          ))}
-      </div>
+      <IssuesSection />
       <div className="players-section-items">
         <div className="players-section-title">Players:</div>
-        {members
-          .filter((item) => item.gameRole === 'member')
-          .map((item) => (
-            <MemberCard
-              key={item.id}
-              firstName={item.firstName}
-              lastName={item.lastName}
-              id={item.id}
-              role={item.role}
-              isRemoveButtonDisabled={item.isRemoveButtonDisabled}
-              stylesProps={stypePropsPlayers}
-              gameRole={item.gameRole}
-            />
-          ))}
+        {usersMember.map((item) => (
+          <MemberCard
+            key={item.id}
+            firstName={item.firstName}
+            lastName={item.lastName}
+            id={item.id}
+            role={item.role}
+            isRemoveButtonDisabled={item.isRemoveButtonDisabled}
+            stylesProps={stylePropsPlayers}
+            gameRole={item.gameRole}
+          />
+        ))}
         <div className="players-section-title">Observers:</div>
-        {members
-          .filter((item) => item.gameRole === 'observer')
-          .map((item) => (
-            <MemberCard
-              key={item.id}
-              firstName={item.firstName}
-              lastName={item.lastName}
-              id={item.id}
-              role={item.role}
-              isRemoveButtonDisabled={item.isRemoveButtonDisabled}
-              stylesProps={stypePropsPlayers}
-              gameRole={item.gameRole}
-            />
-          ))}
+        {usersObrerver.map((item) => (
+          <MemberCard
+            key={item.id}
+            firstName={item.firstName}
+            lastName={item.lastName}
+            id={item.id}
+            role={item.role}
+            isRemoveButtonDisabled={item.isRemoveButtonDisabled}
+            stylesProps={stylePropsPlayers}
+            gameRole={item.gameRole}
+          />
+        ))}
       </div>
     </div>
   );

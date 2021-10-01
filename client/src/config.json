@@ -43,5 +43,8 @@
   "truncateSettings": {
     "maxSymbolsValueTitle": 12,
     "maxSymbolsValueSubtitle": 20
+  },
+  "colors" :{
+    "green": "#60DABF75"
   }
 }
