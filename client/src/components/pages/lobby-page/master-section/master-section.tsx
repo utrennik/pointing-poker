@@ -27,28 +27,25 @@ const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => 
 
   const handleStartGame = () => {
     if (lobbyGameSettings) {
-      const time = lobbyGameSettings.timerIsNeed
+      const timer = lobbyGameSettings.timerIsNeed
         ? lobbyGameSettings.timer.getMinutes() * 60 + lobbyGameSettings.timer.getSeconds()
-        : undefined;
-
-      const timer = lobbyGameSettings.timerIsNeed ? time : undefined;
+        : null;
 
       const customDeck =
         lobbyGameSettings.cardSet === CardSet.customCardSet ? lobbyGameSettings.customDeck : [];
 
       const dataToServer: ILobbySettings = {
         room: roomID,
-        dealerAsPlr: lobbyGameSettings.dealerAsPlr,
+        isDealerPlayer: lobbyGameSettings.dealerAsPlr,
         cardSet: lobbyGameSettings.cardSet,
-        estimationUnits: lobbyGameSettings.inputSettingsForDeck,
+        unitsOfEstimation: lobbyGameSettings.inputSettingsForDeck,
         customCardSet: customDeck,
-        participation_in_game_for_new_users: lobbyGameSettings.participationInGameForNewUsers,
-        revote_before_round_end: lobbyGameSettings.revoteBeforeEndOfRound,
-        scoreForIssuesFromFile: lobbyGameSettings.scoreForIssues,
-        timerIsNeed: timer,
-        gameStatus: 'poker',
-        autoreverse: lobbyGameSettings.autoreverse,
-        changeChoice: lobbyGameSettings.changeChoice,
+        isFreeConnectionToGameForNewUsers: lobbyGameSettings.participationInGameForNewUsers,
+        isRevoteAfterRoundEnd: lobbyGameSettings.revoteBeforeEndOfRound,
+        isSetIssuesFromFile: lobbyGameSettings.scoreForIssues,
+        timer: timer,
+        IsAutoreverseCards: lobbyGameSettings.autoreverse,
+        isChangeChoiceAfterFlip: lobbyGameSettings.changeChoice,
         coverCardforServer: lobbyGameSettings.coverCardforServer,
       };
       ws.requestPokerGameStart(dataToServer);
