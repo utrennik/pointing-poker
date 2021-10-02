@@ -37,7 +37,15 @@ const EVENTS = {
   REQ_SET_SCORE: 'req-set-score',
   RES_SET_SCORE: 'res-set-score',
   REQ_TEST: "req-test",
-  RES_TEST:"res-test"
+  RES_TEST:"res-test",
+  REQ_USER_GAME_JOIN: "req-user-game-join",
+  RES_USER_ADMIT: "res-user-admit",
+  REQ_USER_ADMIT: "req-user-admit",
+  RES_USER_REJECTED: "res-user-rejected",
+  REQ_ROUND_VOTE: "req-round-vote",
+  RES_ROUND_VOTE: "res-round-vote",
+  REQ_CARDS_FLIP: 'req-cards-flip'
+
 
 }
 export default EVENTS;
