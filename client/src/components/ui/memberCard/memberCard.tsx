@@ -14,9 +14,9 @@ import { WebSocketContext } from '@models/web-socket';
 import { IMemberCard } from '@models/types';
 import React, { useContext } from 'react';
 import { truncateString } from '@utils/stringUtils';
-import config from '../../../config.json';
 import { Variant } from '@material-ui/core/styles/createTypography';
 import { CustomAvatar } from '@components/ui/customAvatar/customAvatar';
+import config from '../../../config.json';
 import './memberCard.sass';
 
 interface IStyleProps {

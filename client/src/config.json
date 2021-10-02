@@ -46,5 +46,10 @@
   },
   "colors" :{
     "green": "#60DABF75"
+  },
+  "CARDSET" :{
+    "FIBONACCI" : ["0","1","2","3","5","8","13","21","pass","coffee"],
+    "POWERS_OF_TWO" : ["0","1","2","4","8","16","pass","coffee"]
   }
+
 }

@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
 import './members-section.sass';
 
-
 const MembersSection = ({ isDealerLobby }: IMembersSection) => {
   const members: IUser[] = useSelector((state: RootState) => state.game.users as IUser[]);
   return (

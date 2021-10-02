@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
 import SecondsTimePicker from '@components/ui/time-picker/time-picker';
-import { ICoverCard, IGameSettingsSection } from '@models/types';
+import { ICoverCard, IGameSettingsSection, IValueCard } from '@models/types';
 import { id } from '@utils/utils';
 import { SwitchLobby } from '@components/pages/lobby-page/game-settings-section/switch-lobby';
 import { useLobbySettings } from '@components/pages/lobby-page/game-settings-section/useLobbySettings';
@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 
 const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) => {
   const classes = useStyles();
-
   const {
     switchSettings,
     setSwitchSettings,
@@ -37,6 +36,7 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
     setIsActiveCoverCard,
     setValuesOfNewDeck,
     errors,
+    valuesOfNewDeck,
   } = useLobbySettings(changePokerGameSettings);
 
   const onCreateCoverHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -56,17 +56,6 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
         setCoverCard((arr) => [...arr, newImage as ICoverCard]);
       };
     }
-  };
-
-  const onCreateValueHandler = () => {
-    const valueCardID = id();
-    const newValueCard = {
-      id: valueCardID,
-      name: '',
-      value: '',
-    };
-
-    setValueCard([...valueCard, newValueCard]);
   };
 
   const handleSwitch = (event: ChangeEvent<HTMLInputElement>) => {
@@ -94,11 +83,20 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
 
   const handleValuesFromNewDeck = (value: string, idCard: string) => {
     const index = valueCard.findIndex((card) => card.valueCardID === idCard);
-    if (index < 0) return;
     const currentCard = valueCard[index];
     currentCard.value = value;
-    setValueCard([...valueCard]);
     setValuesOfNewDeck([...valueCard.map((card) => card.value)]);
+  };
+
+  const onCreateValueHandler = () => {
+    const valueCardID = id();
+    const newValueCard = {
+      valueCardID,
+      name: '',
+      value: '',
+    };
+    setValueCard([...valueCard, newValueCard as IValueCard]);
+    setValuesOfNewDeck([...valuesOfNewDeck, newValueCard.value]);
   };
 
   return (

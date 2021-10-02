@@ -716,11 +716,7 @@ export interface ILobbySettings {
   /*
    * variant of deck with card
    */
-  cardSet: CardSet;
-  /*
-   * custom deck,which make by dealer
-   */
-  customCardSet: string[];
+  cardSet: string[];
   /*
    * possibility to all users connect in room ,when poker start
    */

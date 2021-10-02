@@ -8,7 +8,7 @@ import { ScramMasterCard } from '@components/ui/scram-master-card/scram-master-c
 import { WebSocketContext } from '@models/web-socket';
 import { LobbylButtons } from '@components/ui/lobby-buttons/lobby-buttons';
 import TitlePlaning from '@components/ui/title-planning/title-planning';
-
+import config from '../../../../config.json';
 import './master-section.sass';
 
 const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => {
@@ -31,19 +31,28 @@ const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => 
         ? lobbyGameSettings.timer.getMinutes() * 60 + lobbyGameSettings.timer.getSeconds()
         : null;
 
-      const customDeck =
-        lobbyGameSettings.cardSet === CardSet.customCardSet ? lobbyGameSettings.customDeck : [];
+      const deck = () => {
+        switch (lobbyGameSettings.cardSet) {
+          case CardSet.customCardSet:
+            return lobbyGameSettings.customDeck;
+          case CardSet.fibonacci:
+            return config.CARDSET.FIBONACCI;
+          case CardSet.powersOfTwo:
+            return config.CARDSET.POWERS_OF_TWO;
+          default:
+            return config.CARDSET.FIBONACCI;
+        }
+      };
 
       const dataToServer: ILobbySettings = {
         room: roomID,
         isDealerPlayer: lobbyGameSettings.dealerAsPlr,
-        cardSet: lobbyGameSettings.cardSet,
+        cardSet: deck(),
         unitsOfEstimation: lobbyGameSettings.inputSettingsForDeck,
-        customCardSet: customDeck,
         isFreeConnectionToGameForNewUsers: lobbyGameSettings.participationInGameForNewUsers,
         isRevoteAfterRoundEnd: lobbyGameSettings.revoteBeforeEndOfRound,
         isSetIssuesFromFile: lobbyGameSettings.scoreForIssues,
-        timer: timer,
+        timer,
         IsAutoreverseCards: lobbyGameSettings.autoreverse,
         isChangeChoiceAfterFlip: lobbyGameSettings.changeChoice,
         coverCardforServer: lobbyGameSettings.coverCardforServer,
