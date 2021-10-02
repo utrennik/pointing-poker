@@ -38,6 +38,7 @@ import {
   IGameStatus,
   IIssueID,
   IRoundVoteResults,
+  IRoundVoteData,
 } from './types';
 import config from '../config.json';
 
@@ -234,6 +235,20 @@ export default ({ children }: { children: ReactChild[] }) => {
     socket?.emit(config.REQ_FINISH_ROUND, roomID);
   };
 
+  const requestRoundVote = (cardValue: string) => {
+    const roundVoteData: IRoundVoteData = {
+      roomID: currentGame.room,
+      issueID: currentGame.currentIssue.id,
+      userScore: {
+        userID: client.id,
+        score: cardValue,
+      },
+    };
+
+    console.log(`Requested send vote ${cardValue}`);
+    socket?.emit(config.REQ_ROUND_VOTE, roundVoteData);
+  };
+
   socket.on('connect', () => {
     dispatch(setSocketConnected());
     console.log('Server connected...');
@@ -319,6 +334,11 @@ export default ({ children }: { children: ReactChild[] }) => {
     dispatch(setIsRoundRunning(false));
   });
 
+  socket.on(config.RES_ROUND_VOTE, (roundVoteResults: IRoundVoteResults) => {
+    console.log(`vote accepted: ${JSON.stringify(roundVoteResults)}`);
+    dispatch(setRoundVoteResults(roundVoteResults));
+  });
+
   const ws: any = {
     socket,
     requestStartGame,
@@ -339,6 +359,7 @@ export default ({ children }: { children: ReactChild[] }) => {
     requestSelectIssue,
     requestStartRound,
     requestFinishRound,
+    requestRoundVote,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

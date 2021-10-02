@@ -6,6 +6,7 @@ import {
   IIssue,
   GameStatus,
   IMessage,
+  IRoundVoteResults,
 } from '../models/types';
 
 export const types = {
@@ -27,6 +28,7 @@ export const types = {
   SET_GAME_STATUS: 'SET_GAME_STATUS',
   SET_POKER_GAME_SETTINGS: 'SET_POKER_GAME_SETTINGS',
   SET_IS_ROUND_RUNNING: 'SET_IS_ROUND_RUNNING',
+  SET_ROUND_VOTE_RESULTS: 'SET_ROUND_VOTE_RESULTS',
 };
 
 export const setSocketConnected = () => ({
@@ -113,4 +115,9 @@ export const setPokerGameSettings = (pokerGameSettingsData: ILobbySettings) => (
 export const setIsRoundRunning = (isRoundRunning: boolean) => ({
   type: types.SET_IS_ROUND_RUNNING,
   payload: { isRoundRunning },
+});
+
+export const setRoundVoteResults = (roundVoteResults: IRoundVoteResults) => ({
+  type: types.SET_ROUND_VOTE_RESULTS,
+  payload: { roundVoteResults },
 });

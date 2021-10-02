@@ -180,6 +180,21 @@ export interface IRoundVoteResults {
   score: IUserScore[];
 }
 
+export interface IRoundVoteData {
+  /*
+   * ID of the room
+   */
+  roomID: string;
+  /*
+   * ID of the issue
+   */
+  issueID: string;
+  /*
+   * Users round voting data
+   */
+  userScore: IUserScore;
+}
+
 export interface IIssue {
   /*
    * id of the issue
@@ -210,9 +225,9 @@ export interface IIssue {
    */
   score: string;
   /*
-   * Issue voting data (which card the user has selected)
+   * Issue voting data (of all users)
    */
-  votingData: VotingData[];
+  userScore: IUserScore[];
 }
 
 export interface IIssueCard {

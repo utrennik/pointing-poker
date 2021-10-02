@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
+import { WebSocketContext } from '@models/web-socket';
 import { ICoverCard, IGameCardData, ILobbySettings } from '@models/types';
 import { GameCard } from '@components/ui/game-card/game-card';
 import './game-voting-section.sass';
@@ -13,6 +14,7 @@ export const GameVotingSection = () => {
   const [selectedCardValue, setSelectedCardValue] = useState('');
   // TODO: Here will be settings.cardSet: string[]
   const cardsSet = settings.customCardSet;
+  const ws = useContext(WebSocketContext);
 
   const handleFlip = () => {
     setSelectedCardValue('');
@@ -21,6 +23,7 @@ export const GameVotingSection = () => {
 
   const handleCardSelect = (value: string) => {
     setSelectedCardValue(value);
+    ws.requestRoundVote(value);
   };
 
   const gameCardData: IGameCardData[] = cardsSet.map((cardValue: string) => {

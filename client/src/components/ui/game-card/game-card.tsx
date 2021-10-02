@@ -16,7 +16,7 @@ export const GameCard = ({
   return (
     <Card className="game-card" onClick={() => onSelectedHandler(value)}>
       {isFlipped ? (
-        <CardMedia component="img" alt="cover card" height="160" image={image} />
+        <CardMedia component="img" alt="cover card" height="120" image={image} />
       ) : (
         <>
           <div className="game-card-name">{name}</div>

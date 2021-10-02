@@ -28,6 +28,8 @@
   "RES_START_ROUND": "res-start-round",
   "REQ_FINISH_ROUND": "req-finish-round",
   "RES_FINISH_ROUND": "res-finish-round",
+  "REQ_ROUND_VOTE": "req-round-vote",
+  "RES_ROUND_VOTE": "res-round-vote",
   "KICKED_NOTIFICATION": "Sorry, you have been kicked from the game!",
   "DISCONNECT": "disconnect",
   "DEALER": "dealer",

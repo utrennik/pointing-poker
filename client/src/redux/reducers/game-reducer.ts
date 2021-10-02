@@ -199,6 +199,18 @@ export const gameReducer = (state = initialState, { type, payload }) => {
       };
     }
 
+    case types.SET_ROUND_VOTE_RESULTS: {
+      const { currentIssue } = state;
+
+      return {
+        ...state,
+        currentIssue: {
+          ...currentIssue,
+          userScore: payload.score,
+        },
+      };
+    }
+
     default:
       return state;
   }
