@@ -85,7 +85,11 @@ export default ({ socket, io }) => {
     if (pokerGameError) return pokerGameError;
     currentPokerGame.round.isRoundStart = false;
     const results = currentPokerGame.round.results;
-    io.in(roomID).emit(EVENTS.RES_FINISH_ROUND, results);
+    const res = {
+      issueID:currentPokerGame.round.issueID,
+      score: currentPokerGame.round.results
+    }
+    io.in(roomID).emit(EVENTS.RES_FINISH_ROUND, res);
   });
 
   socket.on(EVENTS.REQ_SET_SCORE, ({ issueID, roomID, score }) => {
@@ -127,7 +131,11 @@ export default ({ socket, io }) => {
         currentPokerGame.round.results.push(userScore);
       }
       currentPokerGame.round.results[index] = userScore;
-      io.in(roomID).emit(EVENTS.RES_ROUND_VOTE, currentPokerGame.round.results);
+      const res = {
+        issueID,
+        score: currentPokerGame.round.results
+      }
+      io.in(roomID).emit(EVENTS.RES_ROUND_VOTE, res);
     }
   });
 
