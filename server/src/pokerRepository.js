@@ -84,14 +84,6 @@ export default ({ socket, io }) => {
     const { currentPokerGame, pokerGameError } = getPokerGame(roomID);
     if (pokerGameError) return pokerGameError;
     currentPokerGame.round.isRoundStart = false;
-    currentPokerGame.round.results = [
-      { roomID: roomID, issueID: currentPokerGame.round.id, userScore: "test" },
-      {
-        roomID: roomID,
-        issueID: currentPokerGame.round.id,
-        userScore: "test2",
-      },
-    ];
     const results = currentPokerGame.round.results;
     io.in(roomID).emit(EVENTS.RES_FINISH_ROUND, results);
   });
