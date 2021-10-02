@@ -12,6 +12,7 @@ export const initialState = {
   gameStatus: '',
   issues: [],
   currentIssue: {},
+  isRoundRunning: false,
 };
 
 // TODO: For testing Game page TOP section, should be removed
@@ -99,6 +100,15 @@ export const gameReducer = (state = initialState, { type, payload }) => {
 
     case types.SET_ISSUES: {
       const newIssues = payload.issues;
+
+      if (!newIssues.length) {
+        return {
+          ...state,
+          issues: newIssues,
+          currentIssue: {},
+        };
+      }
+
       const isCurrentIssue = !!state.currentIssue.id;
       const isCurrentIssueInArrray = !!newIssues.filter(
         (issue) => issue.id === state.currentIssue.id
@@ -106,7 +116,7 @@ export const gameReducer = (state = initialState, { type, payload }) => {
 
       if (!isCurrentIssue || !isCurrentIssueInArrray) {
         const defaultActiveIssue = newIssues[0];
-        defaultActiveIssue.isActive = true;
+        if (defaultActiveIssue) defaultActiveIssue.isActive = true;
 
         return {
           ...state,
@@ -143,9 +153,12 @@ export const gameReducer = (state = initialState, { type, payload }) => {
 
     case types.SET_CURRENT_ISSUE: {
       let selectedIssue;
+      const selectedIssueID = payload.issueID;
 
-      const newIssues = state.issues.slice().forEach((issue) => {
-        if (issue.id === payload.issueID) {
+      const newIssues = state.issues.slice();
+
+      newIssues.forEach((issue) => {
+        if (issue.id === selectedIssueID) {
           selectedIssue = issue;
           issue.isActive = true;
         } else {
@@ -162,6 +175,13 @@ export const gameReducer = (state = initialState, { type, payload }) => {
       }
 
       return state;
+    }
+
+    case types.SET_IS_ROUND_RUNNING: {
+      return {
+        ...state,
+        isRoundRunning: payload.isRoundRunning,
+      };
     }
 
     default:

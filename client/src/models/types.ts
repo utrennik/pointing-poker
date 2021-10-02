@@ -1,5 +1,3 @@
-import { ChangeEvent, ReactElement, ReactNode } from 'react';
-
 export interface IWebLink {
   link: string;
   style: string;
@@ -127,7 +125,12 @@ export enum IssuePriority {
   LOW = 'low',
 }
 
-export type VotingData = string | 'pass' | 'coffee';
+export enum CardValue {
+  PASS = 'pass',
+  COFFEE = 'coffee',
+}
+
+export type VotingData = string | CardValue;
 
 export interface IStatsItem {
   /*
@@ -157,15 +160,13 @@ export interface IUserScore {
 
 export interface IUsercore {
   /*
-   * Room ID
+   * User ID
    */
-  roomID: string;
+  userID: string;
   /*
-   * Issue ID
+   * Selcted Score
    */
-  issueID: string;
-
-  userScore: IUserScore;
+  score: VotingData;
 }
 
 export interface IRoundVoteResults {
@@ -383,6 +384,12 @@ export interface IMessageCard {
   isCurrentUser: boolean;
 }
 
+export enum Role {
+  DEALER = 'dealer',
+  MEMBER = 'member',
+  OBSERVER = 'observer',
+}
+
 export interface IUser {
   /*
    * User ID
@@ -411,7 +418,7 @@ export interface IUser {
   /*
    * User role
    */
-  role: 'dealer' | 'member' | 'observer';
+  role: Role;
 }
 
 export interface IUserDelete {
@@ -522,6 +529,10 @@ export interface IGame {
    * Game current issue
    */
   currentIssue: IIssue;
+  /*
+   * is the voting round running
+   */
+  isRoundRunning: boolean;
 }
 
 export enum GameStatus {

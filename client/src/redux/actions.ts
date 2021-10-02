@@ -26,6 +26,7 @@ export const types = {
   SET_CURRENT_ISSUE: 'SET_CURRENT_ISSUE',
   SET_GAME_STATUS: 'SET_GAME_STATUS',
   SET_POKER_GAME_SETTINGS: 'SET_POKER_GAME_SETTINGS',
+  SET_IS_ROUND_RUNNING: 'SET_IS_ROUND_RUNNING',
 };
 
 export const setSocketConnected = () => ({
@@ -103,7 +104,13 @@ export const setGameStatus = (gameStatus: GameStatus) => ({
   type: types.SET_GAME_STATUS,
   payload: { gameStatus },
 });
+
 export const setPokerGameSettings = (pokerGameSettingsData: ILobbySettings) => ({
   type: types.SET_POKER_GAME_SETTINGS,
   payload: pokerGameSettingsData,
+});
+
+export const setIsRoundRunning = (isRoundRunning: boolean) => ({
+  type: types.SET_IS_ROUND_RUNNING,
+  payload: { isRoundRunning },
 });

@@ -7,13 +7,22 @@ import { getVoteResults, id } from '@models/utils';
 import { StatsItem } from './stats-item/stats-item';
 import './game-round-section.sass';
 
-export const GameRoundSection = () => {
-  const currentIssue: IIssue = useSelector(
-    (state: RootState) => state.game.currentIssue || state.game.issues[0]
-  );
+interface IGameRoundSection {
+  handleStartRound: () => void;
+  handleFinishRound: () => void;
+}
+
+export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameRoundSection) => {
+  const currentIssue: IIssue = useSelector((state: RootState) => state.game.currentIssue);
+  const isRoundRunning: IIssue = useSelector((state: RootState) => state.game.isRoundRunning);
+  const isCurrentIssue: boolean = !!currentIssue.id;
   const isIssuePlayed: boolean = !!currentIssue.score;
   const voteResults: IRoundVoteResults[] =
     (currentIssue.votingData && getVoteResults(currentIssue.votingData)) || [];
+
+  const handleSetScore = (score: string) => {
+    console.log(`set current issue score: ${score}`);
+  };
 
   const statsItems =
     voteResults &&
@@ -26,11 +35,41 @@ export const GameRoundSection = () => {
       />
     ));
 
-  const handleSetScore = (score: string) => {
-    console.log(`set current issue score: ${score}`);
-  };
+  const playRoundBtn = (
+    <div className="current-issue-btn">
+      <Button
+        color="primary"
+        variant={isIssuePlayed ? 'outlined' : 'contained'}
+        onClick={handleStartRound}
+      >
+        {`${isIssuePlayed ? 'Replay' : 'Play'} round`}
+      </Button>
+    </div>
+  );
 
-  return (
+  const finishRoundBtn = (
+    <div className="current-issue-btn">
+      <Button variant="contained" onClick={handleFinishRound}>
+        Finish round
+      </Button>
+    </div>
+  );
+
+  const statsField = (
+    <div className="current-issue-details">
+      <span>Stats: </span>
+      <div className="stats-items">{statsItems}</div>
+    </div>
+  );
+
+  const descriptionField = (
+    <div className="current-issue-details">
+      <span>Description: </span>
+      {currentIssue.description}
+    </div>
+  );
+
+  const roundField = (
     <div className="round-section">
       <h3>Current issue:</h3>
 
@@ -44,10 +83,7 @@ export const GameRoundSection = () => {
         {currentIssue.priority}
       </div>
 
-      <div className="current-issue-details">
-        <span>Description: </span>
-        {currentIssue.description}
-      </div>
+      {currentIssue.description && descriptionField}
 
       <div className="current-issue-details">
         <span>Score: </span>
@@ -58,20 +94,11 @@ export const GameRoundSection = () => {
         <InputButton buttonText="Set score" valueHandler={handleSetScore} />
       </div>
 
-      <div className="current-issue-btn">
-        <Button color="primary" variant={isIssuePlayed ? 'outlined' : 'contained'}>
-          {`${isIssuePlayed ? 'Replay' : 'Play'} round`}
-        </Button>
-      </div>
+      {!isRoundRunning ? playRoundBtn : finishRoundBtn}
 
-      <div className="current-issue-btn">
-        <Button variant="contained">Finish round</Button>
-      </div>
-
-      <div className="current-issue-details">
-        <span>Stats: </span>
-        <div className="stats-items">{statsItems}</div>
-      </div>
+      {!!statsItems.length && statsField}
     </div>
   );
+
+  return (isCurrentIssue && roundField) || null;
 };

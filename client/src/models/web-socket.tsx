@@ -20,6 +20,7 @@ import {
   setGameStatus,
   setPokerGameSettings,
   setCurrentIssue,
+  setIsRoundRunning,
 } from '@src/redux/actions';
 
 import {
@@ -36,6 +37,7 @@ import {
   ILobbySettings,
   IGameStatus,
   IIssueID,
+  IRoundVoteResults,
 } from './types';
 import config from '../config.json';
 
@@ -220,6 +222,18 @@ export default ({ children }: { children: ReactChild[] }) => {
     socket?.emit(config.REQ_SELECT_ISSUE, selectIssueData);
   };
 
+  const requestStartRound = () => {
+    const roomID = currentGame.room;
+    console.log(`Requested start round ${roomID}`);
+    socket?.emit(config.REQ_START_ROUND, roomID);
+  };
+
+  const requestFinishRound = () => {
+    const roomID = currentGame.room;
+    console.log(`Requested finish round ${roomID}`);
+    socket?.emit(config.REQ_FINISH_ROUND, roomID);
+  };
+
   socket.on('connect', () => {
     dispatch(setSocketConnected());
     console.log('Server connected...');
@@ -295,6 +309,16 @@ export default ({ children }: { children: ReactChild[] }) => {
     dispatch(setCurrentIssue(issueID));
   });
 
+  socket.on(config.RES_START_ROUND, (isStarted: boolean) => {
+    console.log(`round started: ${isStarted}`);
+    dispatch(setIsRoundRunning(isStarted));
+  });
+
+  socket.on(config.RES_FINISH_ROUND, (roundVoteResults: IRoundVoteResults) => {
+    console.log(`round finished: ${JSON.stringify(roundVoteResults)}`);
+    dispatch(setIsRoundRunning(false));
+  });
+
   const ws: any = {
     socket,
     requestStartGame,
@@ -313,6 +337,8 @@ export default ({ children }: { children: ReactChild[] }) => {
     requestCancelGame,
     requestPokerGameStart,
     requestSelectIssue,
+    requestStartRound,
+    requestFinishRound,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

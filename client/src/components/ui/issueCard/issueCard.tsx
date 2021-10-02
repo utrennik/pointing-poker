@@ -21,6 +21,7 @@ export const IssueCard = ({
 }: IIssueCard) => {
   const [editIssueModalOpen, setEditIssueModalOpen] = useState(false);
   const roomID: string = useSelector((state: RootState) => state.game.room);
+  const isVoting: boolean = useSelector((state: RootState) => state.game.isRoundRunning);
   const ws = useContext(WebSocketContext);
 
   const handleEditIssueModalOpen = () => {
@@ -65,7 +66,11 @@ export const IssueCard = ({
           subheaderTypographyProps={{ variant: 'subtitle1' }}
         />
         {isGame && isDealer ? (
-          <IconButton className="issue-card-close-btn" onClick={handleDelete} />
+          <IconButton
+            className="issue-card-close-btn"
+            onClick={handleDelete}
+            disabled={isActive && isVoting}
+          />
         ) : (
           isDealer && [
             <IconButton className="issue-card-edit-btn" onClick={handleEditIssueModalOpen} />,

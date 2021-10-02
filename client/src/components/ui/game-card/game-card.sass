@@ -8,7 +8,7 @@
   align-items: center
   column-gap: 10px
   justify-content: center
-  transition: all 0.3s ease-out
+  transition: all 0.4s ease-out !important
 
   &-hover
     position: relative
@@ -19,13 +19,10 @@
     column-gap: 10px
     justify-content: center
     cursor: pointer
-    transition: transform 0.3s ease-out
+    transition: all 0.2s ease-out !important
     background-color: $green-select
     transform: translateY(-10%)
 
-    img
-      width: 100px
-      height: 160px
 
   &-name
     position: absolute
@@ -48,8 +45,11 @@
 
   &-select-icon
     position: absolute
-    top: 0
-    right: 0
+    top: 5px
+    right: 5px
     background: url('../../../assets/icons/checked-card.svg') center / contain
     width: 30px
     height: 30px
+
+.card-icon
+  width: 30px
