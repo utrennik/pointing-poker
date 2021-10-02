@@ -2,8 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
 import { WebSocketContext } from '@models/web-socket';
-import { IUser } from '@models/types';
-import config from '@src/config.json';
+import { ILobbySettings, IUser, Role } from '@models/types';
 import { GameTopSection } from './game-top-section/game-top-section';
 import { GameRoundSection } from './game-round-section/game-round-section';
 import { GameVotingSection } from './game-voting-section/game-voting-section';
@@ -12,12 +11,17 @@ import '@styles/page.sass';
 import './game-page.sass';
 
 const GamePage = () => {
-  const timerStartSecs: number = useSelector((state: RootState) => state.game.settings.timer);
+  const timerStartSecs: number | null = useSelector(
+    (state: RootState) => state.game.settings.timer
+  );
   const client: IUser = useSelector((state: RootState) => state.client.clientUser);
   const isRoundRunning: boolean = useSelector((state: RootState) => state.game.isRoundRunning);
+  const settings: ILobbySettings = useSelector((state: RootState) => state.game.settings);
   const [totalSecs, setTotalSecs] = useState(timerStartSecs);
   const [intervalID, setIntervalID] = useState(null);
-  const isClientDealer = client && client.role === config.DEALER;
+  const isClientDealer = client && client.role === Role.DEALER;
+  const isclientVoting =
+    (isClientDealer && settings.isDealerPlayer) || (client && client.role === Role.MEMBER) || false;
   const ws = useContext(WebSocketContext);
 
   const onTimeOver = () => {
@@ -47,7 +51,7 @@ const GamePage = () => {
   };
 
   useEffect(() => {
-    if (isRoundRunning) startTimer();
+    if (isRoundRunning && settings.timer) startTimer();
     else resetTimer();
   }, [isRoundRunning]);
 
@@ -62,21 +66,25 @@ const GamePage = () => {
   return (
     <main className="main">
       <div className="container content-wrapper game-page">
-        <GameTopSection timerSecs={totalSecs} client={client} />
-        <div className="game-round-issues-section">
-          <div className="game-issues-section">
-            <div className="game-page-issues">
-              <IssuesSection sectionTitle={isClientDealer ? 'Select Issue:' : 'Issues:'} />
+        <div className="game-page-content">
+          <div className="game-page-main-content">
+            <GameTopSection timerSecs={totalSecs} client={client} />
+            <div className="game-round-issues-section">
+              <div className="game-issues-section">
+                <div className="game-page-issues">
+                  <IssuesSection sectionTitle={isClientDealer ? 'Select Issue:' : 'Issues:'} />
+                </div>
+              </div>
+              <div className="game-round-section">
+                <GameRoundSection
+                  handleStartRound={handleStartRound}
+                  handleFinishRound={handleFinishRound}
+                />
+              </div>
             </div>
           </div>
-          <div className="game-round-section">
-            <GameRoundSection
-              handleStartRound={handleStartRound}
-              handleFinishRound={handleFinishRound}
-            />
-          </div>
+          {isRoundRunning && isclientVoting && <GameVotingSection />}
         </div>
-        <GameVotingSection />
       </div>
     </main>
   );

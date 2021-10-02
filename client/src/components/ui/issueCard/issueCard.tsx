@@ -46,10 +46,13 @@ export const IssueCard = ({
   };
 
   const cardClass =
+    (isActive && isPlayed && isGame && isVoting && 'issue-card selected played untouchable') ||
     (isActive && isPlayed && isGame && 'issue-card selected played') ||
-    (isActive && isPlayed && isGame && 'issue-card selected played') ||
+    (isActive && isGame && isVoting && 'issue-card selected untouchable') ||
     (isActive && isGame && 'issue-card selected') ||
+    (isPlayed && isGame && isVoting && 'issue-card played untouchable') ||
     (isPlayed && isGame && 'issue-card played') ||
+    (isVoting && 'issue-card untouchable') ||
     'issue-card';
 
   const maxSymbols = isGame

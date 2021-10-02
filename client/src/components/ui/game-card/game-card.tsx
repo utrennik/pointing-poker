@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Card, CardMedia } from '@material-ui/core';
 import { CardValue, IGameCard } from '@models/types';
 import coffeeIcon from '@assets/icons/coffee.svg';
@@ -12,21 +11,10 @@ export const GameCard = ({
   isSelected,
   onSelectedHandler,
 }: IGameCard) => {
-  const [isRaised, setIsRaised] = useState(false);
   const coffeeImg = <img src={coffeeIcon} alt="" className="card-icon" />;
 
-  const handleHover = () => {
-    setIsRaised(!isRaised);
-  };
-
   return (
-    <Card
-      className={isRaised ? `game-card-hover` : `game-card`}
-      onMouseEnter={handleHover}
-      onMouseLeave={handleHover}
-      onClick={onSelectedHandler}
-      raised={isRaised}
-    >
+    <Card className="game-card" onClick={() => onSelectedHandler(value)}>
       {isFlipped ? (
         <CardMedia component="img" alt="cover card" height="160" image={image} />
       ) : (

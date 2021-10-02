@@ -1,17 +1,36 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/redux/store';
+import { ICoverCard, IGameCardData, ILobbySettings } from '@models/types';
 import { GameCard } from '@components/ui/game-card/game-card';
-import { gameCardData } from '@components/ui/game-card/game-cardData';
 import './game-voting-section.sass';
 
 export const GameVotingSection = () => {
-  const initialSelectedValue = '';
+  const settings: ILobbySettings = useSelector((state: RootState) => state.game.settings);
+  const cardsUnits: string = settings.unitsOfEstimation.scoreTypeShort;
+  const cardsCover: ICoverCard = settings.coverCardforServer;
   const [isFlipped, setIsFlipped] = useState(false);
-  const [isSelected, setIsSelected] = useState(initialSelectedValue);
+  const [selectedCardValue, setSelectedCardValue] = useState('');
+  // TODO: Here will be settings.cardSet: string[]
+  const cardsSet = settings.customCardSet;
 
   const handleFlip = () => {
-    setIsSelected(initialSelectedValue);
+    setSelectedCardValue('');
     setIsFlipped(!isFlipped);
   };
+
+  const handleCardSelect = (value: string) => {
+    setSelectedCardValue(value);
+  };
+
+  const gameCardData: IGameCardData[] = cardsSet.map((cardValue: string) => {
+    const card: IGameCardData = {
+      name: cardsUnits,
+      value: cardValue,
+      image: cardsCover.image,
+    };
+    return card;
+  });
 
   return (
     <div className="game-voting-section">
@@ -19,15 +38,14 @@ export const GameVotingSection = () => {
         {isFlipped ? `Value` : `Cover`}
       </button>
       <div className="game-card-container">
-        {gameCardData.map(({ gameCardID, name, value, image }) => (
+        {gameCardData.map(({ name, value, image }) => (
           <GameCard
-            key={gameCardID}
-            gameCardID={gameCardID}
+            key={value}
             name={name}
             value={value}
             image={image}
-            isSelected={isSelected === gameCardID}
-            onSelectedHandler={() => setIsSelected(gameCardID)}
+            isSelected={value === selectedCardValue}
+            onSelectedHandler={handleCardSelect}
             isFlipped={isFlipped}
           />
         ))}

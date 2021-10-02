@@ -1,13 +1,14 @@
+import { useEffect, useState } from 'react';
+import { CardSet, IGameSettingsErrors } from '@models/types';
 import { coverCardData } from '@components/ui/cover-card/cover-cardData';
 import { valueCardData } from '@components/ui/value-card/value-cardData';
-import { CardSet, IGameSettingsErrors } from '@models/types';
-import { useEffect, useState } from 'react';
+import config from '@src/config.json';
 
 export const useLobbySettings = (changePokerGameSettings: (value: any) => void) => {
   const [switchSettings, setSwitchSettings] = useState({
-    dealerAsPlr: false,
+    dealerAsPlr: config.defaultSettings.dealerAsPlayer,
     changeChoice: false,
-    timerIsNeed: false,
+    timerIsNeed: config.defaultSettings.isTimerNeeded,
     revoteBeforeEndOfRound: false,
     scoreForIssues: false,
     participationInGameForNewUsers: false,

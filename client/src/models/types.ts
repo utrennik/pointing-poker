@@ -682,10 +682,6 @@ export interface IValueCard {
 
 export interface IGameCard {
   /*
-   * Unique game card identifier
-   */
-  gameCardID: string;
-  /*
    * Name of game card
    */
   name: string;
@@ -708,8 +704,24 @@ export interface IGameCard {
   /*
    * The action will be called on Create value card
    */
-  onSelectedHandler?: () => void;
+  onSelectedHandler: Function;
 }
+
+export interface IGameCardData {
+  /*
+   * Name of game card
+   */
+  name: string;
+  /*
+   * Value for game card
+   */
+  value: VotingData;
+  /*
+   * Image for game card
+   */
+  image: string;
+}
+
 export interface IGameTopSection {
   /*
    * Round timer start value in seconds
@@ -730,7 +742,7 @@ export interface ILobbySettings {
    */
   isDealerPlayer: boolean;
   /*
-   * variant of deck with card
+   * cards deck
    */
   cardSet: string[];
   /*
