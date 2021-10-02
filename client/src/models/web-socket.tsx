@@ -269,7 +269,7 @@ export default ({ children }: { children: ReactChild[] }) => {
 
   socket.on(config.RES_START_POKER_GAME, (pokerGameSettingsData: ILobbySettings) => {
     dispatch(setPokerGameSettings(pokerGameSettingsData));
-    dispatch(setGameStatus(GameStatus.POKER))
+    dispatch(setGameStatus(GameStatus.POKER));
     history.push('/game');
   });
 

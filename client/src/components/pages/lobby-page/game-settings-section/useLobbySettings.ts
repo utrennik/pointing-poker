@@ -50,9 +50,9 @@ export const useLobbySettings = (changePokerGameSettings: (value: any) => void) 
 
   useEffect(() => {
     const timer = switchSettings.timerIsNeed ? valueTimer : null;
-    const customDeck = isCustomCardSet ? valuesOfNewDeck : null;
+    const customDeck = isCustomCardSet ? valueCard.map((card) => card.value) : null;
     const coverCardforServer = coverCard.find((item) => item.coverCardID === activeCoverCardID);
-
+    console.log(valueCard);
     changePokerGameSettings({
       ...switchSettings,
       cardSet,

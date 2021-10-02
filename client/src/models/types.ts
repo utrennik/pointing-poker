@@ -90,6 +90,11 @@ export interface ICustomAvatar {
    * avatar image
    */
   avatarImage?: string;
+
+  stylesProps?: {
+    width: string;
+    height: string;
+  };
 }
 
 export interface IConnectModalErrors {
@@ -276,7 +281,7 @@ export interface IMemberCard {
    */
   lastName?: string;
   /*
-   * role in the team
+   * job Position  ( we has a little slip with naming )
    */
   role: string;
   /*
@@ -287,6 +292,25 @@ export interface IMemberCard {
    * Remove user button enabled
    */
   isRemoveButtonDisabled: boolean;
+  /*
+   * Styles props for MUI component card
+   */
+  stylesProps?: {
+    widthCard: string;
+    heightCard: string;
+    widthHeader: string;
+    widthAvatar: string;
+    heightAvatar: string;
+    nameTruncate: number;
+    roleTruncate: number;
+    titleTypography: string;
+    subtitleTypography: string;
+    gameRole?: string;
+  };
+  /*
+   * role in the game
+   */
+  gameRole: 'dealer' | 'member' | 'observer';
 }
 
 export interface IMessage {
@@ -692,11 +716,7 @@ export interface ILobbySettings {
   /*
    * variant of deck with card
    */
-  cardSet: CardSet;
-  /*
-   * custom deck,which make by dealer
-   */
-  customCardSet: string[];
+  cardSet: string[];
   /*
    * possibility to all users connect in room ,when poker start
    */
@@ -768,4 +788,23 @@ export interface ISwitchLobby {
     autoreverse: boolean;
   };
   handleSwitch: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface IIssueCardStatus {
+  /*
+   * ID of user
+   */
+  id: string;
+  /*
+   * result of voiting user
+   */
+  score?: string;
+  /*
+   * Unit of measure
+   */
+  cardValueScore: string;
+  /*
+   * game role of voting user
+   */
+  gameRole?: 'dealer' | 'member' | 'observer';
 }
