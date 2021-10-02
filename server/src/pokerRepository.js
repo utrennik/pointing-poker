@@ -24,7 +24,7 @@ export const addPokerGame = (room) => {
   return { pokerGame };
 };
 
-const getPokerGame = (room) => {
+export const getPokerGame = (room) => {
   const currentPokerGame = pokers.find((poker) => poker.roomID === room);
   if (!currentPokerGame) return new Error("Poker game not found");
   return { currentPokerGame };
