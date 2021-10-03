@@ -116,7 +116,6 @@ export default ({ socket, io }) => {
     currentPokerGame.round.isRoundStart = false;
     const {issue} = getIssue(roomID,issueID);
     const updatedIssue = {...issue,score};
-    console.log(issue)
     const {updIssue} = updateIssue(roomID,updatedIssue);
     // const {issues} = getIssues(roomID);
     // io.in(roomID).emit(EVENTS.RES_ISSUES_GET,issues);
@@ -151,8 +150,9 @@ export default ({ socket, io }) => {
       );
       if (index < 0) {
         currentPokerGame.round.results.push(userScore);
+      } else {
+        currentPokerGame.round.results[index] = userScore;
       }
-      currentPokerGame.round.results[index] = userScore;
       const res = {
         issueID,
         score: currentPokerGame.round.results
