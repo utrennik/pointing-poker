@@ -74,15 +74,15 @@ export const getIssues = (room) => {
   const { currentGame, gameError } = getGame(room);
   if (gameError) return gameError;
   const issues = currentGame.issues.filter((issue) => issue.room === room);
-  const index = issues.findIndex((issue) => (issue.isActive === true));
-  if (index < 0 && issues.length) {
-    issues[0].isActive = true;
+  // const index = issues.findIndex((issue) => (issue.isActive === true));
+  // if (index < 0 && issues.length) {
+  //   issues[0].isActive = true;
     // const { currentPokerGame} = getPokerGame(room);
     // if (currentPokerGame) {
     //   currentPokerGame.round.issueID = issues[0].id;
     // }
     // return { issues };
-  }
+  // }
   // const { currentPokerGame } = getPokerGame(room);
   // if (currentPokerGame ) {
     // currentPokerGame.round.issueID = issues[index].id;
