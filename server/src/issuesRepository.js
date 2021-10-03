@@ -1,6 +1,6 @@
 import { getGame } from "./gameRepository.js";
 import EVENTS from "./events.js";
-import { getPokerGame } from "./pokerRepository.js";
+import { addRound, getPokerGame } from "./pokerRepository.js";
 
 export const addIssue = ({
   id,
@@ -102,8 +102,10 @@ const checkCurrentIssue = (room) => {
     if(index < 0 && issues.length) {
       currentPokerGame.round.issueID = issues[0].id
       const firstIssueID = issues[0].id;
+      addRound(room,firstIssueID)
       return firstIssueID;
     } else {
+      addRound(room,selectedID)
       return selectedID;
     }
   }

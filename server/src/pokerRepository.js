@@ -38,7 +38,7 @@ const deletePokerGame = (room) => {
   return pokers.splice(index, 1)[0];
 };
 
-const addRound = (room, id) => {
+export const addRound = (room, id) => {
   const { currentPokerGame, pokerGameError } = getPokerGame(room);
   if (pokerGameError) return pokerGameError;
   const results = [];
