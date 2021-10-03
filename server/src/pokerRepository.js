@@ -79,10 +79,10 @@ export default ({ socket, io }) => {
 
   socket.on(EVENTS.REQ_SELECT_ISSUE, ({ roomID, issueID }) => {
     addRound(roomID, issueID);
-    const {issue} = getIssue(roomID,issueID);
-    const isActive = true
-    const newIssue = {...issue,isActive};
-    updateIssue(roomID,newIssue);
+    // const {issue} = getIssue(roomID,issueID);
+    // const isActive = true
+    // const newIssue = {...issue,isActive};
+    // updateIssue(roomID,newIssue);
     io.in(roomID).emit(EVENTS.RES_SELECT_ISSUE, issueID);
   });
   //  when round start > with getIssues we define isActive issue to

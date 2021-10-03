@@ -36,6 +36,10 @@ export const deleteIssue = (room, id) => {
     const issue = currentGame.issues.splice(index, 1)[0];
     return { issue };
   }
+  if(index < 0 ) {
+    const issueError = new Error("can`t find current issue")
+    return {issueError}
+  };
 };
 
 //  UPDATE ISSUE WITH CHECKING GFLAG ISACTIVE : IF CURRETN ISSUE IS ACTIVE - CLEAR FLAG FROM OTHER ISSUES
@@ -56,10 +60,10 @@ export const updateIssue = (room, data) => {
   //   return { issue };
   //  }
 
-  if(data.isActive) {
-    currentGame.issues.forEach(item => item.isActive = false)
+  // if(data.isActive) {
+  //   currentGame.issues.forEach(item => item.isActive = false)
 
-  }
+  // }
   currentGame.issues[index] = { ...existIssue, ...data };
   const issue = currentGame.issues[index];
   return { issue };
@@ -71,14 +75,13 @@ export const getIssues = (room) => {
   if (gameError) return gameError;
   const issues = currentGame.issues.filter((issue) => issue.room === room);
   const index = issues.findIndex((issue) => (issue.isActive === true));
-  if (index < 0) {
+  if (index < 0 && issues.length) {
     issues[0].isActive = true;
-    const { currentPokerGame} = getPokerGame(room);
-    console.log(currentPokerGame)
-    if (currentPokerGame) {
-      currentPokerGame.round.issueID = issues[0].id;
-    }
-    return { issues };
+    // const { currentPokerGame} = getPokerGame(room);
+    // if (currentPokerGame) {
+    //   currentPokerGame.round.issueID = issues[0].id;
+    // }
+    // return { issues };
   }
   // const { currentPokerGame } = getPokerGame(room);
   // if (currentPokerGame ) {
@@ -108,8 +111,9 @@ export default ({ socket, io }) => {
   );
 
   socket.on(EVENTS.REQ_ISSUE_DELETE, ({ id, room }) => {
-    const { issue, gameError } = deleteIssue(room, id);
+    const { gameError,issueError } = deleteIssue(room, id);
     if (gameError) return gameError;
+    if(issueError) return issueError;
     const { issues } = getIssues(room);
     io.in(room).emit(EVENTS.RES_ISSUES_GET, issues);
   });
