@@ -1,6 +1,6 @@
 import EVENTS from "./events.js";
 import { getGame } from "./gameRepository.js";
-import { getIssue, getIssues,updateIssue } from "./issuesRepository.js";
+import { checkCurrentIssue, getIssue, getIssues,updateIssue } from "./issuesRepository.js";
 import { addUser } from "./usersRepository.js";
 
 const pokers = [];
@@ -75,6 +75,8 @@ export default ({ socket, io }) => {
     if (gameError) return;
     currentGame.settings = data;
     addPokerGame(data.room);
+    const selectID = checkCurrentIssue(data.room);
+    io.in(data.room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
     io.in(data.room).emit(EVENTS.RES_START_POKER, data);
   });
 
@@ -144,7 +146,7 @@ export default ({ socket, io }) => {
   socket.on(EVENTS.REQ_ROUND_VOTE, ({ roomID, issueID, userScore }) => {
     const { currentPokerGame, pokerGameError } = getPokerGame(roomID);
     if (pokerGameError) return pokerGameError;
-    if (issueID == currentPokerGame.round.issueID) {
+    if (issueID === currentPokerGame.round.issueID) {
       const index = currentPokerGame.round.results.findIndex(
         (voit) => voit.userID === userScore.userID
       );
@@ -157,6 +159,7 @@ export default ({ socket, io }) => {
         issueID,
         score: currentPokerGame.round.results
       }
+      console.log(res)
       io.in(roomID).emit(EVENTS.RES_ROUND_VOTE, res);
     }
   });

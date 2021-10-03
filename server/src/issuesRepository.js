@@ -93,7 +93,7 @@ export const getIssues = (room) => {
   return { issues };
 };
 
-const checkCurrentIssue = (room) => {
+export const checkCurrentIssue = (room) => {
   const {currentPokerGame} = getPokerGame(room);
   const {issues} = getIssues(room);
   if(currentPokerGame) {
