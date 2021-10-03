@@ -65,8 +65,8 @@ export const updateIssue = (room, data) => {
 
   // }
   currentGame.issues[index] = { ...existIssue, ...data };
-  const issue = currentGame.issues[index];
-  return { issue };
+  const updIssue = currentGame.issues[index];
+  return { updIssue };
 };
 
 
@@ -148,7 +148,6 @@ export default ({ socket, io }) => {
     if (gameError) return gameError;
     if (issueError) return issueError;
     const { issues } = getIssues(data.room);
-    // io.in(data.room).emit(EVENTS.RES_SELECT_ISSUE, issueID)
     const selectID  = checkCurrentIssue(data.room);
     io.in(data.room).emit(EVENTS.RES_ISSUES_GET, issues);
     io.in(data.room).emit(EVENTS.RES_SELECT_ISSUE,selectID)

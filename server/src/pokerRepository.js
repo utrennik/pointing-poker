@@ -1,6 +1,6 @@
 import EVENTS from "./events.js";
 import { getGame } from "./gameRepository.js";
-import { getIssue, getIssues, updateIssue } from "./issuesRepository.js";
+import { getIssue, getIssues,updateIssue } from "./issuesRepository.js";
 import { addUser } from "./usersRepository.js";
 
 const pokers = [];
@@ -114,6 +114,12 @@ export default ({ socket, io }) => {
     const scoreToRound = { issueID, roomID, score };
     currentPokerGame.round.score = score;
     currentPokerGame.round.isRoundStart = false;
+    const {issue} = getIssue(roomID,issueID);
+    const updatedIssue = {...issue,score};
+    console.log(issue)
+    const {updIssue} = updateIssue(roomID,updatedIssue);
+    // const {issues} = getIssues(roomID);
+    // io.in(roomID).emit(EVENTS.RES_ISSUES_GET,issues);
     io.in(roomID).emit(EVENTS.RES_SET_SCORE, scoreToRound);
   });
 
