@@ -1,6 +1,6 @@
-import { stringify } from "uuid";
 import EVENTS from "./events.js";
 import { getGame } from "./gameRepository.js";
+import { getIssues } from "./issuesRepository.js";
 import { addUser } from "./usersRepository.js";
 
 const pokers = [];
@@ -15,6 +15,8 @@ const pokers = [];
 
 //     }
 // }
+
+//   LIAKE A  CRUD
 
 export const addPokerGame = (room) => {
   const round = {};
@@ -36,16 +38,16 @@ const deletePokerGame = (room) => {
   return pokers.splice(index, 1)[0];
 };
 
-const addRound = (room, id) => {
-  const { currentPokerGame, pokerGameError } = getPokerGame(room);
-  if (pokerGameError) return pokerGameError;
-  const results = [];
-  const score = "";
-  const round = { issueID: id, results, isRoundStart: false, score };
-  currentPokerGame.round = round;
-  const currentRound = currentPokerGame.round;
-  return { currentRound };
-};
+// const addRound = (room, id) => {
+//   const { currentPokerGame, pokerGameError } = getPokerGame(room);
+//   if (pokerGameError) return pokerGameError;
+//   const results = [];
+//   const score = "";
+//   const round = { issueID: id, results, isRoundStart: false, score };
+//   currentPokerGame.round = round;
+//   const currentRound = currentPokerGame.round;
+//   return { currentRound };
+// };
 
 // const getRound = (room, id) => {
 //   const { currentPokerGame, pokerGameError } = getPokerGame(room);
@@ -60,21 +62,31 @@ const addRound = (room, id) => {
 // };
 
 export default ({ socket, io }) => {
+
   socket.on(EVENTS.REQ_TEST, ({ room,isFlipped }) => {
     const { pokerGame } = addPokerGame(room);
     socket.join(room)
     console.log(isFlipped);
   });
 
-  socket.on(EVENTS.REQ_SELECT_ISSUE, ({ roomID, issueID }) => {
-    addRound(roomID, issueID);
-    io.in(roomID).emit(EVENTS.RES_SELECT_ISSUE, issueID);
+  socket.on(EVENTS.REQ_START_POKER, (data) => {
+    const { currentGame, gameError } = getGame(data.room);
+    if (gameError) return;
+    currentGame.settings = data;
+    addPokerGame(data.room);
+    io.in(data.room).emit(EVENTS.RES_START_POKER, data);
   });
 
+  // socket.on(EVENTS.REQ_SELECT_ISSUE, ({ roomID, issueID }) => {
+  //   addRound(roomID, issueID);
+  //   io.in(roomID).emit(EVENTS.RES_SELECT_ISSUE, issueID);
+  // });
+  //  when round start > with getIssues we define isActive issue to
   socket.on(EVENTS.REQ_START_ROUND, (roomID) => {
     const { currentPokerGame, pokerGameError } = getPokerGame(roomID);
     if (pokerGameError) return pokerGameError;
     currentPokerGame.round.isRoundStart = true;
+    getIssues(roomID);
     io.in(roomID).emit(EVENTS.RES_START_ROUND, true);
   });
 
@@ -108,7 +120,6 @@ export default ({ socket, io }) => {
   });
 
   socket.on(EVENTS.REQ_USER_ADMIT, ({ roomID, user, isAdmitted }) => {
-    console.log(user);
     addUser(user);
     const { currentGame } = getGame(roomID);
     if (isAdmitted) {

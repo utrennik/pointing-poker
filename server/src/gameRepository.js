@@ -93,13 +93,7 @@ export default ({ socket, io }) => {
     }
   });
 
-  socket.on(EVENTS.REQ_START_POKER, (data) => {
-    const { currentGame, gameError } = getGame(data.room);
-    if (gameError) return;
-    currentGame.settings = data;
-    addPokerGame(data.room);
-    io.in(data.room).emit(EVENTS.RES_START_POKER, data);
-  });
+
 
   socket.on(EVENTS.REQ_CANCEL_GAME, ({ room }) => {
     const { currentGame, gameError } = getGame(room);

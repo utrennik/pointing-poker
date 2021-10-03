@@ -38,12 +38,24 @@ export const deleteIssue = (room, id) => {
   }
 };
 
+//  UPDATE ISSUE WITH CHECKING GFLAG ISACTIVE : IF CURRETN ISSUE IS ACTIVE - CLEAR FLAG FROM OTHER ISSUES
+// when rounds start - can`t update IsActive on Issue
+
 export const updateIssue = (room, data) => {
   const { currentGame, gameError } = getGame(room);
   if (gameError) return gameError;
   const index = currentGame.issues.findIndex((issue) => issue.id === data.id);
   if (index < 0) return { issueError: new Error(`Issue not found`) };
   const existIssue = currentGame.issues[index];
+  const {currentPokerGame} = getPokerGame(room);
+  console.log(currentPokerGame.round.isActive);
+  // if(currentPokerGame && currentPokerGame.round.isActive) {
+  //   const isActive = {isActive:false};
+  //   currentGame.issues[index] = { ...existIssue,...data,isActive };
+  //   const issue = currentGame.issues[index];
+  //   return { issue };
+  //  }
+
   if(data.isActive) {
     currentGame.issues.forEach(item => item.isActive = false)
 
@@ -53,6 +65,7 @@ export const updateIssue = (room, data) => {
   return { issue };
 };
 
+//   GET ISSUE WITH LOGIC ADDING IS ACTIVE TO 1st ELEMENT AND PUT SELECTED ISSUE TO ROUND
 export const getIssues = (room) => {
   const { currentGame, gameError } = getGame(room);
   if (gameError) return gameError;
@@ -60,17 +73,16 @@ export const getIssues = (room) => {
   const index = issues.findIndex((issue) => (issue.isActive === true));
   if (index < 0) {
     issues[0].isActive = true;
-    const { currentPokerGame } = getPokerGame(room);
+    const { currentPokerGame} = getPokerGame(room);
     if (currentPokerGame) {
       currentPokerGame.round.issueID = issues[0].id;
     }
     return { issues };
   }
   const { currentPokerGame } = getPokerGame(room);
-  if (currentPokerGame) {
+  if (currentPokerGame ) {
     currentPokerGame.round.issueID = issues[index].id;
   }
-  console.log(currentPokerGame)
   return { issues };
 };
 
