@@ -1,6 +1,6 @@
 import EVENTS from "./events.js";
 import { getGame } from "./gameRepository.js";
-import { getIssues } from "./issuesRepository.js";
+import { getIssue, getIssues, updateIssue } from "./issuesRepository.js";
 import { addUser } from "./usersRepository.js";
 
 const pokers = [];
@@ -38,16 +38,16 @@ const deletePokerGame = (room) => {
   return pokers.splice(index, 1)[0];
 };
 
-// const addRound = (room, id) => {
-//   const { currentPokerGame, pokerGameError } = getPokerGame(room);
-//   if (pokerGameError) return pokerGameError;
-//   const results = [];
-//   const score = "";
-//   const round = { issueID: id, results, isRoundStart: false, score };
-//   currentPokerGame.round = round;
-//   const currentRound = currentPokerGame.round;
-//   return { currentRound };
-// };
+const addRound = (room, id) => {
+  const { currentPokerGame, pokerGameError } = getPokerGame(room);
+  if (pokerGameError) return pokerGameError;
+  const results = [];
+  const score = "";
+  const round = { issueID: id, results, isRoundStart: false, score };
+  currentPokerGame.round = round;
+  const currentRound = currentPokerGame.round;
+  return { currentRound };
+};
 
 // const getRound = (room, id) => {
 //   const { currentPokerGame, pokerGameError } = getPokerGame(room);
@@ -55,11 +55,11 @@ const deletePokerGame = (room) => {
 //   return { currentRound };
 // };
 
-// export const selectIssuePoker = ({ id, room }) => {
-//   const { currentGame, gameError } = getGame(room);
-//   if (gameError) return;
-//   currentGame.poker.issue = id;
-// };
+export const selectIssuePoker = ({ id, room }) => {
+  const { currentGame, gameError } = getGame(room);
+  if (gameError) return;
+  currentGame.poker.issue = id;
+};
 
 export default ({ socket, io }) => {
 
@@ -77,10 +77,14 @@ export default ({ socket, io }) => {
     io.in(data.room).emit(EVENTS.RES_START_POKER, data);
   });
 
-  // socket.on(EVENTS.REQ_SELECT_ISSUE, ({ roomID, issueID }) => {
-  //   addRound(roomID, issueID);
-  //   io.in(roomID).emit(EVENTS.RES_SELECT_ISSUE, issueID);
-  // });
+  socket.on(EVENTS.REQ_SELECT_ISSUE, ({ roomID, issueID }) => {
+    addRound(roomID, issueID);
+    const {issue} = getIssue(roomID,issueID);
+    const isActive = true
+    const newIssue = {...issue,isActive};
+    updateIssue(roomID,newIssue);
+    io.in(roomID).emit(EVENTS.RES_SELECT_ISSUE, issueID);
+  });
   //  when round start > with getIssues we define isActive issue to
   socket.on(EVENTS.REQ_START_ROUND, (roomID) => {
     const { currentPokerGame, pokerGameError } = getPokerGame(roomID);

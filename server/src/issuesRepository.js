@@ -47,8 +47,8 @@ export const updateIssue = (room, data) => {
   const index = currentGame.issues.findIndex((issue) => issue.id === data.id);
   if (index < 0) return { issueError: new Error(`Issue not found`) };
   const existIssue = currentGame.issues[index];
-  const {currentPokerGame} = getPokerGame(room);
-  console.log(currentPokerGame.round.isActive);
+  // const {currentPokerGame} = getPokerGame(room);
+  // console.log(currentPokerGame.round.isActive);
   // if(currentPokerGame && currentPokerGame.round.isActive) {
   //   const isActive = {isActive:false};
   //   currentGame.issues[index] = { ...existIssue,...data,isActive };
@@ -74,15 +74,16 @@ export const getIssues = (room) => {
   if (index < 0) {
     issues[0].isActive = true;
     const { currentPokerGame} = getPokerGame(room);
+    console.log(currentPokerGame)
     if (currentPokerGame) {
       currentPokerGame.round.issueID = issues[0].id;
     }
     return { issues };
   }
-  const { currentPokerGame } = getPokerGame(room);
-  if (currentPokerGame ) {
-    currentPokerGame.round.issueID = issues[index].id;
-  }
+  // const { currentPokerGame } = getPokerGame(room);
+  // if (currentPokerGame ) {
+    // currentPokerGame.round.issueID = issues[index].id;
+  // }
   return { issues };
 };
 
