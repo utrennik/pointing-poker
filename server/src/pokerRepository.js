@@ -63,10 +63,11 @@ export const selectIssuePoker = ({ id, room }) => {
 
 export default ({ socket, io }) => {
 
-  socket.on(EVENTS.REQ_TEST, ({ room,isFlipped }) => {
-    const { pokerGame } = addPokerGame(room);
-    socket.join(room)
-    console.log(isFlipped);
+  socket.on(EVENTS.REQ_TEST, ({ room}) => {
+  const {currentPokerGame} = getPokerGame(room)
+    if(currentPokerGame) {
+      console.log(currentPokerGame)
+    }
   });
 
   socket.on(EVENTS.REQ_START_POKER, (data) => {

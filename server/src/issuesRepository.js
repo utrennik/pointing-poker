@@ -69,6 +69,9 @@ export const updateIssue = (room, data) => {
   return { issue };
 };
 
+
+
+
 //   GET ISSUE WITH LOGIC ADDING IS ACTIVE TO 1st ELEMENT AND PUT SELECTED ISSUE TO ROUND
 export const getIssues = (room) => {
   const { currentGame, gameError } = getGame(room);
@@ -90,6 +93,22 @@ export const getIssues = (room) => {
   return { issues };
 };
 
+const checkCurrentIssue = (room) => {
+  const {currentPokerGame} = getPokerGame(room);
+  const {issues} = getIssues(room);
+  if(currentPokerGame) {
+    const selectedID = currentPokerGame.round.issueID;
+    const index = issues.findIndex(issue => issue.id === selectedID);
+    if(index < 0 && issues.length) {
+      currentPokerGame.round.issueID = issues[0].id
+      const firstIssueID = issues[0].id;
+      return firstIssueID;
+    } else {
+      return selectedID;
+    }
+  }
+}
+
 export default ({ socket, io }) => {
   socket.on(
     EVENTS.REQ_ISSUE_ADD,
@@ -106,6 +125,8 @@ export default ({ socket, io }) => {
       if (gameError) return gameError;
       if (issueError) return issueError;
       const { issues } = getIssues(room);
+      const selectID  = checkCurrentIssue(room);
+      io.in(room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
       io.in(room).emit(EVENTS.RES_ISSUES_GET, issues);
     }
   );
@@ -115,6 +136,8 @@ export default ({ socket, io }) => {
     if (gameError) return gameError;
     if(issueError) return issueError;
     const { issues } = getIssues(room);
+    const selectID  = checkCurrentIssue(room);
+    io.in(room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
     io.in(room).emit(EVENTS.RES_ISSUES_GET, issues);
   });
 
@@ -123,6 +146,9 @@ export default ({ socket, io }) => {
     if (gameError) return gameError;
     if (issueError) return issueError;
     const { issues } = getIssues(data.room);
+    // io.in(data.room).emit(EVENTS.RES_SELECT_ISSUE, issueID)
+    const selectID  = checkCurrentIssue(data.room);
+    io.in(data.room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
     io.in(data.room).emit(EVENTS.RES_ISSUES_GET, issues);
   });
 
