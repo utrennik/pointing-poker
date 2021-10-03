@@ -126,8 +126,9 @@ export default ({ socket, io }) => {
       if (issueError) return issueError;
       const { issues } = getIssues(room);
       const selectID  = checkCurrentIssue(room);
-      io.in(room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
       io.in(room).emit(EVENTS.RES_ISSUES_GET, issues);
+      io.in(room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
+
     }
   );
 
@@ -137,8 +138,9 @@ export default ({ socket, io }) => {
     if(issueError) return issueError;
     const { issues } = getIssues(room);
     const selectID  = checkCurrentIssue(room);
-    io.in(room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
     io.in(room).emit(EVENTS.RES_ISSUES_GET, issues);
+    io.in(room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
+
   });
 
   socket.on(EVENTS.REQ_ISSUE_UPDATE, (data) => {
@@ -148,8 +150,9 @@ export default ({ socket, io }) => {
     const { issues } = getIssues(data.room);
     // io.in(data.room).emit(EVENTS.RES_SELECT_ISSUE, issueID)
     const selectID  = checkCurrentIssue(data.room);
-    io.in(data.room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
     io.in(data.room).emit(EVENTS.RES_ISSUES_GET, issues);
+    io.in(data.room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
+
   });
 
   socket.on(EVENTS.REQ_ISSUES_GET, ({ room }) => {
