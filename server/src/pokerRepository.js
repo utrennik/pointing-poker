@@ -147,10 +147,21 @@ export default ({ socket, io }) => {
   })
 
   socket.on(EVENTS.REQ_FINISH_GAME, (roomID) => {
-
     const {issues} = getIssues(roomID);
     io.in(roomID).emit(EVENTS.RES_FINISH_GAME,issues)
 
+  })
+
+  socket.on(EVENTS.REQ_CLEAR_VOTING,(roomID) => {
+    const { currentPokerGame, pokerGameError } = getPokerGame(roomID);
+    if (pokerGameError) return pokerGameError;
+    currentPokerGame.round.results = {}
+    const results = {
+      issueID:'',
+      score:[]
+    }
+
+    io.in(roomID).emit(EVENTS.RES_ROUND_VOTE,results)
   })
 
 };

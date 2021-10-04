@@ -47,6 +47,8 @@ const EVENTS = {
   REQ_CARDS_FLIP: 'req-cards-flip',
   RES_CARDS_FLIP: 'res-cards-flip',
   REQ_FINISH_GAME: 'req-finish-game',
-  RES_FINISH_GAME: 'res-finish-game'
+  RES_FINISH_GAME: 'res-finish-game',
+  REQ_CLEAR_VOTING: 'req-clear-voting',
+
 }
 export default EVENTS;
