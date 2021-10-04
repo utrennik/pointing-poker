@@ -1,8 +1,6 @@
 import { StatsItem } from '@components/pages/game-page/game-round-section/stats-item/stats-item';
 import { Card, CardHeader, makeStyles, Typography } from '@material-ui/core';
-import { truncateString } from '@utils/stringUtils';
 import { id } from '@models/utils';
-import config from '@src/config.json';
 import { testIssues, gameResults } from './vote-resultsData';
 import './game-result.sass';
 
@@ -45,7 +43,7 @@ export const GameResults = () => {
                     <CardHeader
                       variant="h4"
                       className={headerStyles}
-                      title={truncateString(issue.name, config.ISSUE_TITLE_MAX_SYMBOLS)}
+                      title={issue.name}
                       subheader={issue.priority}
                       subheaderTypographyProps={{
                         variant: 'subtitle1',
