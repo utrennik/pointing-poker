@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 import EVENTS from "./events.js";
-import { addPokerGame } from "./pokerRepository.js";
 
 const games = [];
 
@@ -11,7 +10,7 @@ export const addGame = () => {
   const settings = {};
   const title = "";
   const dealer = {};
-  const gameStatus = "";
+  const gameStatus = "lobby";
   const voting = {
     isVote: false,
     candidat: "",
@@ -99,7 +98,7 @@ export default ({ socket, io }) => {
     const { currentGame, gameError } = getGame(room);
     if (gameError) return;
     io.emit(EVENTS.NOTIFICATIONS, { message: "Current game cancelled." });
-    currentGame.gameStatus = "cancel";
+    currentGame.gameStatus = "cancelGame";
     const gameStatus = currentGame.gameStatus;
     io.in(room).emit(EVENTS.RES_CANCEL_GAME, { gameStatus });
     deleteGame(room);
