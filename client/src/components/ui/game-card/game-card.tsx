@@ -13,8 +13,10 @@ export const GameCard = ({
 }: IGameCard) => {
   const coffeeImg = <img src={coffeeIcon} alt="" className="card-icon" />;
 
+  const className = isFlipped ? 'game-card untouchable-card' : 'game-card';
+
   return (
-    <Card className="game-card" onClick={() => onSelectedHandler(value)}>
+    <Card className={className} onClick={() => onSelectedHandler(value)}>
       {isFlipped ? (
         <CardMedia component="img" alt="cover card" height="120" image={image} />
       ) : (

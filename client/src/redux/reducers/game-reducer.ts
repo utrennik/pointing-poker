@@ -1,6 +1,4 @@
 import config from '@src/config.json';
-// import { IssuePriority } from '@models/types';
-// import { IGame, IIssue } from '../../models/types';
 import { types } from '../actions';
 
 export const initialState = {
@@ -28,57 +26,8 @@ export const initialState = {
   issues: [],
   currentIssue: {},
   isRoundRunning: false,
+  isFlipped: false,
 };
-
-// TODO: For testing Game page TOP section, should be removed
-
-// const testIssues: IIssue[] = [
-//   {
-//     id: '1',
-//     name: 'Create welcome page',
-//     description: 'Issue full description',
-//     room: '123',
-//     priority: IssuePriority.LOW,
-//     isActive: true,
-//     score: '',
-//     votingData: [2, 4, 8, 8, 'coffee', 'pass'],
-//   },
-
-//   {
-//     id: '2',
-//     name: 'Create lobby page',
-//     description: 'Issue full description',
-//     room: '123',
-//     priority: IssuePriority.NORMAL,
-//     isActive: false,
-//     score: '20',
-//   },
-
-//   {
-//     id: '3',
-//     name: 'Create game page',
-//     description: 'Issue full description',
-//     room: '123',
-//     priority: IssuePriority.HIGH,
-//     isActive: false,
-//     score: '',
-//   },
-// ];
-
-// const testInitialState: IGame = {
-//   users: [],
-//   title: 'My Game Title',
-//   room: 'abcd',
-//   dealer: {
-//     firstName: 'Alejandro',
-//     lastName: 'Sanchez',
-//   },
-//   settings: {},
-//   gameStatus: 'poker',
-//   timer: 20,
-//   issues: testIssues,
-//   currentIssue: testIssues[0],
-// };
 
 export const gameReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -115,6 +64,7 @@ export const gameReducer = (state = initialState, { type, payload }) => {
 
     case types.SET_ISSUES: {
       const newIssues = payload.issues;
+      const currentIssueID = state.currentIssue.id;
 
       if (!newIssues.length) {
         return {
@@ -124,26 +74,36 @@ export const gameReducer = (state = initialState, { type, payload }) => {
         };
       }
 
-      const isCurrentIssue = !!state.currentIssue.id;
-      const isCurrentIssueInArrray = !!newIssues.filter(
-        (issue) => issue.id === state.currentIssue.id
-      )[0];
+      newIssues.forEach((issue) => {
+        if (issue.id === currentIssueID) {
+          issue.isActive = true;
+        } else {
+          issue.isActive = false;
+        }
+      });
 
-      if (!isCurrentIssue || !isCurrentIssueInArrray) {
-        const defaultActiveIssue = newIssues[0];
-        if (defaultActiveIssue) defaultActiveIssue.isActive = true;
+      // const isCurrentIssue = !!state.currentIssue.id;
+      // const isCurrentIssueInArrray = !!newIssues.filter(
+      //   (issue) => issue.id === state.currentIssue.id
+      // )[0];
 
-        return {
-          ...state,
-          issues: newIssues,
-          currentIssue: defaultActiveIssue,
-        };
-      }
+      // if (!isCurrentIssue || !isCurrentIssueInArrray) {
+      //   const defaultActiveIssue = newIssues[0];
+      //   if (defaultActiveIssue) {
+      //     defaultActiveIssue.isActive = true;
+      //   }
 
-      if (isCurrentIssueInArrray) {
-        const activeIssueInArray = newIssues.find((issue) => issue.id === state.currentIssue.id);
-        activeIssueInArray.isActive = true;
-      }
+      //   return {
+      //     ...state,
+      //     issues: newIssues,
+      //     currentIssue: defaultActiveIssue,
+      //   };
+      // }
+
+      // if (isCurrentIssueInArrray) {
+      //   const activeIssueInArray = newIssues.find((issue) => issue.id === state.currentIssue.id);
+      //   activeIssueInArray.isActive = true;
+      // }
 
       return {
         ...state,
@@ -206,7 +166,34 @@ export const gameReducer = (state = initialState, { type, payload }) => {
         ...state,
         currentIssue: {
           ...currentIssue,
-          userScore: payload.score,
+          userScore: payload.roundVoteResults.score,
+        },
+      };
+    }
+
+    case types.SET_IS_FLIPPED: {
+      return {
+        ...state,
+        isFlipped: payload.isFlipped,
+      };
+    }
+
+    case types.SET_ISSUE_SCORE: {
+      const { currentIssue } = state;
+      const { scoreData } = payload;
+      const newIssues = state.issues.slice().map((issue) => {
+        if (issue.id === scoreData.issueID) {
+          return { ...issue, score: scoreData.score };
+        }
+        return issue;
+      });
+
+      return {
+        ...state,
+        issues: newIssues,
+        currentIssue: {
+          ...currentIssue,
+          score: scoreData.score,
         },
       };
     }

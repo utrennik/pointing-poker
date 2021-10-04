@@ -45,7 +45,7 @@ export const IssueCard = ({
     ws.requestSelectIssue(id);
   };
 
-  const cardClass =
+  let cardClass =
     (isActive && isPlayed && isGame && isVoting && 'issue-card selected played untouchable') ||
     (isActive && isPlayed && isGame && 'issue-card selected played') ||
     (isActive && isGame && isVoting && 'issue-card selected untouchable') ||
@@ -54,6 +54,7 @@ export const IssueCard = ({
     (isPlayed && isGame && 'issue-card played') ||
     (isVoting && 'issue-card untouchable') ||
     'issue-card';
+  if (!isDealer && !isVoting) cardClass += ' untouchable-card';
 
   const maxSymbols = isGame
     ? config.truncateSettings.issueTitleMaxSymbolsGame

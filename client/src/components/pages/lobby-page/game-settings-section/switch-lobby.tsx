@@ -4,7 +4,7 @@ import { ISwitchLobby } from '@models/types';
 export const SwitchLobby = ({ switchSettings, handleSwitch }: ISwitchLobby) => (
   <>
     <div className="switch-lobby">
-      <h4 className="switch-lobby-label">Scram master as player:</h4>
+      <h4 className="switch-lobby-label">Dealer as player:</h4>
       <div className="switch-lobby-switch">
         <Switch
           id="dealer-as-plr-switch"
@@ -16,7 +16,21 @@ export const SwitchLobby = ({ switchSettings, handleSwitch }: ISwitchLobby) => (
       </div>
     </div>
     <div className="switch-lobby">
-      <h4 className="switch-lobby-label">Changing card in round end:</h4>
+      <h4 className="switch-lobby-label">New user in game should be admitted by dealer:</h4>
+      <div className="switch-lobby-switch">
+        <Switch
+          id="participationInGameForNewUsers"
+          name="participationInGameForNewUsers"
+          checked={switchSettings.participationInGameForNewUsers}
+          color="primary"
+          onChange={handleSwitch}
+        />
+      </div>
+    </div>
+    {/* 
+    //TODO: Implement revoting option if needed
+    <div className="switch-lobby">
+      <h4 className="switch-lobby-label">Allow re-voting</h4>
       <div className="switch-lobby-switch">
         <Switch
           id="change-choice-switch"
@@ -26,7 +40,7 @@ export const SwitchLobby = ({ switchSettings, handleSwitch }: ISwitchLobby) => (
           onChange={handleSwitch}
         />
       </div>
-    </div>
+    </div> */}
     <div className="switch-lobby">
       <h4 className="switch-lobby-label">Is timer needed:</h4>
       <div className="switch-lobby-switch">
@@ -40,7 +54,7 @@ export const SwitchLobby = ({ switchSettings, handleSwitch }: ISwitchLobby) => (
       </div>
     </div>
     <div className="switch-lobby">
-      <h4 className="switch-lobby-label">Revote before round end:</h4>
+      <h4 className="switch-lobby-label">Allow revoting when cards are flipped:</h4>
       <div className="switch-lobby-switch">
         <Switch
           id="revote"
@@ -51,7 +65,8 @@ export const SwitchLobby = ({ switchSettings, handleSwitch }: ISwitchLobby) => (
         />
       </div>
     </div>
-    <div className="switch-lobby">
+    {/* <div className="switch-lobby">
+    //TODO: Implement add cards score from the file
       <h4 className="switch-lobby-label">Score for issues from file:</h4>
       <div className="switch-lobby-switch">
         <Switch
@@ -62,21 +77,9 @@ export const SwitchLobby = ({ switchSettings, handleSwitch }: ISwitchLobby) => (
           onChange={handleSwitch}
         />
       </div>
-    </div>
+    </div> */}
     <div className="switch-lobby">
-      <h4 className="switch-lobby-label">Participation in game for new users:</h4>
-      <div className="switch-lobby-switch">
-        <Switch
-          id="participationInGameForNewUsers"
-          name="participationInGameForNewUsers"
-          checked={switchSettings.participationInGameForNewUsers}
-          color="primary"
-          onChange={handleSwitch}
-        />
-      </div>
-    </div>
-    <div className="switch-lobby">
-      <h4 className="switch-lobby-label">Cards autoreverse in the end of round:</h4>
+      <h4 className="switch-lobby-label">Cards auto-flip when everybody voted:</h4>
       <div className="switch-lobby-switch">
         <Switch
           id="autoreverse"

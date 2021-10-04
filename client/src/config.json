@@ -30,6 +30,10 @@
   "RES_FINISH_ROUND": "res-finish-round",
   "REQ_ROUND_VOTE": "req-round-vote",
   "RES_ROUND_VOTE": "res-round-vote",
+  "REQ_FLIP_CARDS": "req-cards-flip",
+  "RES_FLIP_CARDS": "res-cards-flip",
+  "REQ_SET_SCORE": "req-set-score",
+  "RES_SET_SCORE": "res-set-score",
   "KICKED_NOTIFICATION": "Sorry, you have been kicked from the game!",
   "DISCONNECT": "disconnect",
   "DEALER": "dealer",
@@ -59,10 +63,12 @@
   },
   "CARDSET": {
     "FIBONACCI": ["0", "1", "2", "3", "5", "8", "13", "21", "pass", "coffee"],
-    "POWERS_OF_TWO": ["0", "1", "2", "4", "8", "16", "pass", "coffee"],
-    
+    "POWERS_OF_TWO": ["0", "1", "2", "4", "8", "16", "pass", "coffee"]
+  },
   "defaultSettings": {
     "dealerAsPlayer": true,
-    "isTimerNeeded": true
+    "isTimerNeeded": true,
+    "timerMins": 0,
+    "timerSecs": 20
   }
 }

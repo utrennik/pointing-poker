@@ -6,7 +6,6 @@ interface IGameTimer {
 
 export const GameTimer = ({ timerSecs }: IGameTimer) => {
   const MINUTE_SECS = 60;
-  console.log(`timerSecs ${timerSecs}`);
   if (timerSecs === null) return null;
 
   return (

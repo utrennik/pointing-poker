@@ -1,8 +1,10 @@
+import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
 import InputButton from '@components/ui/input-button/input-button';
-import { IIssue, IRoundVoteResults } from '@models/types';
+import { IIssue, ILobbySettings, IRoundVoteResults, IUserScore, Role } from '@models/types';
 import { Button } from '@material-ui/core';
+import { WebSocketContext } from '@models/web-socket';
 import { getVoteResults, id } from '@models/utils';
 import { StatsItem } from './stats-item/stats-item';
 import './game-round-section.sass';
@@ -14,14 +16,25 @@ interface IGameRoundSection {
 
 export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameRoundSection) => {
   const currentIssue: IIssue = useSelector((state: RootState) => state.game.currentIssue);
-  const isRoundRunning: IIssue = useSelector((state: RootState) => state.game.isRoundRunning);
+  const isRoundRunning: boolean = useSelector((state: RootState) => state.game.isRoundRunning);
+  const settings: ILobbySettings = useSelector((state: RootState) => state.game.settings);
+  const isFlipped: boolean = useSelector((state: RootState) => state.game.isFlipped);
+  const isTimer = settings.timer !== null;
+  const isAutoReverse = settings.IsAutoreverseCards;
   const isCurrentIssue: boolean = !!currentIssue.id;
   const isIssuePlayed: boolean = !!currentIssue.score;
-  const voteResults: IRoundVoteResults[] =
-    (currentIssue.votingData && getVoteResults(currentIssue.votingData)) || [];
+  const currentUserScore: IUserScore[] = currentIssue.userScore;
+  const voteResults: IRoundVoteResults[] = currentUserScore
+    ? getVoteResults(currentUserScore.map((scoreItem: IUserScore) => scoreItem.score))
+    : [];
+  const isDealer: boolean = useSelector(
+    (state: RootState) => state.client.clientUser.role === Role.DEALER
+  );
+
+  const ws = useContext(WebSocketContext);
 
   const handleSetScore = (score: string) => {
-    console.log(`set current issue score: ${score}`);
+    ws.requestSetScore(score);
   };
 
   const statsItems =
@@ -51,6 +64,14 @@ export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameR
     <div className="current-issue-btn">
       <Button variant="contained" onClick={handleFinishRound}>
         Finish round
+      </Button>
+    </div>
+  );
+
+  const flipCardsBtn = (
+    <div className="current-issue-btn">
+      <Button variant="contained" onClick={() => ws.requestFlipCards(true)}>
+        Flip cards
       </Button>
     </div>
   );
@@ -85,18 +106,26 @@ export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameR
 
       {currentIssue.description && descriptionField}
 
-      <div className="current-issue-details">
+      <div className="current-issue-details current-issue-score">
         <span>Score: </span>
         {currentIssue.score || '---'}
       </div>
 
       <div className="current-issue-score-input">
-        <InputButton buttonText="Set score" valueHandler={handleSetScore} />
+        {isDealer && (
+          <InputButton
+            buttonText="Set score"
+            initialValue={currentIssue.score || ''}
+            valueHandler={handleSetScore}
+          />
+        )}
       </div>
+      {!isFlipped && isRoundRunning && !isTimer && !isAutoReverse && flipCardsBtn}
 
-      {!isRoundRunning ? playRoundBtn : finishRoundBtn}
+      {isDealer &&
+        (!isRoundRunning ? playRoundBtn : ((isFlipped && isTimer) || !isTimer) && finishRoundBtn)}
 
-      {!!statsItems.length && statsField}
+      {!!statsItems.length && (isDealer || isFlipped) && statsField}
     </div>
   );
 

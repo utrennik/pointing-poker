@@ -21,6 +21,9 @@ import {
   setPokerGameSettings,
   setCurrentIssue,
   setIsRoundRunning,
+  setIsFlipped,
+  setRoundVoteResults,
+  setIssueScore,
 } from '@src/redux/actions';
 
 import {
@@ -39,6 +42,8 @@ import {
   IIssueID,
   IRoundVoteResults,
   IRoundVoteData,
+  IFlipCards,
+  IIssueScoreData,
 } from './types';
 import config from '../config.json';
 
@@ -102,7 +107,7 @@ export default ({ children }: { children: ReactChild[] }) => {
 
   const requestStartGame = (userData: IUser) => {
     socket?.emit(config.REQ_START_GAME, userData, (res: IUser) => {
-      console.log(`Game ${res.room} started...`);
+      console.log(`Game ${JSON.stringify(res)} started...`);
       dispatch(setClientUser(res));
       client = res;
       dispatch(setGame({ dealer: res, room: res.room }));
@@ -240,13 +245,32 @@ export default ({ children }: { children: ReactChild[] }) => {
       roomID: currentGame.room,
       issueID: currentGame.currentIssue.id,
       userScore: {
-        userID: client.id,
+        userID: clientUser.id,
         score: cardValue,
       },
     };
 
-    console.log(`Requested send vote ${cardValue}`);
+    console.log(`Requested send vote ${JSON.stringify(roundVoteData)}`);
     socket?.emit(config.REQ_ROUND_VOTE, roundVoteData);
+  };
+
+  const requestFlipCards = (isFlipped: boolean) => {
+    const flipData: IFlipCards = {
+      roomID: currentGame.room,
+      isFlipped,
+    };
+    console.log(`Requested flip cards ${JSON.stringify(flipData)}`);
+    socket?.emit(config.REQ_FLIP_CARDS, flipData);
+  };
+
+  const requestSetScore = (score: string) => {
+    const scoreData: IIssueScoreData = {
+      roomID: currentGame.room,
+      issueID: currentGame.currentIssue.id,
+      score,
+    };
+    console.log(`Requested set score ${JSON.stringify(scoreData)}`);
+    socket?.emit(config.REQ_SET_SCORE, scoreData);
   };
 
   socket.on('connect', () => {
@@ -255,10 +279,12 @@ export default ({ children }: { children: ReactChild[] }) => {
   });
 
   socket.on('disconnect', () => {
+    console.log('Server disconnected...');
     dispatch(setSocketDisconnected());
   });
 
   socket.on('connect_error', () => {
+    console.log('Connection error...');
     dispatch(setSocketDisconnected());
   });
 
@@ -327,6 +353,7 @@ export default ({ children }: { children: ReactChild[] }) => {
   socket.on(config.RES_START_ROUND, (isStarted: boolean) => {
     console.log(`round started: ${isStarted}`);
     dispatch(setIsRoundRunning(isStarted));
+    dispatch(setIsFlipped(false));
   });
 
   socket.on(config.RES_FINISH_ROUND, (roundVoteResults: IRoundVoteResults) => {
@@ -337,6 +364,17 @@ export default ({ children }: { children: ReactChild[] }) => {
   socket.on(config.RES_ROUND_VOTE, (roundVoteResults: IRoundVoteResults) => {
     console.log(`vote accepted: ${JSON.stringify(roundVoteResults)}`);
     dispatch(setRoundVoteResults(roundVoteResults));
+  });
+
+  socket.on(config.RES_FLIP_CARDS, (isFlipped: boolean) => {
+    console.log(`cards flipped: ${isFlipped}`);
+    dispatch(setIsFlipped(isFlipped));
+  });
+
+  socket.on(config.RES_SET_SCORE, (scoreData: IIssueScoreData) => {
+    const { score } = scoreData;
+    console.log(`Current issue score setted: ${score}`);
+    dispatch(setIssueScore(scoreData));
   });
 
   const ws: any = {
@@ -360,6 +398,8 @@ export default ({ children }: { children: ReactChild[] }) => {
     requestStartRound,
     requestFinishRound,
     requestRoundVote,
+    requestFlipCards,
+    requestSetScore,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

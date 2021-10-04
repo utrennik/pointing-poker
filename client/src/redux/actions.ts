@@ -7,6 +7,7 @@ import {
   GameStatus,
   IMessage,
   IRoundVoteResults,
+  IIssueScoreData,
 } from '../models/types';
 
 export const types = {
@@ -29,6 +30,8 @@ export const types = {
   SET_POKER_GAME_SETTINGS: 'SET_POKER_GAME_SETTINGS',
   SET_IS_ROUND_RUNNING: 'SET_IS_ROUND_RUNNING',
   SET_ROUND_VOTE_RESULTS: 'SET_ROUND_VOTE_RESULTS',
+  SET_IS_FLIPPED: 'SET_IS_FLIPPED',
+  SET_ISSUE_SCORE: 'SET_ISSUE_SCORE',
 };
 
 export const setSocketConnected = () => ({
@@ -120,4 +123,14 @@ export const setIsRoundRunning = (isRoundRunning: boolean) => ({
 export const setRoundVoteResults = (roundVoteResults: IRoundVoteResults) => ({
   type: types.SET_ROUND_VOTE_RESULTS,
   payload: { roundVoteResults },
+});
+
+export const setIsFlipped = (isFlipped: boolean) => ({
+  type: types.SET_IS_FLIPPED,
+  payload: { isFlipped },
+});
+
+export const setIssueScore = (scoreData: IIssueScoreData) => ({
+  type: types.SET_ISSUE_SCORE,
+  payload: { scoreData },
 });

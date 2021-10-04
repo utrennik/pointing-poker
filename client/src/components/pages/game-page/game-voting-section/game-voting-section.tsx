@@ -8,25 +8,19 @@ import './game-voting-section.sass';
 
 export const GameVotingSection = () => {
   const settings: ILobbySettings = useSelector((state: RootState) => state.game.settings);
+  const isFlipped: boolean = useSelector((state: RootState) => state.game.isFlipped);
   const cardsUnits: string = settings.unitsOfEstimation.scoreTypeShort;
   const cardsCover: ICoverCard = settings.coverCardforServer;
-  const [isFlipped, setIsFlipped] = useState(false);
   const [selectedCardValue, setSelectedCardValue] = useState('');
-  // TODO: Here will be settings.cardSet: string[]
-  const cardsSet = settings.customCardSet;
+  const { cardSet } = settings;
   const ws = useContext(WebSocketContext);
-
-  const handleFlip = () => {
-    setSelectedCardValue('');
-    setIsFlipped(!isFlipped);
-  };
 
   const handleCardSelect = (value: string) => {
     setSelectedCardValue(value);
     ws.requestRoundVote(value);
   };
 
-  const gameCardData: IGameCardData[] = cardsSet.map((cardValue: string) => {
+  const gameCardData: IGameCardData[] = cardSet.map((cardValue: string) => {
     const card: IGameCardData = {
       name: cardsUnits,
       value: cardValue,
@@ -37,9 +31,6 @@ export const GameVotingSection = () => {
 
   return (
     <div className="game-voting-section">
-      <button type="button" className="flip-test-button" onClick={handleFlip}>
-        {isFlipped ? `Value` : `Cover`}
-      </button>
       <div className="game-card-container">
         {gameCardData.map(({ name, value, image }) => (
           <GameCard

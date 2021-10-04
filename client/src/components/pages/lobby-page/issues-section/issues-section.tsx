@@ -31,10 +31,10 @@ const IssuesSection = ({ sectionTitle }: IIssuesSection) => {
 
   return (
     <section className="lobby-content-issues">
-      <h3 className="section-header">{sectionTitle}</h3>
+      <h3 className="section-header">{(issues.length || isDealer) && sectionTitle}</h3>
       <div className="issues-lobby">
         {issuesList}
-        <IssueCardCreate />
+        {isDealer && <IssueCardCreate />}
       </div>
     </section>
   );

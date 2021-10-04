@@ -548,6 +548,10 @@ export interface IGame {
    * is the voting round running
    */
   isRoundRunning: boolean;
+  /*
+   * are the game cards flipped
+   */
+  isFlipped: boolean;
 }
 
 export enum GameStatus {
@@ -741,7 +745,7 @@ export interface IGameTopSection {
   /*
    * Round timer start value in seconds
    */
-  timerSecs: number;
+  timerSecs: number | null;
   /*
    * Is the client user a dealer
    */
@@ -835,11 +839,7 @@ export interface ISwitchLobby {
 
 export interface IIssueCardStatus {
   /*
-   * ID of user
-   */
-  id: string;
-  /*
-   * result of voiting user
+   * result of voting user
    */
   score?: string;
   /*
@@ -847,7 +847,33 @@ export interface IIssueCardStatus {
    */
   cardValueScore: string;
   /*
-   * game role of voting user
+   * Is the score hidden
    */
-  gameRole?: 'dealer' | 'member' | 'observer';
+  isScoreHidden: boolean;
+}
+
+export interface IFlipCards {
+  /*
+   * room ID
+   */
+  roomID: string;
+  /*
+   * true - cards are flipped, false - not
+   */
+  isFlipped: boolean;
+}
+
+export interface IIssueScoreData {
+  /*
+   * room ID
+   */
+  roomID: string;
+  /*
+   * issue ID
+   */
+  issueID: string;
+  /*
+   * score
+   */
+  score: string;
 }
