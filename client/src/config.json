@@ -34,6 +34,9 @@
   "RES_FLIP_CARDS": "res-cards-flip",
   "REQ_SET_SCORE": "req-set-score",
   "RES_SET_SCORE": "res-set-score",
+  "REQ_CLEAR_VOTING": "req-clear-voting",
+  "REQ_FINISH_GAME": "req-finish-game",
+  "RES_FINISH_GAME": "res-finish-game",
   "KICKED_NOTIFICATION": "Sorry, you have been kicked from the game!",
   "DISCONNECT": "disconnect",
   "DEALER": "dealer",
@@ -66,8 +69,8 @@
     "POWERS_OF_TWO": ["0", "1", "2", "4", "8", "16", "pass", "coffee"]
   },
   "defaultSettings": {
-    "dealerAsPlayer": true,
-    "isTimerNeeded": true,
+    "dealerAsPlayer": false,
+    "isTimerNeeded": false,
     "timerMins": 0,
     "timerSecs": 20
   }

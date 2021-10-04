@@ -18,9 +18,12 @@ export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameR
   const currentIssue: IIssue = useSelector((state: RootState) => state.game.currentIssue);
   const isRoundRunning: boolean = useSelector((state: RootState) => state.game.isRoundRunning);
   const settings: ILobbySettings = useSelector((state: RootState) => state.game.settings);
+  const issues: IIssue[] = useSelector((state: RootState) => state.game.issues);
+  const isUnsolved: boolean =
+    !!issues.length &&
+    !!issues.filter((issue) => issue.score === undefined || issue.score === '').length;
   const isFlipped: boolean = useSelector((state: RootState) => state.game.isFlipped);
   const isTimer = settings.timer !== null;
-  const isAutoReverse = settings.IsAutoreverseCards;
   const isCurrentIssue: boolean = !!currentIssue.id;
   const isIssuePlayed: boolean = !!currentIssue.score;
   const currentUserScore: IUserScore[] = currentIssue.userScore;
@@ -30,6 +33,7 @@ export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameR
   const isDealer: boolean = useSelector(
     (state: RootState) => state.client.clientUser.role === Role.DEALER
   );
+  const isRevoting: boolean = !!settings.isRevoteAfterRoundEnd;
 
   const ws = useContext(WebSocketContext);
 
@@ -50,19 +54,24 @@ export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameR
 
   const playRoundBtn = (
     <div className="current-issue-btn">
-      <Button
-        color="primary"
-        variant={isIssuePlayed ? 'outlined' : 'contained'}
-        onClick={handleStartRound}
-      >
-        {`${isIssuePlayed ? 'Replay' : 'Play'} round`}
+      <Button color="primary" variant="contained" onClick={handleStartRound}>
+        Play round
+      </Button>
+    </div>
+  );
+
+  const replayRoundBtn = (
+    <div className="current-issue-btn">
+      <Button color="primary" variant="outlined" onClick={handleStartRound}>
+        Replay round
       </Button>
     </div>
   );
 
   const finishRoundBtn = (
     <div className="current-issue-btn">
-      <Button variant="contained" onClick={handleFinishRound}>
+      <div className="finish-round-title">Please now set score and:</div>
+      <Button variant="contained" onClick={handleFinishRound} disabled={!currentIssue.score}>
         Finish round
       </Button>
     </div>
@@ -72,6 +81,14 @@ export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameR
     <div className="current-issue-btn">
       <Button variant="contained" onClick={() => ws.requestFlipCards(true)}>
         Flip cards
+      </Button>
+    </div>
+  );
+
+  const finishGameBtn = (
+    <div className="current-issue-btn">
+      <Button variant="contained" color="primary" onClick={() => ws.requestGameFinish()}>
+        Finish game
       </Button>
     </div>
   );
@@ -120,12 +137,17 @@ export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameR
           />
         )}
       </div>
-      {!isFlipped && isRoundRunning && !isTimer && !isAutoReverse && flipCardsBtn}
+      {!isFlipped && isRoundRunning && !isTimer && isDealer && flipCardsBtn}
 
-      {isDealer &&
-        (!isRoundRunning ? playRoundBtn : ((isFlipped && isTimer) || !isTimer) && finishRoundBtn)}
+      {isDealer && !isRoundRunning && !isIssuePlayed && playRoundBtn}
+
+      {isDealer && !isRoundRunning && isIssuePlayed && isRevoting && replayRoundBtn}
+
+      {isDealer && isRoundRunning && isFlipped && finishRoundBtn}
 
       {!!statsItems.length && (isDealer || isFlipped) && statsField}
+
+      {!isUnsolved && finishGameBtn}
     </div>
   );
 

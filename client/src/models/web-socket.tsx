@@ -105,6 +105,11 @@ export default ({ children }: { children: ReactChild[] }) => {
     );
   };
 
+  const finishGame = () => {
+    console.log('Game finished!');
+    history.push('/result');
+  };
+
   const requestStartGame = (userData: IUser) => {
     socket?.emit(config.REQ_START_GAME, userData, (res: IUser) => {
       console.log(`Game ${JSON.stringify(res)} started...`);
@@ -146,11 +151,16 @@ export default ({ children }: { children: ReactChild[] }) => {
 
       dispatch(setClientUser(userData));
       client = userData;
-      console.log(`Game data received...`);
+      console.log(`Game data received...${JSON.stringify(res)}`);
       dispatch(setGame(res));
       dispatch(setIsDealerLobby(false));
-      dispatch(setGameStatus(GameStatus.LOBBY));
-      history.push('/lobby');
+      dispatch(setGameStatus(res.gameStatus));
+
+      if (res.gameStatus === GameStatus.LOBBY) {
+        history.push('/lobby');
+      } else if (res.gameStatus === GameStatus.POKER) {
+        history.push('/game');
+      }
     });
   };
 
@@ -273,6 +283,16 @@ export default ({ children }: { children: ReactChild[] }) => {
     socket?.emit(config.REQ_SET_SCORE, scoreData);
   };
 
+  const requestClearVoting = () => {
+    console.log(`Requested clear voting data for current issue... ${currentGame.room}`);
+    socket?.emit(config.REQ_CLEAR_VOTING, currentGame.room);
+  };
+
+  const requestGameFinish = () => {
+    console.log(`Game finish requested... ${currentGame.room}`);
+    socket?.emit(config.REQ_FINISH_GAME, currentGame.room);
+  };
+
   socket.on('connect', () => {
     dispatch(setSocketConnected());
     console.log('Server connected...');
@@ -377,6 +397,11 @@ export default ({ children }: { children: ReactChild[] }) => {
     dispatch(setIssueScore(scoreData));
   });
 
+  socket.on(config.RES_FINISH_GAME, (issues: IIssue[]) => {
+    console.log(`Game finished: ${issues}`);
+    finishGame();
+  });
+
   const ws: any = {
     socket,
     requestStartGame,
@@ -400,6 +425,8 @@ export default ({ children }: { children: ReactChild[] }) => {
     requestRoundVote,
     requestFlipCards,
     requestSetScore,
+    requestClearVoting,
+    requestGameFinish,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

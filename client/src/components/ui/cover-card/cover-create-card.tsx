@@ -13,7 +13,7 @@ export const CoverCreateCard = (props: ICreateCoverProps) => (
         type="file"
         onChange={(e) => props.onCreateCoverHandler(e)}
       />
+      <IconButton className="cover-card-add-btn" aria-label="upload picture" component="span" />
     </label>
-    <IconButton className="cover-card-add-btn" aria-label="upload picture" component="span" />
   </Card>
 );

@@ -83,6 +83,8 @@ const GamePage = () => {
   }, [currentIssueUserScore]);
 
   const handleStartRound = () => {
+    ws.requestSetScore('');
+    ws.requestClearVoting();
     ws.requestStartRound();
   };
 

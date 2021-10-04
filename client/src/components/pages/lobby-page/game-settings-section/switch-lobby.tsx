@@ -54,7 +54,7 @@ export const SwitchLobby = ({ switchSettings, handleSwitch }: ISwitchLobby) => (
       </div>
     </div>
     <div className="switch-lobby">
-      <h4 className="switch-lobby-label">Allow revoting when cards are flipped:</h4>
+      <h4 className="switch-lobby-label">Allow replay the Issue round:</h4>
       <div className="switch-lobby-switch">
         <Switch
           id="revote"
