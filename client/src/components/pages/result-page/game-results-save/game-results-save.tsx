@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import ReactExport from 'react-export-excel';
 import { CSVLink } from 'react-csv';
 import { Button } from '@material-ui/core';
@@ -17,51 +18,59 @@ interface IResult {
   voteScore: string;
 }
 
-const results: IResult[] = [];
+export const GameResultsSave = () => {
+  const results: IResult[] = [];
 
-gameResults.map((gameResult: IGameResult) =>
-  testIssues.map((testIssue: IIssue) => {
-    if (testIssue.id === gameResult.issueID) {
-      const { name, description, priority, score } = testIssue;
-      const { voteResult } = gameResult;
-      const voteScores: Array<string> = [];
-      voteResult.map((voteResultItem) =>
-        voteScores.push(`${voteResultItem.score}: ${voteResultItem.percentage}%`)
-      );
+  const getResults = () => {
+    gameResults.map((gameResult: IGameResult) =>
+      testIssues.map((testIssue: IIssue) => {
+        if (testIssue.id === gameResult.issueID) {
+          const { name, description, priority, score } = testIssue;
+          const { voteResult } = gameResult;
+          const voteScores: Array<string> = [];
+          voteResult.map((voteResultItem) =>
+            voteScores.push(`${voteResultItem.score}: ${voteResultItem.percentage}%`)
+          );
 
-      const voteScore = voteScores.join('; ');
+          const voteScore = voteScores.join('; ');
 
-      results.push({
-        name,
-        description,
-        priority,
-        score,
-        voteScore,
-      });
-    }
-    return results;
-  })
-);
+          results.push({
+            name,
+            description,
+            priority,
+            score,
+            voteScore,
+          });
+        }
+        return results;
+      })
+    );
+  };
 
-export const GameResultsSave = () => (
-  <div className="button-container">
-    <div className="result-buttons">
-      <Button variant="contained" size="small" color="primary" type="submit">
-        <ExcelFile filename="Game Results" element={<p>Download XLSX</p>}>
-          <ExcelSheet data={results} name="Game Results">
-            <ExcelColumn label="Issue Title" value="name" />
-            <ExcelColumn label="Issue Description" value="description" />
-            <ExcelColumn label="Priority" value="priority" />
-            <ExcelColumn label="Score" value="score" />
-            <ExcelColumn label="Vote Score" value="voteScore" />
-          </ExcelSheet>
-        </ExcelFile>
-      </Button>
-      <Button variant="contained" size="small" color="primary" type="submit">
-        <CSVLink className="csv-button" filename="Game Results.csv" data={results}>
-          <p> Download CSV</p>
-        </CSVLink>
-      </Button>
+  useEffect(() => {
+    getResults();
+  }, []);
+
+  return (
+    <div className="button-container">
+      <div className="result-buttons">
+        <Button variant="contained" size="small" color="primary" type="submit">
+          <ExcelFile filename="Game Results" element={<p>Download XLSX</p>}>
+            <ExcelSheet data={results} name="Game Results">
+              <ExcelColumn label="Issue Title" value="name" />
+              <ExcelColumn label="Issue Description" value="description" />
+              <ExcelColumn label="Priority" value="priority" />
+              <ExcelColumn label="Score" value="score" />
+              <ExcelColumn label="Vote Score" value="voteScore" />
+            </ExcelSheet>
+          </ExcelFile>
+        </Button>
+        <Button variant="contained" size="small" color="primary" type="submit">
+          <CSVLink className="csv-button" filename="Game Results.csv" data={results}>
+            <p> Download CSV</p>
+          </CSVLink>
+        </Button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
