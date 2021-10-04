@@ -7,7 +7,8 @@
     "build": "webpack",
     "dev": "webpack serve --env development",
     "lint": "eslint src --fix",
-    "deploy": "npm run build && gh-pages -d dist -e pointing-poker"
+    "deploy": "npm run build && gh-pages -d dist -e pointing-poker",
+    "jest": "jest --watchALL"
   },
   "keywords": [],
   "author": "@utrennik <utrennik@list.ru>, @HelenBassa, @RealOneReal",
@@ -20,6 +21,8 @@
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.14.5",
     "@babel/runtime": "^7.14.8",
+    "@testing-library/react": "^12.1.2",
+    "@types/jest": "^27.0.2",
     "@types/node": "^16.4.3",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
@@ -51,6 +54,7 @@
     "imagemin-jpegtran": "^7.0.0",
     "imagemin-optipng": "^8.0.0",
     "imagemin-svgo": "^9.0.0",
+    "jest": "^27.2.4",
     "mini-css-extract-plugin": "^1.6.0",
     "node-sass": "^6.0.0",
     "postcss-loader": "^5.2.0",
