@@ -48,16 +48,16 @@ export const selectIssuePoker = ({ id, room }) => {
 export default ({ socket, io }) => {
 
   socket.on(EVENTS.REQ_TEST, ({ room}) => {
-  const {currentPokerGame} = getPokerGame(room)
-    if(currentPokerGame) {
-      console.log(currentPokerGame)
+  const {currentGame} = getGame(room)
+    if(currentGame) {
+      console.log(currentGame)
     }
   });
 
   socket.on(EVENTS.REQ_START_POKER, (data) => {
     const { currentGame, gameError } = getGame(data.room);
     if (gameError) return;
-    const gameStatus = "poker";
+    currentGame.gameStatus = "poker";
     currentGame.settings = data;
     addPokerGame(data.room);
     const selectID = checkCurrentIssue(data.room);
