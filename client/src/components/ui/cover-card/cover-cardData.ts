@@ -1,9 +1,9 @@
-import clarence from '@assets/images/back-side-card/clarence.svg';
-import linth from '@assets/images/back-side-card/linth.svg';
-import mataura from '@assets/images/back-side-card/mataura.svg';
-import aare from '@assets/images/back-side-card/aare.svg';
-import waimakariri from '@assets/images/back-side-card/waimakariri.svg';
-import doubs from '@assets/images/back-side-card/doubs.svg';
+import clarence from '@assets/images/covers/clarence.svg';
+import linth from '@assets/images/covers/linth.svg';
+import mataura from '@assets/images/covers/mataura.svg';
+import aare from '@assets/images/covers/aare.svg';
+import waimakariri from '@assets/images/covers/waimakariri.svg';
+import doubs from '@assets/images/covers/doubs.svg';
 
 import { ICoverCard } from '@models/types';
 
