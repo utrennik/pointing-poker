@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
 import ReactExport from 'react-export-excel';
 import { CSVLink } from 'react-csv';
+// import { useEffect } from 'react';
 import { Button } from '@material-ui/core';
 import { IIssue } from '@models/types';
-import { testIssues, gameResults, IGameResult } from '../game-results/vote-resultsData';
+import { testIssues /* gameResults, IGameResult */ } from '../game-results/vote-resultsData';
 import './game-results-save.sass';
 
 const { ExcelFile } = ReactExport;
@@ -15,41 +15,41 @@ interface IResult {
   description: string;
   priority: string;
   score: string;
-  voteScore: string;
+  // TODO: Uncomment in case of implementation of statistics cards
+  // voteScore: string;
 }
 
 export const GameResultsSave = () => {
   const results: IResult[] = [];
 
   const getResults = () => {
-    gameResults.map((gameResult: IGameResult) =>
-      testIssues.map((testIssue: IIssue) => {
-        if (testIssue.id === gameResult.issueID) {
-          const { name, description, priority, score } = testIssue;
-          const { voteResult } = gameResult;
-          const voteScores: Array<string> = [];
-          voteResult.map((voteResultItem) =>
-            voteScores.push(`${voteResultItem.score}: ${voteResultItem.percentage}%`)
-          );
+    // TODO: Uncomment in case of implementation of statistics cards
+    // gameResults.map((gameResult: IGameResult) =>
+    testIssues.map((testIssue: IIssue) => {
+      // if (testIssue.id === gameResult.issueID) {
+      const { name, description, priority, score } = testIssue;
+      // const { voteResult } = gameResult;
+      // const voteScores: Array<string> = [];
+      // voteResult.map((voteResultItem) =>
+      //   voteScores.push(`${voteResultItem.score}: ${voteResultItem.percentage}%`)
+      // );
 
-          const voteScore = voteScores.join('; ');
+      // const voteScore = voteScores.join('; ');
 
-          results.push({
-            name,
-            description,
-            priority,
-            score,
-            voteScore,
-          });
-        }
-        return results;
-      })
-    );
+      results.push({
+        name,
+        description,
+        priority,
+        score,
+        // voteScore,
+      });
+      // }
+      return results;
+    });
+    // );
   };
 
-  useEffect(() => {
-    getResults();
-  }, []);
+  getResults();
 
   return (
     <div className="button-container">
@@ -61,7 +61,8 @@ export const GameResultsSave = () => {
               <ExcelColumn label="Issue Description" value="description" />
               <ExcelColumn label="Priority" value="priority" />
               <ExcelColumn label="Score" value="score" />
-              <ExcelColumn label="Vote Score" value="voteScore" />
+              {/* // TODO: Uncomment in case of implementation of statistics cards
+              <ExcelColumn label="Vote Score" value="voteScore" /> */}
             </ExcelSheet>
           </ExcelFile>
         </Button>
