@@ -90,6 +90,11 @@ export interface ICustomAvatar {
    * avatar image
    */
   avatarImage?: string;
+
+  stylesProps?: {
+    width: string;
+    height: string;
+  };
 }
 
 export interface IConnectModalErrors {
@@ -276,7 +281,7 @@ export interface IMemberCard {
    */
   lastName?: string;
   /*
-   * role in the team
+   * job Position  ( we has a little slip with naming )
    */
   role: string;
   /*
@@ -287,6 +292,25 @@ export interface IMemberCard {
    * Remove user button enabled
    */
   isRemoveButtonDisabled: boolean;
+  /*
+   * Styles props for MUI component card
+   */
+  stylesProps?: {
+    widthCard: string;
+    heightCard: string;
+    widthHeader: string;
+    widthAvatar: string;
+    heightAvatar: string;
+    nameTruncate: number;
+    roleTruncate: number;
+    titleTypography: string;
+    subtitleTypography: string;
+    gameRole?: string;
+  };
+  /*
+   * role in the game
+   */
+  gameRole: 'dealer' | 'member' | 'observer';
 }
 
 export interface IMessage {
@@ -640,6 +664,36 @@ export interface IValueCard {
   handleDataFromValueCard?: (val: string, id: string) => void;
 }
 
+export interface IGameCard {
+  /*
+   * Unique game card identifier
+   */
+  gameCardID: string;
+  /*
+   * Name of game card
+   */
+  name: string;
+  /*
+   * Value for game card
+   */
+  value: VotingData;
+  /*
+   * Image for game card
+   */
+  image: string;
+  /*
+   * Flip game card
+   */
+  isFlipped: boolean;
+  /*
+   * Select game card
+   */
+  isSelected: boolean;
+  /*
+   * The action will be called on Create value card
+   */
+  onSelectedHandler?: () => void;
+}
 export interface IGameTopSection {
   /*
    * Round timer start value in seconds
@@ -654,51 +708,43 @@ export interface ILobbySettings {
   /*
    * id of room for Game
    */
-  room?: string;
+  room: string;
   /*
    * dealer can play poker with members
    */
-  dealerAsPlr: boolean;
+  isDealerPlayer: boolean;
   /*
    * variant of deck with card
    */
-  cardSet: CardSet;
-  /*
-   * custom deck,which make by dealer
-   */
-  customCardSet?: string[];
+  cardSet: string[];
   /*
    * possibility to all users connect in room ,when poker start
    */
-  participation_in_game_for_new_users?: boolean;
+  isFreeConnectionToGameForNewUsers: boolean;
   /*
    * chage choice after card will be flip
    */
-  changeChoice: boolean;
+  isChangeChoiceAfterFlip: boolean;
   /*
    *revote after round with voting end
    */
-  revote_before_round_end?: boolean;
+  isRevoteAfterRoundEnd?: boolean;
   /*
-   * timer on/off
+   * timer null if switch off or value
    */
-  timerIsNeed: boolean | number;
+  timer: number | null;
   /*
    * possibility to load file with issues
    */
-  scoreForIssuesFromFile: boolean;
+  isSetIssuesFromFile: boolean;
   /*
    * autoreverse cards at the end of each round
    */
-  autoreverse: boolean;
-  /*
-   * game status
-   */
-  gameStatus?: 'lobby' | 'poker' | 'cancel';
+  IsAutoreverseCards: boolean;
   /*
    * units of estimation
    */
-  estimationUnits: {
+  unitsOfEstimation: {
     scoreType: string;
     scoreTypeShort: string;
   };
@@ -742,4 +788,23 @@ export interface ISwitchLobby {
     autoreverse: boolean;
   };
   handleSwitch: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface IIssueCardStatus {
+  /*
+   * ID of user
+   */
+  id: string;
+  /*
+   * result of voiting user
+   */
+  score?: string;
+  /*
+   * Unit of measure
+   */
+  cardValueScore: string;
+  /*
+   * game role of voting user
+   */
+  gameRole?: 'dealer' | 'member' | 'observer';
 }

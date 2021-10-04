@@ -8,7 +8,7 @@ import { ScramMasterCard } from '@components/ui/scram-master-card/scram-master-c
 import { WebSocketContext } from '@models/web-socket';
 import { LobbylButtons } from '@components/ui/lobby-buttons/lobby-buttons';
 import TitlePlaning from '@components/ui/title-planning/title-planning';
-
+import config from '../../../../config.json';
 import './master-section.sass';
 
 const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => {
@@ -27,28 +27,34 @@ const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => 
 
   const handleStartGame = () => {
     if (lobbyGameSettings) {
-      const time = lobbyGameSettings.timerIsNeed
+      const timer = lobbyGameSettings.timerIsNeed
         ? lobbyGameSettings.timer.getMinutes() * 60 + lobbyGameSettings.timer.getSeconds()
-        : undefined;
+        : null;
 
-      const timer = lobbyGameSettings.timerIsNeed ? time : undefined;
-
-      const customDeck =
-        lobbyGameSettings.cardSet === CardSet.customCardSet ? lobbyGameSettings.customDeck : [];
+      const deck = () => {
+        switch (lobbyGameSettings.cardSet) {
+          case CardSet.customCardSet:
+            return lobbyGameSettings.customDeck;
+          case CardSet.fibonacci:
+            return config.CARDSET.FIBONACCI;
+          case CardSet.powersOfTwo:
+            return config.CARDSET.POWERS_OF_TWO;
+          default:
+            return config.CARDSET.FIBONACCI;
+        }
+      };
 
       const dataToServer: ILobbySettings = {
         room: roomID,
-        dealerAsPlr: lobbyGameSettings.dealerAsPlr,
-        cardSet: lobbyGameSettings.cardSet,
-        estimationUnits: lobbyGameSettings.inputSettingsForDeck,
-        customCardSet: customDeck,
-        participation_in_game_for_new_users: lobbyGameSettings.participationInGameForNewUsers,
-        revote_before_round_end: lobbyGameSettings.revoteBeforeEndOfRound,
-        scoreForIssuesFromFile: lobbyGameSettings.scoreForIssues,
-        timerIsNeed: timer,
-        gameStatus: 'poker',
-        autoreverse: lobbyGameSettings.autoreverse,
-        changeChoice: lobbyGameSettings.changeChoice,
+        isDealerPlayer: lobbyGameSettings.dealerAsPlr,
+        cardSet: deck(),
+        unitsOfEstimation: lobbyGameSettings.inputSettingsForDeck,
+        isFreeConnectionToGameForNewUsers: lobbyGameSettings.participationInGameForNewUsers,
+        isRevoteAfterRoundEnd: lobbyGameSettings.revoteBeforeEndOfRound,
+        isSetIssuesFromFile: lobbyGameSettings.scoreForIssues,
+        timer,
+        IsAutoreverseCards: lobbyGameSettings.autoreverse,
+        isChangeChoiceAfterFlip: lobbyGameSettings.changeChoice,
         coverCardforServer: lobbyGameSettings.coverCardforServer,
       };
       ws.requestPokerGameStart(dataToServer);
