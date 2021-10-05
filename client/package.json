@@ -8,7 +8,7 @@
     "dev": "webpack serve --env development",
     "lint": "eslint src --fix",
     "deploy": "npm run build && gh-pages -d dist -e pointing-poker",
-    "test": "jest -o"
+    "test": "jest"
   },
   "keywords": [],
   "author": "@utrennik <utrennik@list.ru>, @HelenBassa, @RealOneReal",
