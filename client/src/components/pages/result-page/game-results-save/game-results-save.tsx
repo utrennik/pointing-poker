@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react';
 import ReactExport from 'react-export-excel';
 import { CSVLink } from 'react-csv';
-// import { useEffect } from 'react';
-import { Button } from '@material-ui/core';
 import { IIssue } from '@models/types';
+import { Button } from '@material-ui/core';
 import { testIssues /* gameResults, IGameResult */ } from '../game-results/vote-resultsData';
 import './game-results-save.sass';
 
@@ -20,7 +20,8 @@ interface IResult {
 }
 
 export const GameResultsSave = () => {
-  const results: IResult[] = [];
+  const initialResultsValue: IResult[] = [];
+  const [results, setResults] = useState(initialResultsValue);
 
   const getResults = () => {
     // TODO: Uncomment in case of implementation of statistics cards
@@ -46,10 +47,14 @@ export const GameResultsSave = () => {
       // }
       return results;
     });
+
     // );
+    setResults(results);
   };
 
-  getResults();
+  useEffect(() => {
+    getResults();
+  }, []);
 
   return (
     <div className="button-container">
