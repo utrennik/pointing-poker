@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import ReactExport from 'react-export-excel';
 import { CSVLink } from 'react-csv';
-import { IIssue, IResult } from '@models/types';
-import { Button } from '@material-ui/core';
-import './game-results-save.sass';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
+import { Button } from '@material-ui/core';
+import { IIssue, IResult } from '@models/types';
+import './game-results-save.sass';
 
 const { ExcelFile } = ReactExport;
 const { ExcelSheet } = ReactExport.ExcelFile;
