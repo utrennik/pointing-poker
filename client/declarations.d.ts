@@ -13,3 +13,6 @@ declare module '*.html' {
   const value: string;
   export default value;
 }
+
+declare module 'react-export-excel';
+declare module 'react-csv';

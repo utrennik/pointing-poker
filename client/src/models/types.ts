@@ -808,3 +808,22 @@ export interface IIssueCardStatus {
    */
   gameRole?: 'dealer' | 'member' | 'observer';
 }
+
+export interface IResult {
+  /*
+   * Full title of the solved issue
+   */
+  name: string;
+  /*
+   * Description of the solved issue
+   */
+  description: string;
+  /*
+   * Priority of the solved issue in sprint
+   */
+  priority: string;
+  /*
+   * Score of the solved issue
+   */
+  score: string;
+}
