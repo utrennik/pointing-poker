@@ -1,54 +1,38 @@
 import { useEffect, useState } from 'react';
 import ReactExport from 'react-export-excel';
 import { CSVLink } from 'react-csv';
-import { IIssue } from '@models/types';
+import { IIssue, IResult } from '@models/types';
 import { Button } from '@material-ui/core';
-import { testIssues /* gameResults, IGameResult */ } from '../game-results/vote-resultsData';
 import './game-results-save.sass';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/redux/store';
 
 const { ExcelFile } = ReactExport;
 const { ExcelSheet } = ReactExport.ExcelFile;
 const { ExcelColumn } = ReactExport.ExcelFile;
 
-interface IResult {
-  name: string;
-  description: string;
-  priority: string;
-  score: string;
-  // TODO: Uncomment in case of implementation of statistics cards
-  // voteScore: string;
-}
-
 export const GameResultsSave = () => {
   const initialResultsValue: IResult[] = [];
   const [results, setResults] = useState(initialResultsValue);
 
+  const issues: IIssue[] = useSelector((state: RootState) => state.game.issues as IIssue[]);
+
   const getResults = () => {
-    // TODO: Uncomment in case of implementation of statistics cards
-    // gameResults.map((gameResult: IGameResult) =>
-    testIssues.map((testIssue: IIssue) => {
-      // if (testIssue.id === gameResult.issueID) {
-      const { name, description, priority, score } = testIssue;
-      // const { voteResult } = gameResult;
-      // const voteScores: Array<string> = [];
-      // voteResult.map((voteResultItem) =>
-      //   voteScores.push(`${voteResultItem.score}: ${voteResultItem.percentage}%`)
-      // );
+    issues.map((issue: IIssue) => {
+      if (issue.score) {
+        const { name, description, priority, score } = issue;
 
-      // const voteScore = voteScores.join('; ');
+        results.push({
+          name,
+          description,
+          priority,
+          score,
+        });
+      }
 
-      results.push({
-        name,
-        description,
-        priority,
-        score,
-        // voteScore,
-      });
-      // }
       return results;
     });
 
-    // );
     setResults(results);
   };
 
@@ -66,8 +50,6 @@ export const GameResultsSave = () => {
               <ExcelColumn label="Issue Description" value="description" />
               <ExcelColumn label="Priority" value="priority" />
               <ExcelColumn label="Score" value="score" />
-              {/* // TODO: Uncomment in case of implementation of statistics cards
-              <ExcelColumn label="Vote Score" value="voteScore" /> */}
             </ExcelSheet>
           </ExcelFile>
         </Button>
