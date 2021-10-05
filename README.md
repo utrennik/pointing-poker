@@ -5,7 +5,7 @@ The team work of:
 @RealOneReal
 @HelenBassa
 
-Poointing-poker is a card game based on the concept of the traditional project management, it represents scrum methodology of software development.
+Pointing-poker is a card game based on the concept of the traditional project management, it represents scrum methodology of software development.
 
 ## Getting Started
 
@@ -29,5 +29,8 @@ npm run start
 ```
 npm run dev
 ```
-
+4.Run all tests :
+```
+npm run test
+```
 ## Warning! Please use avatar images with size below 1 mb!
