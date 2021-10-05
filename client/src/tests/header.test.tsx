@@ -1,5 +1,4 @@
-import Header from '@components/header/header';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 describe('Header', () => {
   it('renders with links', () => {
