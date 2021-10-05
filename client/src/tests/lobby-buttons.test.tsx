@@ -1,5 +1,5 @@
 import { LobbylButtons } from '@components/ui/lobby-buttons/lobby-buttons';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Lobby-buttons', () => {
@@ -11,7 +11,7 @@ describe('Lobby-buttons', () => {
     disableStartGame: false,
   };
 
-  it('should....', () => {
+  it('should have two buttons', () => {
     const { getByText } = render(
       <LobbylButtons
         startBtnText={mockData.startBtnText}
