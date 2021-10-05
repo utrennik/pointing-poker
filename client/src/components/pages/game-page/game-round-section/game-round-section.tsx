@@ -12,9 +12,14 @@ import './game-round-section.sass';
 interface IGameRoundSection {
   handleStartRound: () => void;
   handleFinishRound: () => void;
+  handleRestartRound: () => void;
 }
 
-export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameRoundSection) => {
+export const GameRoundSection = ({
+  handleStartRound,
+  handleFinishRound,
+  handleRestartRound,
+}: IGameRoundSection) => {
   const currentIssue: IIssue = useSelector((state: RootState) => state.game.currentIssue);
   const isRoundRunning: boolean = useSelector((state: RootState) => state.game.isRoundRunning);
   const settings: ILobbySettings = useSelector((state: RootState) => state.game.settings);
@@ -62,7 +67,7 @@ export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameR
 
   const replayRoundBtn = (
     <div className="current-issue-btn">
-      <Button color="primary" variant="outlined" onClick={handleStartRound}>
+      <Button color="primary" variant="outlined" onClick={handleRestartRound}>
         Replay round
       </Button>
     </div>
@@ -87,7 +92,12 @@ export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameR
 
   const finishGameBtn = (
     <div className="current-issue-btn">
-      <Button variant="contained" color="primary" onClick={() => ws.requestGameFinish()}>
+      <Button
+        variant="contained"
+        color="primary"
+        size="large"
+        onClick={() => ws.requestGameFinish()}
+      >
         Finish game
       </Button>
     </div>
@@ -130,11 +140,7 @@ export const GameRoundSection = ({ handleStartRound, handleFinishRound }: IGameR
 
       <div className="current-issue-score-input">
         {isDealer && (
-          <InputButton
-            buttonText="Set score"
-            initialValue={currentIssue.score || ''}
-            valueHandler={handleSetScore}
-          />
+          <InputButton buttonText="Set score" valueHandler={handleSetScore} isClearOnSubmit />
         )}
       </div>
       {!isFlipped && isRoundRunning && !isTimer && isDealer && flipCardsBtn}

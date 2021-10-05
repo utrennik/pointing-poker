@@ -358,11 +358,9 @@ export default ({ children }: { children: ReactChild[] }) => {
   });
 
   socket.on(config.RES_CANCEL_GAME, (gameStatusData: IGameStatus) => {
-    console.log(`Game canceled !`);
+    console.log(`Game canceled ! ${gameStatusData}`);
 
-    if (gameStatusData.gameStatus === 'cancel') {
-      resetClient();
-    }
+    resetClient();
   });
 
   socket.on(config.RES_SELECT_ISSUE, (issueID: string) => {

@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "build": "webpack",
+    "build": "npm run lint && webpack && echo /* /index.html 200 | cat >dist/_redirects",
     "dev": "webpack serve --env development",
     "lint": "eslint src --fix",
     "deploy": "npm run build && gh-pages -d dist -e pointing-poker"

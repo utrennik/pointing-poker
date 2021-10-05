@@ -21,6 +21,10 @@ export interface IInputButtonProps {
    * input label
    */
   inputLabel?: string;
+  /*
+   * controlled value
+   */
+  isClearOnSubmit?: boolean;
 }
 
 export interface IModalWrapper {

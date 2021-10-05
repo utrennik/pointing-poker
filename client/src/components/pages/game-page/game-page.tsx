@@ -84,7 +84,12 @@ const GamePage = () => {
 
   const handleStartRound = () => {
     ws.requestSetScore('');
+    ws.requestStartRound();
+  };
+
+  const handleRestartRound = () => {
     ws.requestClearVoting();
+    ws.requestSetScore('');
     ws.requestStartRound();
   };
 
@@ -107,6 +112,7 @@ const GamePage = () => {
               <div className="game-round-section">
                 <GameRoundSection
                   handleStartRound={handleStartRound}
+                  handleRestartRound={handleRestartRound}
                   handleFinishRound={handleFinishRound}
                 />
               </div>

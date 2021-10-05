@@ -184,7 +184,7 @@ const ConnectModal = ({ isOpen, onClose, roomID }: IConnectModal) => {
       isOpen={isOpen}
       onClose={onClose}
       onConfirm={handleConfirm}
-      title="Connect to lobby"
+      title="Connect to the game"
       disableConfirm={!!Object.keys(errors).length}
     >
       {modalBody}
