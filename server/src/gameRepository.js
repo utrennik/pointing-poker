@@ -65,6 +65,7 @@ export default ({ socket, io }) => {
       };
       game.dealer = dealer;
       socket.join(room);
+      console.log(`start new game in the ${room}`)
       callback(dealer);
     }
   );
@@ -79,6 +80,7 @@ export default ({ socket, io }) => {
     const { gameError, currentGame } = getGame(room);
     if (gameError) return;
     currentGame.title = title;
+    console.log(`In room ${room} change title: ${title}`)
     io.in(room).emit(EVENTS.RES_TITLE_CHANGED, currentGame.title);
   });
 
@@ -87,7 +89,7 @@ export default ({ socket, io }) => {
     if (user) {
       io.in(user.room).emit(
         EVENTS.NOTIFICATIONS,
-        `${user.firstName} left the room`
+        `${user.firstName} left the room: ${room}`
       );
     }
   });
@@ -100,6 +102,7 @@ export default ({ socket, io }) => {
     io.emit(EVENTS.NOTIFICATIONS, { message: "Current game cancelled." });
     currentGame.gameStatus = "cancelGame";
     const gameStatus = currentGame.gameStatus;
+    console.log(`In room: ${room} cancel game`)
     io.in(room).emit(EVENTS.RES_CANCEL_GAME, { gameStatus });
     deleteGame(room);
   });

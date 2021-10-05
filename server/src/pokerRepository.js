@@ -5,8 +5,6 @@ import { addUser } from "./usersRepository.js";
 
 const pokers = [];
 
-//   LIAKE A  CRUD
-
 export const addPokerGame = (room) => {
   const round = {};
   const roomID = room;
@@ -20,13 +18,6 @@ export const getPokerGame = (room) => {
   if (!currentPokerGame) return new Error("Poker game not found");
   return { currentPokerGame };
 };
-
-//
-// const deletePokerGame = (room) => {
-//   const index = pokers.findIndex((poker) => poker.room === room);
-//   if (index < 0) return { pokerGameError: new Error("Poker game not found") };
-//   return pokers.splice(index, 1)[0];
-// };
 
 export const addRound = (room, id) => {
   const { currentPokerGame, pokerGameError } = getPokerGame(room);
@@ -47,13 +38,6 @@ export const selectIssuePoker = ({ id, room }) => {
 
 export default ({ socket, io }) => {
 
-  socket.on(EVENTS.REQ_TEST, ({ room}) => {
-  const {currentPokerGame} = getPokerGame(room)
-    if(currentPokerGame) {
-      console.log(currentPokerGame)
-    }
-  });
-
   socket.on(EVENTS.REQ_START_POKER, (data) => {
     const { currentGame, gameError } = getGame(data.room);
     if (gameError) return;
@@ -61,6 +45,7 @@ export default ({ socket, io }) => {
     currentGame.settings = data;
     addPokerGame(data.room);
     const selectID = checkCurrentIssue(data.room);
+    console.log(`start poker game it the room: ${data.room}`)
     io.in(data.room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
     io.in(data.room).emit(EVENTS.RES_START_POKER, data);
   });
@@ -76,6 +61,7 @@ export default ({ socket, io }) => {
     if (pokerGameError) return pokerGameError;
     currentPokerGame.round.isRoundStart = true;
     getIssues(roomID);
+    console.log(`start poker round in the room ${roomID}`)
     io.in(roomID).emit(EVENTS.RES_START_ROUND, true);
   });
 
@@ -89,6 +75,7 @@ export default ({ socket, io }) => {
       issueID:currentPokerGame.round.issueID,
       score: currentPokerGame.round.results
     }
+    console.log(`finish round in the room: ${roomID}`)
     io.in(roomID).emit(EVENTS.RES_FINISH_ROUND, res);
   });
 
@@ -100,6 +87,7 @@ export default ({ socket, io }) => {
     const {issue} = getIssue(roomID,issueID);
     const updatedIssue = {...issue,score};
     const {updIssue} = updateIssue(roomID,updatedIssue);
+    console.log(`user set score in the room: ${roomID}`)
     io.in(roomID).emit(EVENTS.RES_SET_SCORE, scoreToRound);
   });
 
@@ -138,17 +126,19 @@ export default ({ socket, io }) => {
         issueID,
         score: currentPokerGame.round.results
       }
-      console.log(res)
+      console.log(`user make choice in poker game in the room ${roomID}`)
       io.in(roomID).emit(EVENTS.RES_ROUND_VOTE, res);
     }
   });
 
   socket.on(EVENTS.REQ_CARDS_FLIP,({roomID,isFlipped}) => {
+    console.log(`flip cards in the room: ${roomID}`)
     io.in(roomID).emit(EVENTS.RES_CARDS_FLIP,isFlipped)
   })
 
   socket.on(EVENTS.REQ_FINISH_GAME, (roomID) => {
     const {issues} = getIssues(roomID);
+    console.log(`finish poker game in the room: ${roomID}`)
     io.in(roomID).emit(EVENTS.RES_FINISH_GAME,issues)
 
   })
@@ -162,6 +152,7 @@ export default ({ socket, io }) => {
       issueID,
       score:[]
     }
+    console.log(`clear voting in   the room: ${roomID}`)
     io.in(roomID).emit(EVENTS.RES_ROUND_VOTE,res)
   })
 

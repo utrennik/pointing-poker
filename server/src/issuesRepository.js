@@ -102,6 +102,7 @@ export default ({ socket, io }) => {
       if (issueError) return issueError;
       const { issues } = getIssues(room);
       const selectID  = checkCurrentIssue(room);
+      console.log(`Add issue in room ${room}`)
       io.in(room).emit(EVENTS.RES_ISSUES_GET, issues);
       io.in(room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
 
@@ -114,6 +115,7 @@ export default ({ socket, io }) => {
     if(issueError) return issueError;
     const { issues } = getIssues(room);
     const selectID  = checkCurrentIssue(room);
+    console.log(`Delete issue in room ${room}`)
     io.in(room).emit(EVENTS.RES_ISSUES_GET, issues);
     io.in(room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
 
@@ -125,6 +127,7 @@ export default ({ socket, io }) => {
     if (issueError) return issueError;
     const { issues } = getIssues(data.room);
     const selectID  = checkCurrentIssue(data.room);
+    console.log(`Update issue in room ${data.room}`)
     io.in(data.room).emit(EVENTS.RES_ISSUES_GET, issues);
     io.in(data.room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
 

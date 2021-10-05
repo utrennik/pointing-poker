@@ -7,6 +7,7 @@ export default ({ socket, io }) => {
     if (gameError) return;
     const messages = currentGame.messages;
     messages.push(data);
+    console.log(`Add message in room ${data.room}`)
     io.in(currentGame.room).emit(EVENTS.RES_MESSAGES_GET, messages);
   });
 

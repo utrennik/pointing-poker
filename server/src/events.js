@@ -49,6 +49,5 @@ const EVENTS = {
   REQ_FINISH_GAME: 'req-finish-game',
   RES_FINISH_GAME: 'res-finish-game',
   REQ_CLEAR_VOTING: 'req-clear-voting',
-
 }
 export default EVENTS;
