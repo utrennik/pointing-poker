@@ -21,7 +21,6 @@ const io = new Server(httpServer, {
 const PORT = process.env.PORT || 8000;
 
 io.on("connection", (socket) => {
-  console.log(`Socket connect ${socket.id}`);
   gameHandler({ socket, io });
   userHandler({ socket, io });
   issuesHandler({ socket, io });
