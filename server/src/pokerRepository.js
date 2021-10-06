@@ -99,10 +99,10 @@ export default ({ socket, io }) => {
   });
 
   socket.on(EVENTS.REQ_USER_ADMIT, ({ roomID, user, isAdmitted }) => {
-    addUser(user);
     const { currentGame } = getGame(roomID);
     if (isAdmitted) {
-      io.in(roomID).emit(EVENTS.RES_USER_JOINED, { user, currentGame });
+       addUser(user);
+      io.in(roomID).emit(EVENTS.RES_USER_JOINED,user);
     }
     if (!isAdmitted) {
       io.in(roomID).emit(EVENTS.RES_USER_REJECTED, isAdmitted);
