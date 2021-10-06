@@ -29,8 +29,11 @@ npm run start
 ```
 npm run dev
 ```
+
 4.Run all tests :
 ```
 npm run test
 ```
+=======
+
 ## Warning! Please use avatar images with size below 1 mb!
