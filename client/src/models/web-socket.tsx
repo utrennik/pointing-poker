@@ -44,6 +44,7 @@ import {
   IRoundVoteData,
   IFlipCards,
   IIssueScoreData,
+  Role,
 } from './types';
 import config from '../config.json';
 
@@ -62,13 +63,6 @@ export default ({ children }: { children: ReactChild[] }) => {
   const currentGame: IGame = useSelector((state: RootState) => state.game as IGame);
   const [notification, setNotification] = useState('');
   let client = {} as IUser; // TODO: used bacause the state is unavailable in socket.on callbacks
-
-  // TODO: For testing game page, PLEASE REMOVE after test
-  // const gamePageTest = () => {
-  //   history.push('/game');
-  // };
-
-  // gamePageTest();
 
   const resetClient = () => {
     history.push('/');
@@ -359,8 +353,12 @@ export default ({ children }: { children: ReactChild[] }) => {
 
   socket.on(config.RES_CANCEL_GAME, (gameStatusData: IGameStatus) => {
     console.log(`Game canceled ! ${gameStatusData}`);
-
+    const isDealer: boolean = client.role === Role.DEALER;
+    const message: string = isDealer
+      ? config.GAME_CANCEL_DEALER_NOTIFICATION
+      : config.GAME_CANCEL_USER_NOTIFICATION;
     resetClient();
+    setNotification(message);
   });
 
   socket.on(config.RES_SELECT_ISSUE, (issueID: string) => {

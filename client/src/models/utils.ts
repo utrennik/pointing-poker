@@ -26,3 +26,18 @@ export const getVoteResults = (votingData: string[]): IRoundVoteResults[] => {
 
   return results;
 };
+
+export const getAverageVoteResults = (votingData: string[]): number | null => {
+  const getAverageInArr = (arr: number[]): number =>
+    Math.round(arr.reduce((acc, el) => acc + el, 0) / arr.length);
+  const parsedNums: number[] = [];
+
+  votingData.forEach((item) => {
+    const parsed = parseInt(item, 10);
+    if (typeof parsed === 'number' && !Number.isNaN(parsed)) {
+      parsedNums.push(parsed);
+    }
+  });
+
+  return parsedNums.length ? getAverageInArr(parsedNums) : null;
+};

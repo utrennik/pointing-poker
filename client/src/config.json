@@ -38,6 +38,8 @@
   "REQ_FINISH_GAME": "req-finish-game",
   "RES_FINISH_GAME": "res-finish-game",
   "KICKED_NOTIFICATION": "Sorry, you have been kicked from the game!",
+  "GAME_CANCEL_USER_NOTIFICATION": "Dealer has cancelled the game!",
+  "GAME_CANCEL_DEALER_NOTIFICATION": "You have successfully cancelled the game!",
   "DISCONNECT": "disconnect",
   "DEALER": "dealer",
   "MEMBER": "member",

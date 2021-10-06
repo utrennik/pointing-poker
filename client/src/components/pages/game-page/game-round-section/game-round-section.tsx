@@ -5,7 +5,7 @@ import InputButton from '@components/ui/input-button/input-button';
 import { IIssue, ILobbySettings, IRoundVoteResults, IUserScore, Role } from '@models/types';
 import { Button } from '@material-ui/core';
 import { WebSocketContext } from '@models/web-socket';
-import { getVoteResults, id } from '@models/utils';
+import { getVoteResults, getAverageVoteResults, id } from '@models/utils';
 import { StatsItem } from './stats-item/stats-item';
 import './game-round-section.sass';
 
@@ -35,6 +35,9 @@ export const GameRoundSection = ({
   const voteResults: IRoundVoteResults[] = currentUserScore
     ? getVoteResults(currentUserScore.map((scoreItem: IUserScore) => scoreItem.score))
     : [];
+  const averageVoteResults: number | null = currentUserScore
+    ? getAverageVoteResults(currentUserScore.map((scoreItem: IUserScore) => scoreItem.score))
+    : null;
   const isDealer: boolean = useSelector(
     (state: RootState) => state.client.clientUser.role === Role.DEALER
   );
@@ -53,7 +56,7 @@ export const GameRoundSection = ({
         key={id()}
         score={voteResultsItem.score}
         percentage={voteResultsItem.percentage}
-        pointsShortName="SP"
+        pointsShortName={settings.unitsOfEstimation.scoreTypeShort}
       />
     ));
 
@@ -103,11 +106,22 @@ export const GameRoundSection = ({
     </div>
   );
 
-  const statsField = (
+  const averageScoreField = (
     <div className="current-issue-details">
-      <span>Stats: </span>
-      <div className="stats-items">{statsItems}</div>
+      <span>Average score: </span>
+      {averageVoteResults}
+      {` ${settings.unitsOfEstimation.scoreTypeShort}`}
     </div>
+  );
+
+  const statsField = (
+    <>
+      <div className="current-issue-details">
+        <span>Stats: </span>
+        <div className="stats-items">{statsItems}</div>
+      </div>
+      {averageVoteResults !== null && averageScoreField}
+    </>
   );
 
   const descriptionField = (
@@ -135,7 +149,11 @@ export const GameRoundSection = ({
 
       <div className="current-issue-details current-issue-score">
         <span>Score: </span>
-        {currentIssue.score || '---'}
+        <div className="current-issue-score-value">
+          {currentIssue.score
+            ? `${currentIssue.score} ${settings.unitsOfEstimation.scoreTypeShort}`
+            : '---'}
+        </div>
       </div>
 
       <div className="current-issue-score-input">

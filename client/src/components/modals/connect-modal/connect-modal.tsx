@@ -165,6 +165,8 @@ const ConnectModal = ({ isOpen, onClose, roomID }: IConnectModal) => {
         </div>
       </div>
 
+      <div className="modal-hint">Please use image files with size below 1mB!</div>
+
       <div className="switch-modal">
         <div className="switch-modal-switch">
           <Switch

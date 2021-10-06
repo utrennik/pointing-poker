@@ -38,10 +38,8 @@ export const PlayersSection = () => {
           firstName={user.firstName}
           lastName={user.lastName}
           id={user.id}
-          role={user.role}
           isRemoveButtonDisabled={!showKickButtons}
           stylesProps={stylePropsPlayers}
-          gameRole={user.role}
           avatarImage={user.avatar}
         />
       ))}
@@ -57,10 +55,8 @@ export const PlayersSection = () => {
           firstName={user.firstName}
           lastName={user.lastName}
           id={user.id}
-          role={user.role}
           isRemoveButtonDisabled={!showKickButtons}
           stylesProps={stylePropsPlayers}
-          gameRole={user.role}
           avatarImage={user.avatar}
         />
       ))}
