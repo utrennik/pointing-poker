@@ -54,7 +54,7 @@ const useStyles = makeStyles<Theme, IStyleProps>({
   card: {
     width: (props) => props.widthCard,
     height: (props) => props.heightCard,
-    padding: '0 5px 0 5px',
+    padding: '0 10px 0 10px',
     display: 'flex',
     columnGap: '10px',
     alignItems: 'center',
