@@ -82,29 +82,6 @@ export const gameReducer = (state = initialState, { type, payload }) => {
         }
       });
 
-      // const isCurrentIssue = !!state.currentIssue.id;
-      // const isCurrentIssueInArrray = !!newIssues.filter(
-      //   (issue) => issue.id === state.currentIssue.id
-      // )[0];
-
-      // if (!isCurrentIssue || !isCurrentIssueInArrray) {
-      //   const defaultActiveIssue = newIssues[0];
-      //   if (defaultActiveIssue) {
-      //     defaultActiveIssue.isActive = true;
-      //   }
-
-      //   return {
-      //     ...state,
-      //     issues: newIssues,
-      //     currentIssue: defaultActiveIssue,
-      //   };
-      // }
-
-      // if (isCurrentIssueInArrray) {
-      //   const activeIssueInArray = newIssues.find((issue) => issue.id === state.currentIssue.id);
-      //   activeIssueInArray.isActive = true;
-      // }
-
       return {
         ...state,
         issues: newIssues,
