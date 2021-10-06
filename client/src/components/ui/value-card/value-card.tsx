@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { Card, CardActions, IconButton } from '@material-ui/core';
-import { IValueCard } from '@models/types';
+import { CardValue, IValueCard } from '@models/types';
 import { DarkerDisabledTextField } from '../title-planning/title-planning';
 import './value-card.sass';
 
@@ -8,7 +8,7 @@ export const ValueCard = ({ valueCardID, name, value, handleDataFromValueCard }:
   const [isEditable, setIsEditable] = useState(false);
   const [newValue, setNewValue] = useState(value);
 
-  const isSpecialCards = value !== 'PASS' && value !== 'COFFEE';
+  const isSpecialCards = value !== CardValue.PASS && value !== CardValue.COFFEE;
 
   const cardName = isSpecialCards && name.match(/^.{1,3}/);
 

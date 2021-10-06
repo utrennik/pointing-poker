@@ -103,64 +103,75 @@ const GameSettingsSection = ({ changePokerGameSettings }: IGameSettingsSection) 
     <>
       <section className="lobby-content-game-settings">
         <h3 className="section-header">Game settings:</h3>
-        <SwitchLobby switchSettings={switchSettings} handleSwitch={handleSwitch} />
-        {switchSettings.timerIsNeed && (
-          <div className="timer-lobby">
-            <SecondsTimePicker changeValueTimer={changeValueTimer} />
-          </div>
-        )}
-        <div className="select-lobby">
-          <h4 className="select-lobby-label">Choose your card set:</h4>
-          <div className="select-lobby-switch">
-            <Select value={cardSet} onChange={handleChange} displayEmpty className={classes.select}>
-              {cardSetData.map(({ title, value }) => (
-                <MenuItem key={title} value={value}>
-                  {title}
-                </MenuItem>
-              ))}
-            </Select>
-
-            <div className="input-lobby-wrapper">
-              <div className="input-lobby-container error-down">
-                <div className="input-lobby">
-                  <TextField
-                    label="Score type:"
-                    name="scoreType"
-                    autoComplete="off"
-                    placeholder="Story Point"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    value={inputSettingsForDeck.scoreType}
-                    onChange={handleInputForDeck}
-                    error={errors.scoreTypeError}
-                  />
-                </div>
-                {errors.scoreTypeError && (
-                  <div className="error">* Field &quot;Score type&quot; must be filled in</div>
-                )}
+        <div className="lobby-settings-body">
+          <div className="loby-settings-block">
+            <SwitchLobby switchSettings={switchSettings} handleSwitch={handleSwitch} />
+            {switchSettings.timerIsNeed && (
+              <div className="timer-lobby">
+                <SecondsTimePicker changeValueTimer={changeValueTimer} />
               </div>
+            )}
+          </div>
+          <div className="lobby-settings-block">
+            <div className="select-lobby">
+              <h4 className="select-lobby-label">Choose your card set:</h4>
+              <div className="select-lobby-switch">
+                <Select
+                  value={cardSet}
+                  onChange={handleChange}
+                  displayEmpty
+                  className={classes.select}
+                >
+                  {cardSetData.map(({ title, value }) => (
+                    <MenuItem key={title} value={value}>
+                      {title}
+                    </MenuItem>
+                  ))}
+                </Select>
 
-              <div className="input-lobby-container error-down">
-                <div className="input-lobby">
-                  <TextField
-                    label="Score type (Short):"
-                    name="scoreTypeShort"
-                    autoComplete="off"
-                    placeholder="SP"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    value={inputSettingsForDeck.scoreTypeShort}
-                    onChange={handleInputForDeck}
-                    error={errors.scoreTypeShortError}
-                  />
-                </div>
-                {errors.scoreTypeShortError && (
-                  <div className="error">
-                    * Field &quot;Score type (Short)&quot; must be filled in
+                <div className="input-lobby-wrapper">
+                  <div className="input-lobby-container error-down">
+                    <div className="input-lobby">
+                      <TextField
+                        label="Score type:"
+                        name="scoreType"
+                        autoComplete="off"
+                        placeholder="Story Point"
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        value={inputSettingsForDeck.scoreType}
+                        onChange={handleInputForDeck}
+                        error={errors.scoreTypeError}
+                      />
+                    </div>
+                    {errors.scoreTypeError && (
+                      <div className="error">* Field &quot;Score type&quot; must be filled in</div>
+                    )}
                   </div>
-                )}
+
+                  <div className="input-lobby-container error-down">
+                    <div className="input-lobby">
+                      <TextField
+                        label="Score type (Short):"
+                        name="scoreTypeShort"
+                        autoComplete="off"
+                        placeholder="SP"
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        value={inputSettingsForDeck.scoreTypeShort}
+                        onChange={handleInputForDeck}
+                        error={errors.scoreTypeShortError}
+                      />
+                    </div>
+                    {errors.scoreTypeShortError && (
+                      <div className="error">
+                        * Field &quot;Score type (Short)&quot; must be filled in
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

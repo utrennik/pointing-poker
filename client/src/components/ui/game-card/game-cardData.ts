@@ -1,5 +1,5 @@
 import { IGameCard } from '@models/types';
-import clarence from '@assets/images/back-side-card/clarence.svg';
+import clarence from '@assets/images/cover/clarence.svg';
 import config from '@src/config.json';
 
 export const gameCardData: IGameCard[] = [

@@ -1,29 +1,44 @@
 import { Card, CardHeader, makeStyles } from '@material-ui/core';
-import { IIssueCardStatus } from '@models/types';
+import { CardValue, IIssueCardStatus } from '@models/types';
+import coffeeIcon from '@assets/icons/coffee.svg';
 
 const useStyles = makeStyles({
   card: {
-    width: '190px',
+    minWidth: '100px',
     height: '50px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   status: {
-    width: '120px',
+    minWidth: '50px',
     textAlign: 'center',
   },
 });
 
-export const IssueCardStatus = ({ score, cardValueScore }: IIssueCardStatus) => {
+export const IssueCardStatus = ({ score, cardValueScore, isScoreHidden }: IIssueCardStatus) => {
   const styles = useStyles();
+  const DEFAULT_VALUE = '--';
+  const coffeeImg = (
+    <div className="score-coffee-icon">
+      <img src={coffeeIcon} alt="" />
+    </div>
+  );
 
-  const issueScore = score || 'in progress';
+  const issueScore: string = score || DEFAULT_VALUE;
+  const isCoffee: boolean = score === CardValue.COFFEE;
 
   return (
     <Card className={styles.card}>
-      <CardHeader className={styles.status} title={issueScore} />
-      <CardHeader title={cardValueScore} titleTypographyProps={{ variant: 'h6' }} />
+      {!isScoreHidden && isCoffee ? (
+        coffeeImg
+      ) : (
+        <CardHeader className={styles.status} title={isScoreHidden ? DEFAULT_VALUE : issueScore} />
+      )}
+      <CardHeader
+        title={isScoreHidden ? DEFAULT_VALUE : cardValueScore}
+        titleTypographyProps={{ variant: 'h6' }}
+      />
     </Card>
   );
 };

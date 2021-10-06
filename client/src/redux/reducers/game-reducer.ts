@@ -1,5 +1,4 @@
-// import { IssuePriority } from '@models/types';
-// import { IGame, IIssue } from '../../models/types';
+import config from '@src/config.json';
 import { types } from '../actions';
 
 export const initialState = {
@@ -7,60 +6,28 @@ export const initialState = {
   title: '',
   room: '',
   dealer: {},
-  settings: {},
+  settings: {
+    room: '',
+    isDealerPlayer: false,
+    cardSet: [],
+    isFreeConnectionToGameForNewUsers: false,
+    isChangeChoiceAfterFlip: false,
+    isRevoteAfterRoundEnd: false,
+    timer: null,
+    isSetIssuesFromFile: false,
+    IsAutoreverseCards: false,
+    unitsOfEstimation: {
+      scoreType: '',
+      scoreTypeShort: '',
+    },
+    coverCardforServer: {},
+  },
   gameStatus: '',
   issues: [],
+  currentIssue: {},
+  isRoundRunning: false,
+  isFlipped: false,
 };
-
-// TODO: For testing Game page TOP section, should be removed
-
-// const testIssues: IIssue[] = [
-//   {
-//     id: '1',
-//     name: 'Create welcome page',
-//     description: 'Issue full description',
-//     room: '123',
-//     priority: IssuePriority.LOW,
-//     isActive: true,
-//     score: '',
-//     votingData: [2, 4, 8, 8, 'coffee', 'pass'],
-//   },
-
-//   {
-//     id: '2',
-//     name: 'Create lobby page',
-//     description: 'Issue full description',
-//     room: '123',
-//     priority: IssuePriority.NORMAL,
-//     isActive: false,
-//     score: '20',
-//   },
-
-//   {
-//     id: '3',
-//     name: 'Create game page',
-//     description: 'Issue full description',
-//     room: '123',
-//     priority: IssuePriority.HIGH,
-//     isActive: false,
-//     score: '',
-//   },
-// ];
-
-// const testInitialState: IGame = {
-//   users: [],
-//   title: 'My Game Title',
-//   room: 'abcd',
-//   dealer: {
-//     firstName: 'Alejandro',
-//     lastName: 'Sanchez',
-//   },
-//   settings: {},
-//   gameStatus: 'poker',
-//   timer: 20,
-//   issues: testIssues,
-//   currentIssue: testIssues[0],
-// };
 
 export const gameReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -96,16 +63,28 @@ export const gameReducer = (state = initialState, { type, payload }) => {
     }
 
     case types.SET_ISSUES: {
-      return {
-        ...state,
-        issues: payload.issues,
-      };
-    }
+      const newIssues = payload.issues;
+      const currentIssueID = state.currentIssue.id;
 
-    case types.SET_CURRENT_ISSUE: {
+      if (!newIssues.length) {
+        return {
+          ...state,
+          issues: newIssues,
+          currentIssue: {},
+        };
+      }
+
+      newIssues.forEach((issue) => {
+        if (issue.id === currentIssueID) {
+          issue.isActive = true;
+        } else {
+          issue.isActive = false;
+        }
+      });
+
       return {
         ...state,
-        currentIssue: payload.currentIssue,
+        issues: newIssues,
       };
     }
 
@@ -115,10 +94,84 @@ export const gameReducer = (state = initialState, { type, payload }) => {
         gameStatus: payload.gameStatus,
       };
     }
+
     case types.SET_POKER_GAME_SETTINGS: {
       return {
         ...state,
+        gameStatus: config.POKER,
         settings: { ...payload },
+      };
+    }
+
+    case types.SET_CURRENT_ISSUE: {
+      let selectedIssue;
+      const selectedIssueID = payload.issueID;
+
+      const newIssues = state.issues.slice();
+
+      newIssues.forEach((issue) => {
+        if (issue.id === selectedIssueID) {
+          selectedIssue = issue;
+          issue.isActive = true;
+        } else {
+          issue.isActive = false;
+        }
+      });
+
+      if (selectedIssue) {
+        return {
+          ...state,
+          currentIssue: selectedIssue,
+          issues: newIssues,
+        };
+      }
+
+      return state;
+    }
+
+    case types.SET_IS_ROUND_RUNNING: {
+      return {
+        ...state,
+        isRoundRunning: payload.isRoundRunning,
+      };
+    }
+
+    case types.SET_ROUND_VOTE_RESULTS: {
+      const { currentIssue } = state;
+
+      return {
+        ...state,
+        currentIssue: {
+          ...currentIssue,
+          userScore: payload.roundVoteResults.score,
+        },
+      };
+    }
+
+    case types.SET_IS_FLIPPED: {
+      return {
+        ...state,
+        isFlipped: payload.isFlipped,
+      };
+    }
+
+    case types.SET_ISSUE_SCORE: {
+      const { currentIssue } = state;
+      const { scoreData } = payload;
+      const newIssues = state.issues.slice().map((issue) => {
+        if (issue.id === scoreData.issueID) {
+          return { ...issue, score: scoreData.score };
+        }
+        return issue;
+      });
+
+      return {
+        ...state,
+        issues: newIssues,
+        currentIssue: {
+          ...currentIssue,
+          score: scoreData.score,
+        },
       };
     }
 

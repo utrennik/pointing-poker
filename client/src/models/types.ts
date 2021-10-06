@@ -1,5 +1,3 @@
-import { ChangeEvent, ReactElement, ReactNode } from 'react';
-
 export interface IWebLink {
   link: string;
   style: string;
@@ -23,6 +21,10 @@ export interface IInputButtonProps {
    * input label
    */
   inputLabel?: string;
+  /*
+   * controlled value
+   */
+  isClearOnSubmit?: boolean;
 }
 
 export interface IModalWrapper {
@@ -127,7 +129,12 @@ export enum IssuePriority {
   LOW = 'low',
 }
 
-export type VotingData = string | 'pass' | 'coffee';
+export enum CardValue {
+  PASS = 'pass',
+  COFFEE = 'coffee',
+}
+
+export type VotingData = string | CardValue;
 
 export interface IStatsItem {
   /*
@@ -157,15 +164,13 @@ export interface IUserScore {
 
 export interface IUsercore {
   /*
-   * Room ID
+   * User ID
    */
-  roomID: string;
+  userID: string;
   /*
-   * Issue ID
+   * Selcted Score
    */
-  issueID: string;
-
-  userScore: IUserScore;
+  score: VotingData;
 }
 
 export interface IRoundVoteResults {
@@ -177,6 +182,21 @@ export interface IRoundVoteResults {
    * Users round voting data
    */
   score: IUserScore[];
+}
+
+export interface IRoundVoteData {
+  /*
+   * ID of the room
+   */
+  roomID: string;
+  /*
+   * ID of the issue
+   */
+  issueID: string;
+  /*
+   * Users round voting data
+   */
+  userScore: IUserScore;
 }
 
 export interface IIssue {
@@ -209,9 +229,9 @@ export interface IIssue {
    */
   score: string;
   /*
-   * Issue voting data (which card the user has selected)
+   * Issue voting data (of all users)
    */
-  votingData: VotingData[];
+  userScore: IUserScore[];
 }
 
 export interface IIssueCard {
@@ -224,8 +244,13 @@ export interface IIssueCard {
    */
   name: string;
   /*
+   * Issue description
+   */
+  description: string;
+  /*
    * Game room id
    */
+
   room: string;
   /*
    * Priority of the issue in sprint
@@ -256,15 +281,15 @@ export interface IIssuesSection {
   sectionTitle: string;
 }
 
-export interface IIssueDelete {
+export interface IIssueID {
   /*
    * id of the issue
    */
-  id: string;
+  issueID: string;
   /*
    * Game room id
    */
-  room: string;
+  roomID: string;
 }
 
 export interface IMemberCard {
@@ -378,6 +403,12 @@ export interface IMessageCard {
   isCurrentUser: boolean;
 }
 
+export enum Role {
+  DEALER = 'dealer',
+  MEMBER = 'member',
+  OBSERVER = 'observer',
+}
+
 export interface IUser {
   /*
    * User ID
@@ -406,7 +437,7 @@ export interface IUser {
   /*
    * User role
    */
-  role: 'dealer' | 'member' | 'observer';
+  role: Role;
 }
 
 export interface IUserDelete {
@@ -517,6 +548,14 @@ export interface IGame {
    * Game current issue
    */
   currentIssue: IIssue;
+  /*
+   * is the voting round running
+   */
+  isRoundRunning: boolean;
+  /*
+   * are the game cards flipped
+   */
+  isFlipped: boolean;
 }
 
 export enum GameStatus {
@@ -666,10 +705,6 @@ export interface IValueCard {
 
 export interface IGameCard {
   /*
-   * Unique game card identifier
-   */
-  gameCardID: string;
-  /*
    * Name of game card
    */
   name: string;
@@ -692,17 +727,33 @@ export interface IGameCard {
   /*
    * The action will be called on Create value card
    */
-  onSelectedHandler?: () => void;
+  onSelectedHandler: Function;
 }
+
+export interface IGameCardData {
+  /*
+   * Name of game card
+   */
+  name: string;
+  /*
+   * Value for game card
+   */
+  value: VotingData;
+  /*
+   * Image for game card
+   */
+  image: string;
+}
+
 export interface IGameTopSection {
   /*
    * Round timer start value in seconds
    */
-  timerSecs: number;
+  timerSecs: number | null;
   /*
    * Is the client user a dealer
    */
-  isClientDealer: boolean;
+  client: IUser;
 }
 export interface ILobbySettings {
   /*
@@ -714,7 +765,7 @@ export interface ILobbySettings {
    */
   isDealerPlayer: boolean;
   /*
-   * variant of deck with card
+   * cards deck
    */
   cardSet: string[];
   /*
@@ -792,11 +843,7 @@ export interface ISwitchLobby {
 
 export interface IIssueCardStatus {
   /*
-   * ID of user
-   */
-  id: string;
-  /*
-   * result of voiting user
+   * result of voting user
    */
   score?: string;
   /*
@@ -804,7 +851,52 @@ export interface IIssueCardStatus {
    */
   cardValueScore: string;
   /*
-   * game role of voting user
+   * Is the score hidden
    */
-  gameRole?: 'dealer' | 'member' | 'observer';
+  isScoreHidden: boolean;
+}
+
+export interface IFlipCards {
+  /*
+   * room ID
+   */
+  roomID: string;
+  /*
+   * true - cards are flipped, false - not
+   */
+  isFlipped: boolean;
+}
+
+export interface IIssueScoreData {
+  /*
+   * room ID
+   */
+  roomID: string;
+  /*
+   * issue ID
+   */
+  issueID: string;
+  /*
+   * score
+   */
+  score: string;
+}
+
+export interface IResult {
+  /*
+   * Full title of the solved issue
+   */
+  name: string;
+  /*
+   * Description of the solved issue
+   */
+  description: string;
+  /*
+   * Priority of the solved issue in sprint
+   */
+  priority: string;
+  /*
+   * Score of the solved issue
+   */
+  score: string;
 }

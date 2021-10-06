@@ -3,11 +3,7 @@ import { Card, CardHeader, IconButton } from '@material-ui/core';
 import IssueModal from '@components/modals/issue-modal/issue-modal';
 import './issueCard.sass';
 
-interface IIssueCardCreate {
-  titleName: string;
-}
-
-export const IssueCardCreate = ({ titleName = 'Create new Issue' }: IIssueCardCreate) => {
+export const IssueCardCreate = () => {
   const [addIssueModalOpen, setAddIssueModalOpen] = useState(false);
 
   const handleAddIssueModalOpen = () => {
@@ -21,7 +17,7 @@ export const IssueCardCreate = ({ titleName = 'Create new Issue' }: IIssueCardCr
   return (
     <>
       <Card className="issue-card">
-        <CardHeader className="issue-card-header" title={titleName} />
+        <CardHeader className="issue-card-header" title="Create new Issue" />
         <IconButton className="issue-card-add-btn" onClick={handleAddIssueModalOpen} />
       </Card>
       <IssueModal isOpen={addIssueModalOpen} onClose={handleAddIssueModalClose} />

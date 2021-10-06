@@ -19,9 +19,13 @@ import {
   setMessages,
   setGameStatus,
   setPokerGameSettings,
+  setCurrentIssue,
+  setIsRoundRunning,
+  setIsFlipped,
+  setRoundVoteResults,
+  setIssueScore,
 } from '@src/redux/actions';
 
-import { initialState } from '@src/redux/reducers/game-reducer';
 import {
   IUser,
   IUserDelete,
@@ -31,11 +35,15 @@ import {
   IDeleteVoteFinishData,
   IDeleteVoteResults,
   IIssue,
-  IIssueDelete,
   IMessage,
   GameStatus,
   ILobbySettings,
   IGameStatus,
+  IIssueID,
+  IRoundVoteResults,
+  IRoundVoteData,
+  IFlipCards,
+  IIssueScoreData,
 } from './types';
 import config from '../config.json';
 
@@ -81,7 +89,7 @@ export default ({ children }: { children: ReactChild[] }) => {
 
   const clientExit = () => {
     console.log(`User ${clientUser.id} exit requested...`);
-    socket.emit(
+    socket?.emit(
       config.REQ_USER_DELETE,
       {
         dealerID: currentGame.dealer.id,
@@ -97,9 +105,14 @@ export default ({ children }: { children: ReactChild[] }) => {
     );
   };
 
+  const finishGame = () => {
+    console.log('Game finished!');
+    history.push('/result');
+  };
+
   const requestStartGame = (userData: IUser) => {
-    socket.emit(config.REQ_START_GAME, userData, (res: IUser) => {
-      console.log(`Game ${res.room} started...`);
+    socket?.emit(config.REQ_START_GAME, userData, (res: IUser) => {
+      console.log(`Game ${JSON.stringify(res)} started...`);
       dispatch(setClientUser(res));
       client = res;
       dispatch(setGame({ dealer: res, room: res.room }));
@@ -110,7 +123,7 @@ export default ({ children }: { children: ReactChild[] }) => {
   };
 
   const requestTitleChange = (title: string) => {
-    socket.emit(config.REQ_TITLE_CHANGE, { title, room: clientUser.room });
+    socket?.emit(config.REQ_TITLE_CHANGE, { title, room: clientUser.room });
     console.log(`Title ${title} change requested...`);
   };
 
@@ -125,7 +138,7 @@ export default ({ children }: { children: ReactChild[] }) => {
     setConnectModalOpen: Function,
     setNoRoomError: Function
   ) => {
-    socket.emit(config.REQ_ROOM_CHECK, { room: roomID }, (res: boolean) => {
+    socket?.emit(config.REQ_ROOM_CHECK, { room: roomID }, (res: boolean) => {
       console.log(`Room ${roomID} ${res ? 'exists' : 'not exists'}...`);
       setConnectModalOpen(res);
       setNoRoomError(!res);
@@ -133,16 +146,21 @@ export default ({ children }: { children: ReactChild[] }) => {
   };
 
   const requestUserJoin = (userData: IUser) => {
-    socket.emit(config.REQ_USER_JOIN, userData, (res: IGame) => {
+    socket?.emit(config.REQ_USER_JOIN, userData, (res: IGame) => {
       console.log(`User ${userData.firstName} ${userData.lastName} join requested...`);
 
       dispatch(setClientUser(userData));
       client = userData;
-      console.log(`Game data received...`);
+      console.log(`Game data received...${JSON.stringify(res)}`);
       dispatch(setGame(res));
       dispatch(setIsDealerLobby(false));
-      dispatch(setGameStatus(GameStatus.LOBBY));
-      history.push('/lobby');
+      dispatch(setGameStatus(res.gameStatus));
+
+      if (res.gameStatus === GameStatus.LOBBY) {
+        history.push('/lobby');
+      } else if (res.gameStatus === GameStatus.POKER) {
+        history.push('/game');
+      }
     });
   };
 
@@ -153,7 +171,7 @@ export default ({ children }: { children: ReactChild[] }) => {
         userID,
         room: currentGame.room,
       };
-      socket.emit(config.REQ_USER_DELETE, userDeleteData, (deletedUser: IUser) => {
+      socket?.emit(config.REQ_USER_DELETE, userDeleteData, (deletedUser: IUser) => {
         console.log(`User ${userID} delete requested...`);
         if (deletedUser.id) {
           console.log(`User ${deletedUser.id} deleted...`);
@@ -165,7 +183,7 @@ export default ({ children }: { children: ReactChild[] }) => {
         removerUserID: clientUser.id,
         deleteUserID: userID,
       };
-      socket.emit(config.REQ_START_USER_DELETE_VOTE, userDeleteVoteData);
+      socket?.emit(config.REQ_START_USER_DELETE_VOTE, userDeleteVoteData);
       console.log(
         `User ${userID} delete vote requested... Data: ${JSON.stringify(userDeleteVoteData)}`
       );
@@ -177,37 +195,102 @@ export default ({ children }: { children: ReactChild[] }) => {
       room: currentGame.room,
       result: isDelete,
     };
-    socket.emit(config.REQ_FINISH_DELETE_VOTE, deleteVoteFinishData);
+    socket?.emit(config.REQ_FINISH_DELETE_VOTE, deleteVoteFinishData);
   };
 
   const requestAddMessage = (messageData: IMessage) => {
-    socket.emit(config.REQ_MESSAGE_ADD, messageData);
+    socket?.emit(config.REQ_MESSAGE_ADD, messageData);
     console.log(`Requested add message: ${JSON.stringify(messageData)}`);
   };
 
   const requestAddIssue = (issueData: IIssue) => {
-    socket.emit(config.REQ_ISSUE_ADD, issueData);
+    socket?.emit(config.REQ_ISSUE_ADD, issueData);
     console.log(`Requested add issue: ${JSON.stringify(issueData)}`);
   };
 
   const requestUpdateIssue = (issueData: IIssue) => {
     console.log(`Requested update issue: ${JSON.stringify(issueData)}`);
-    socket.emit(config.REQ_ISSUE_UPDATE, issueData);
+    socket?.emit(config.REQ_ISSUE_UPDATE, issueData);
   };
 
-  const requestDeleteIssue = (issueDeleteData: IIssueDelete) => {
+  const requestDeleteIssue = (issueDeleteData: IIssueID) => {
     console.log(`Requested delete issue: ${JSON.stringify(issueDeleteData)}`);
-    socket.emit(config.REQ_ISSUE_DELETE, issueDeleteData);
+    socket?.emit(config.REQ_ISSUE_DELETE, issueDeleteData);
   };
   const requestPokerGameStart = (settings: ILobbySettings) => {
-    socket.emit(config.REQ_START_POKER_GAME, settings);
+    socket?.emit(config.REQ_START_POKER_GAME, settings);
   };
 
   const requestCancelGame = () => {
     const cancelGameData = {
       room: currentGame.room,
     };
-    socket.emit(config.REQ_CANCEL_GAME, cancelGameData);
+    socket?.emit(config.REQ_CANCEL_GAME, cancelGameData);
+    console.log('Game cancel requested');
+  };
+
+  const requestSelectIssue = (issueID: string) => {
+    const selectIssueData: IIssueID = {
+      issueID,
+      roomID: currentGame.room,
+    };
+    console.log(`Requested select issue ${selectIssueData}}`);
+    socket?.emit(config.REQ_SELECT_ISSUE, selectIssueData);
+  };
+
+  const requestStartRound = () => {
+    const roomID = currentGame.room;
+    console.log(`Requested start round ${roomID}`);
+    socket?.emit(config.REQ_START_ROUND, roomID);
+  };
+
+  const requestFinishRound = () => {
+    const roomID = currentGame.room;
+    console.log(`Requested finish round ${roomID}`);
+    socket?.emit(config.REQ_FINISH_ROUND, roomID);
+  };
+
+  const requestRoundVote = (cardValue: string) => {
+    const roundVoteData: IRoundVoteData = {
+      roomID: currentGame.room,
+      issueID: currentGame.currentIssue.id,
+      userScore: {
+        userID: clientUser.id,
+        score: cardValue,
+      },
+    };
+
+    console.log(`Requested send vote ${JSON.stringify(roundVoteData)}`);
+    socket?.emit(config.REQ_ROUND_VOTE, roundVoteData);
+  };
+
+  const requestFlipCards = (isFlipped: boolean) => {
+    const flipData: IFlipCards = {
+      roomID: currentGame.room,
+      isFlipped,
+    };
+    console.log(`Requested flip cards ${JSON.stringify(flipData)}`);
+    socket?.emit(config.REQ_FLIP_CARDS, flipData);
+  };
+
+  const requestSetScore = (score: string) => {
+    const scoreData: IIssueScoreData = {
+      roomID: currentGame.room,
+      issueID: currentGame.currentIssue.id,
+      score,
+    };
+    console.log(`Requested set score ${JSON.stringify(scoreData)}`);
+    socket?.emit(config.REQ_SET_SCORE, scoreData);
+  };
+
+  const requestClearVoting = () => {
+    console.log(`Requested clear voting data for current issue... ${currentGame.room}`);
+    socket?.emit(config.REQ_CLEAR_VOTING, currentGame.room);
+  };
+
+  const requestGameFinish = () => {
+    console.log(`Game finish requested... ${currentGame.room}`);
+    socket?.emit(config.REQ_FINISH_GAME, currentGame.room);
   };
 
   socket.on('connect', () => {
@@ -216,10 +299,12 @@ export default ({ children }: { children: ReactChild[] }) => {
   });
 
   socket.on('disconnect', () => {
+    console.log('Server disconnected...');
     dispatch(setSocketDisconnected());
   });
 
   socket.on('connect_error', () => {
+    console.log('Connection error...');
     dispatch(setSocketDisconnected());
   });
 
@@ -269,17 +354,50 @@ export default ({ children }: { children: ReactChild[] }) => {
 
   socket.on(config.RES_START_POKER_GAME, (pokerGameSettingsData: ILobbySettings) => {
     dispatch(setPokerGameSettings(pokerGameSettingsData));
-    dispatch(setGameStatus(GameStatus.POKER));
     history.push('/game');
   });
 
   socket.on(config.RES_CANCEL_GAME, (gameStatusData: IGameStatus) => {
-    console.log(`Game canceled !`);
+    console.log(`Game canceled ! ${gameStatusData}`);
 
-    if (gameStatusData.gameStatus === 'cancel') {
-      history.push('/');
-      dispatch(setGame(initialState));
-    }
+    resetClient();
+  });
+
+  socket.on(config.RES_SELECT_ISSUE, (issueID: string) => {
+    console.log(`Issue selected: ${issueID}`);
+    dispatch(setCurrentIssue(issueID));
+  });
+
+  socket.on(config.RES_START_ROUND, (isStarted: boolean) => {
+    console.log(`round started: ${isStarted}`);
+    dispatch(setIsRoundRunning(isStarted));
+    dispatch(setIsFlipped(false));
+  });
+
+  socket.on(config.RES_FINISH_ROUND, (roundVoteResults: IRoundVoteResults) => {
+    console.log(`round finished: ${JSON.stringify(roundVoteResults)}`);
+    dispatch(setIsRoundRunning(false));
+  });
+
+  socket.on(config.RES_ROUND_VOTE, (roundVoteResults: IRoundVoteResults) => {
+    console.log(`vote accepted: ${JSON.stringify(roundVoteResults)}`);
+    dispatch(setRoundVoteResults(roundVoteResults));
+  });
+
+  socket.on(config.RES_FLIP_CARDS, (isFlipped: boolean) => {
+    console.log(`cards flipped: ${isFlipped}`);
+    dispatch(setIsFlipped(isFlipped));
+  });
+
+  socket.on(config.RES_SET_SCORE, (scoreData: IIssueScoreData) => {
+    const { score } = scoreData;
+    console.log(`Current issue score setted: ${score}`);
+    dispatch(setIssueScore(scoreData));
+  });
+
+  socket.on(config.RES_FINISH_GAME, (issues: IIssue[]) => {
+    console.log(`Game finished: ${issues}`);
+    finishGame();
   });
 
   const ws: any = {
@@ -299,6 +417,14 @@ export default ({ children }: { children: ReactChild[] }) => {
     requestDeleteIssue,
     requestCancelGame,
     requestPokerGameStart,
+    requestSelectIssue,
+    requestStartRound,
+    requestFinishRound,
+    requestRoundVote,
+    requestFlipCards,
+    requestSetScore,
+    requestClearVoting,
+    requestGameFinish,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

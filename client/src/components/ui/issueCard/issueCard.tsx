@@ -1,8 +1,8 @@
-import { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Card, CardHeader, IconButton } from '@material-ui/core';
 import { RootState } from 'src/redux/store';
-import { IIssueCard, IIssueDelete } from '@models/types';
+import { IIssueCard, IIssueID } from '@models/types';
 import { WebSocketContext } from '@models/web-socket';
 import { truncateString } from '@utils/stringUtils';
 import EditIssueModal from '@components/modals/edit-issue-modal/edit-issue-modal';
@@ -12,6 +12,7 @@ import './issueCard.sass';
 export const IssueCard = ({
   id,
   name,
+  description,
   priority,
   isActive,
   isGame,
@@ -20,6 +21,7 @@ export const IssueCard = ({
 }: IIssueCard) => {
   const [editIssueModalOpen, setEditIssueModalOpen] = useState(false);
   const roomID: string = useSelector((state: RootState) => state.game.room);
+  const isVoting: boolean = useSelector((state: RootState) => state.game.isRoundRunning);
   const ws = useContext(WebSocketContext);
 
   const handleEditIssueModalOpen = () => {
@@ -30,36 +32,49 @@ export const IssueCard = ({
     setEditIssueModalOpen(false);
   };
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event.target);
-    console.log(id);
-  };
-
   const handleDelete = () => {
-    const issueDeleteData: IIssueDelete = {
+    const issueDeleteData: IIssueID = {
       id,
       room: roomID,
     };
     ws.requestDeleteIssue(issueDeleteData);
   };
 
-  const cardClass =
-    (isActive && isPlayed && 'issue-card selected played') ||
-    (isActive && 'issue-card selected') ||
-    (isPlayed && 'issue-card played') ||
+  const handleIssueSelect = (e: React.MouseEvent<HTMLElement>) => {
+    if ((e.target && e.target.type === 'button') || !isGame) return;
+    ws.requestSelectIssue(id);
+  };
+
+  let cardClass =
+    (isActive && isPlayed && isGame && isVoting && 'issue-card selected played untouchable') ||
+    (isActive && isPlayed && isGame && 'issue-card selected played') ||
+    (isActive && isGame && isVoting && 'issue-card selected untouchable') ||
+    (isActive && isGame && 'issue-card selected') ||
+    (isPlayed && isGame && isVoting && 'issue-card played untouchable') ||
+    (isPlayed && isGame && 'issue-card played') ||
+    (isVoting && 'issue-card untouchable') ||
     'issue-card';
+  if (!isDealer && !isVoting) cardClass += ' untouchable-card';
+
+  const maxSymbols = isGame
+    ? config.truncateSettings.issueTitleMaxSymbolsGame
+    : config.truncateSettings.issueTitleMaxSymbols;
 
   return (
-    <div title={name}>
-      <Card className={cardClass}>
+    <div className={isGame ? 'clickable' : ''} title={name}>
+      <Card className={cardClass} onClick={handleIssueSelect}>
         <CardHeader
           className="issue-card-header"
-          title={truncateString(name, config.ISSUE_TITLE_MAX_SYMBOLS)}
+          title={truncateString(name, maxSymbols)}
           subheader={truncateString(priority)}
           subheaderTypographyProps={{ variant: 'subtitle1' }}
         />
         {isGame && isDealer ? (
-          <IconButton className="issue-card-close-btn" onClick={handleClose} />
+          <IconButton
+            className="issue-card-close-btn"
+            onClick={handleDelete}
+            disabled={isActive && isVoting}
+          />
         ) : (
           isDealer && [
             <IconButton className="issue-card-edit-btn" onClick={handleEditIssueModalOpen} />,
@@ -71,6 +86,7 @@ export const IssueCard = ({
           onClose={handleEditIssueModalClose}
           issueID={id}
           name={name}
+          description={description}
           priority={priority}
         />
       </Card>

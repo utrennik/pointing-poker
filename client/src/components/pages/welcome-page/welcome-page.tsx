@@ -71,7 +71,7 @@ const WelcomePage = () => {
 
           <div className="connect-container error-down">
             <div className="action-title">
-              Connect to lobby by <span>ID or URL</span>:
+              Connect to the game by <span>ID or URL</span>:
             </div>
             <InputButton
               buttonText="Connect"

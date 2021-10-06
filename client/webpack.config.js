@@ -31,12 +31,18 @@ module.exports = ({ development }) => ({
 
   entry: './src/index.tsx',
 
-  output: {
-    filename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, 'dist'),
-    assetModuleFilename: 'assets/[hash][ext]',
-    publicPath: '/',
-  },
+  output: development
+    ? {
+        filename: '[name].[contenthash].js',
+        path: path.resolve(__dirname, 'dist'),
+        assetModuleFilename: 'assets/[hash][ext]',
+        publicPath: '/',
+      }
+    : {
+        filename: '[name].[contenthash].js',
+        path: path.resolve(__dirname, 'dist'),
+        assetModuleFilename: 'assets/[hash][ext]',
+      },
 
   module: {
     rules: [
@@ -89,6 +95,14 @@ module.exports = ({ development }) => ({
         ],
       },
     }),
+    new webpack.IgnorePlugin(/cptable/),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        vendor: ['xlsx'],
+        node: { fs: 'empty' },
+        externals: [{ './cptable': 'var cptable' }],
+      },
+    }),
   ],
 
   resolve: {
@@ -101,6 +115,11 @@ module.exports = ({ development }) => ({
       '@models': path.resolve(__dirname, 'src/models'),
       '@src': path.resolve(__dirname, 'src'),
       '@utils': path.resolve(__dirname, 'src/utils'),
+    },
+
+    fallback: {
+      crypto: false,
+      fs: false,
     },
   },
 

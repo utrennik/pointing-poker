@@ -1,13 +1,14 @@
+import { useEffect, useState } from 'react';
+import { CardSet, IGameSettingsErrors } from '@models/types';
 import { coverCardData } from '@components/ui/cover-card/cover-cardData';
 import { valueCardData } from '@components/ui/value-card/value-cardData';
-import { CardSet, IGameSettingsErrors } from '@models/types';
-import { useEffect, useState } from 'react';
+import config from '@src/config.json';
 
 export const useLobbySettings = (changePokerGameSettings: (value: any) => void) => {
   const [switchSettings, setSwitchSettings] = useState({
-    dealerAsPlr: false,
+    dealerAsPlr: config.defaultSettings.dealerAsPlayer,
     changeChoice: false,
-    timerIsNeed: false,
+    timerIsNeed: config.defaultSettings.isTimerNeeded,
     revoteBeforeEndOfRound: false,
     scoreForIssues: false,
     participationInGameForNewUsers: false,
@@ -24,7 +25,9 @@ export const useLobbySettings = (changePokerGameSettings: (value: any) => void) 
 
   const [coverCard, setCoverCard] = useState(coverCardData);
   const [valueCard, setValueCard] = useState(valueCardData);
-  const [valueTimer, setValueTimer] = useState<Date | null>(new Date(1970, 1, 1, 0, 2, 20));
+  const [valueTimer, setValueTimer] = useState<Date | null>(
+    new Date(1970, 1, 1, 0, config.defaultSettings.timerMins, config.defaultSettings.timerSecs)
+  );
   const [activeCoverCardID, setIsActiveCoverCard] = useState<string>('1');
   const [valuesOfNewDeck, setValuesOfNewDeck] = useState<string[]>(
     valueCard.map((card) => card.value)
@@ -52,7 +55,6 @@ export const useLobbySettings = (changePokerGameSettings: (value: any) => void) 
     const timer = switchSettings.timerIsNeed ? valueTimer : null;
     const customDeck = isCustomCardSet ? valueCard.map((card) => card.value) : null;
     const coverCardforServer = coverCard.find((item) => item.coverCardID === activeCoverCardID);
-    console.log(valueCard);
     changePokerGameSettings({
       ...switchSettings,
       cardSet,
