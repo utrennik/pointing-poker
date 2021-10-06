@@ -53,30 +53,30 @@ export default ({ socket, io }) => {
       callback
     ) => {
       const { currentGame } = getGame(room);
+      socket.join(room);
       if (
         currentGame.settings.gameStatus === "poker" &&
         currentGame.settings.isFreeConnectionToGameForNewUsers
       ) {
         callback(currentGame);
-      } else {
-        const { user, currentGame, userError } = addUser({
-          firstName,
-          id,
-          room,
-          role,
-          lastName,
-          jobPosition,
-          avatar,
-        });
-        if (userError) return callback(userError);
-        socket.join(room);
-        // io.in(room).emit(EVENTS.NOTIFICATIONS, {
-        //   message: `${user.firstName} just entered the room`,
-        // });
-        console.log(`user ${id} join the room: ${room}`);
-        io.in(room).emit(EVENTS.RES_USER_JOINED, user);
-        callback(currentGame);
       }
+      const { user, currentGame, userError } = addUser({
+        firstName,
+        id,
+        room,
+        role,
+        lastName,
+        jobPosition,
+        avatar,
+      });
+      if (userError) return callback(userError);
+
+      // io.in(room).emit(EVENTS.NOTIFICATIONS, {
+      //   message: `${user.firstName} just entered the room`,
+      // });
+      console.log(`user ${id} join the room: ${room}`);
+      io.in(room).emit(EVENTS.RES_USER_JOINED, user);
+      callback(currentGame);
     }
   );
 
