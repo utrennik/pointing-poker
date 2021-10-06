@@ -28,7 +28,7 @@ const Header = () => {
           </div>
         </div>
         <div className="header-down">
-          <div className="container logo-wrapper">
+          <div className="logo-wrapper">
             <NavLink exact className="logo" to="/" />
           </div>
         </div>

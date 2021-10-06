@@ -40,7 +40,7 @@ const WelcomePage = () => {
   };
 
   return (
-    <div className="container">
+    <>
       <div className="welcome-page">
         <div className="welcome-logo-container">
           <div className="welcome-logo">
@@ -95,7 +95,7 @@ const WelcomePage = () => {
         roomID={enteredRoomID}
       />
       <StartModal isOpen={startModalOpen} onClose={handleStartModalClose} />
-    </div>
+    </>
   );
 };
 
