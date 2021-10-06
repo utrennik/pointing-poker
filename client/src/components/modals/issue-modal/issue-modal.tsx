@@ -16,6 +16,7 @@ interface IIssueModal {
 
 const IssueModal = ({ isOpen, onClose }: IIssueModal) => {
   const [issueName, setIssueName] = useState('');
+  const [issueDescription, setIssueDescription] = useState('');
   const [issuePriority, setIssuePriority] = useState(IssuePriority.HIGH);
   const [errors, setErrors] = useState({} as IIssueModalErrors);
   const roomID: string = useSelector((state: RootState) => state.game.room);
@@ -23,6 +24,7 @@ const IssueModal = ({ isOpen, onClose }: IIssueModal) => {
 
   const clearForm = () => {
     setIssueName('');
+    setIssueDescription('');
     setIssuePriority(IssuePriority.NORMAL);
     setErrors({} as IIssueModalErrors);
   };
@@ -49,8 +51,12 @@ const IssueModal = ({ isOpen, onClose }: IIssueModal) => {
     setIssueName(e.target.value);
   };
 
+  const handleDescriptionInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setIssueDescription(e.target.value);
+  };
+
   const handlePriorityChange = (event: ChangeEvent<any>) => {
-    setIssuePriority(event.target.value);
+    setIssuePriority(event.target.value as IssuePriority);
   };
 
   const handleConfirm = () => {
@@ -60,6 +66,7 @@ const IssueModal = ({ isOpen, onClose }: IIssueModal) => {
       name: issueName,
       room: roomID,
       isActive: false,
+      description: issueDescription,
       priority: issuePriority,
     };
 
@@ -80,6 +87,18 @@ const IssueModal = ({ isOpen, onClose }: IIssueModal) => {
             onChange={handleTitleInput}
             error={errors.isTitleIssueError}
             required
+          />
+        </div>
+        <div className="input-modal">
+          <TextField
+            variant="outlined"
+            label="Description"
+            autoComplete="off"
+            multiline
+            rows={5}
+            fullWidth
+            value={issueDescription}
+            onChange={handleDescriptionInput}
           />
         </div>
       </div>

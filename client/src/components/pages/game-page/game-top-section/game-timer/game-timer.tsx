@@ -1,11 +1,12 @@
 import './game-timer.sass';
 
 interface IGameTimer {
-  timerSecs: number;
+  timerSecs: number | null;
 }
 
 export const GameTimer = ({ timerSecs }: IGameTimer) => {
   const MINUTE_SECS = 60;
+  if (timerSecs === null) return null;
 
   return (
     <div className="timer-body">

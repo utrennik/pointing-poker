@@ -136,18 +136,20 @@ const StartModal = ({ isOpen, onClose }: IModalWindow) => {
         </div>
 
         <div className="avatar-input">
-          <input
-            id="avatar-upload"
-            accept="image/*"
-            name="avatar-image"
-            type="file"
-            className="invisible"
-            onInput={handleInput}
-          />
+          <label htmlFor="avatar-upload">
+            <input
+              id="avatar-upload"
+              accept="image/*"
+              name="avatar-image"
+              type="file"
+              className="invisible"
+              onInput={handleInput}
+            />
 
-          <Button variant="contained" component="span">
-            Upload avatar
-          </Button>
+            <Button variant="contained" component="span">
+              Upload avatar
+            </Button>
+          </label>
         </div>
       </div>
     </div>

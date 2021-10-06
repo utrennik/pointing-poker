@@ -8,6 +8,7 @@ const InputButton = ({
   valueHandler,
   inputLabel = '',
   initialValue = '',
+  isClearOnSubmit = false,
 }: IInputButtonProps) => {
   const [inputValue, setInputValue] = useState(initialValue);
 
@@ -19,6 +20,7 @@ const InputButton = ({
   const submitHandler = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     valueHandler(inputValue);
+    if (isClearOnSubmit) setInputValue('');
   };
 
   return (

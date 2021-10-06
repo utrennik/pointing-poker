@@ -1,33 +1,45 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/redux/store';
+import { WebSocketContext } from '@models/web-socket';
+import { ICoverCard, IGameCardData, ILobbySettings } from '@models/types';
 import { GameCard } from '@components/ui/game-card/game-card';
-import { gameCardData } from '@components/ui/game-card/game-cardData';
 import './game-voting-section.sass';
 
 export const GameVotingSection = () => {
-  const initialSelectedValue = '';
-  const [isFlipped, setIsFlipped] = useState(false);
-  const [isSelected, setIsSelected] = useState(initialSelectedValue);
+  const settings: ILobbySettings = useSelector((state: RootState) => state.game.settings);
+  const isFlipped: boolean = useSelector((state: RootState) => state.game.isFlipped);
+  const cardsUnits: string = settings.unitsOfEstimation.scoreTypeShort;
+  const cardsCover: ICoverCard = settings.coverCardforServer;
+  const [selectedCardValue, setSelectedCardValue] = useState('');
+  const { cardSet } = settings;
+  const ws = useContext(WebSocketContext);
 
-  const handleFlip = () => {
-    setIsSelected(initialSelectedValue);
-    setIsFlipped(!isFlipped);
+  const handleCardSelect = (value: string) => {
+    setSelectedCardValue(value);
+    ws.requestRoundVote(value);
   };
+
+  const gameCardData: IGameCardData[] = cardSet.map((cardValue: string) => {
+    const card: IGameCardData = {
+      name: cardsUnits,
+      value: cardValue,
+      image: cardsCover.image,
+    };
+    return card;
+  });
 
   return (
     <div className="game-voting-section">
-      <button type="button" className="flip-test-button" onClick={handleFlip}>
-        {isFlipped ? `Value` : `Cover`}
-      </button>
       <div className="game-card-container">
-        {gameCardData.map(({ gameCardID, name, value, image }) => (
+        {gameCardData.map(({ name, value, image }) => (
           <GameCard
-            key={gameCardID}
-            gameCardID={gameCardID}
+            key={value}
             name={name}
             value={value}
             image={image}
-            isSelected={isSelected === gameCardID}
-            onSelectedHandler={() => setIsSelected(gameCardID)}
+            isSelected={value === selectedCardValue}
+            onSelectedHandler={handleCardSelect}
             isFlipped={isFlipped}
           />
         ))}

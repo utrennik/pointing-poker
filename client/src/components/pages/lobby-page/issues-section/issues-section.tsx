@@ -14,11 +14,12 @@ const IssuesSection = ({ sectionTitle }: IIssuesSection) => {
   );
   const room: string = useSelector((state: RootState) => state.game.room);
 
-  const issuesList = issues.map(({ id, name, priority, isActive, score }) => (
+  const issuesList = issues.map(({ id, name, description, priority, isActive, score }) => (
     <IssueCard
       key={id}
       name={name}
       priority={priority}
+      description={description}
       isActive={isActive}
       isDealer={isDealer}
       isGame={isGame}
@@ -30,10 +31,10 @@ const IssuesSection = ({ sectionTitle }: IIssuesSection) => {
 
   return (
     <section className="lobby-content-issues">
-      <h3 className="section-header">{sectionTitle}</h3>
+      <h3 className="section-header">{(issues.length || isDealer) && sectionTitle}</h3>
       <div className="issues-lobby">
         {issuesList}
-        <IssueCardCreate />
+        {isDealer && <IssueCardCreate />}
       </div>
     </section>
   );

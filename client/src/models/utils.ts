@@ -2,7 +2,7 @@ import { IRoundVoteResults, VotingData } from './types';
 
 export const id = (): string => `_${Math.random().toString(36).substr(2, 9)}`;
 
-export const getVoteResults = (votingData: VotingData[]): IRoundVoteResults[] => {
+export const getVoteResults = (votingData: string[]): IRoundVoteResults[] => {
   const statsValuesObj = {};
 
   votingData.forEach((el: VotingData) => {

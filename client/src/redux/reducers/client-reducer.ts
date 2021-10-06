@@ -1,17 +1,4 @@
-// import config from '@src/config.json';
 import { types } from '../actions';
-
-// TODO: For GAME PAGE TEST
-
-// const testInitialState = {
-//   clientUser: {
-//     firstName: 'Alejandro',
-//     lastName: 'Sanchez',
-//     id: 123,
-//     role: config.DEALER,
-//   },
-//   isDealerLobby: false,
-// };
 
 const initialState = {
   clientUser: null,

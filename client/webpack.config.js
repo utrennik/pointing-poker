@@ -31,12 +31,18 @@ module.exports = ({ development }) => ({
 
   entry: './src/index.tsx',
 
-  output: {
-    filename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, 'dist'),
-    assetModuleFilename: 'assets/[hash][ext]',
-    publicPath: '/',
-  },
+  output: development
+    ? {
+        filename: '[name].[contenthash].js',
+        path: path.resolve(__dirname, 'dist'),
+        assetModuleFilename: 'assets/[hash][ext]',
+        publicPath: '/',
+      }
+    : {
+        filename: '[name].[contenthash].js',
+        path: path.resolve(__dirname, 'dist'),
+        assetModuleFilename: 'assets/[hash][ext]',
+      },
 
   module: {
     rules: [
