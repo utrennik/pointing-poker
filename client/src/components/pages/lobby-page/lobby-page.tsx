@@ -17,7 +17,7 @@ const LobbyPage = () => {
     setLobbyGameSettings(value);
   };
   return (
-    <div className="container">
+    <div>
       <div className="lobby-page">
         <div className="lobby-content">
           <MasterSection isDealerLobby={isDealerLobby} lobbyGameSettings={lobbyGameSettings!} />

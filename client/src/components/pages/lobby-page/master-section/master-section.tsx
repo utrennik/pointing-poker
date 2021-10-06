@@ -79,7 +79,7 @@ const MasterSection = ({ isDealerLobby, lobbyGameSettings }: IMasterSection) => 
   return (
     <section className="lobby-content-master">
       <TitlePlaning />
-      <h5 className="section-subheader">Dealer:</h5>
+      <h4 className="section-subheader">Dealer:</h4>
       <div className="master-lobby">
         <ScramMasterCard
           firstName={firstName}

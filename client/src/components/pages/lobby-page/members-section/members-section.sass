@@ -1,6 +1,6 @@
 .members-lobby
-  display: grid
-  grid-template-rows: auto
-  grid-template-columns: repeat(3, 1fr)
+  display: flex
   gap: 15px
-  justify-content: space-between
+  flex-wrap: wrap
+  @media (max-width: 682px)
+    justify-content: center
