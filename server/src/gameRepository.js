@@ -84,19 +84,6 @@ export default ({ socket, io }) => {
     io.in(room).emit(EVENTS.RES_TITLE_CHANGED, currentGame.title);
   });
 
-  socket.on("disconnect", () => {
-    const user = games.filter((game) => game.users.id === socket.id);
-    if (user) {
-      console.log(`${user.firstName} left the room: ${room}`)
-      io.in(user.room).emit(
-        EVENTS.NOTIFICATIONS,
-        `${user.firstName} left the room: ${room}`
-      );
-    }
-  });
-
-
-
   socket.on(EVENTS.REQ_CANCEL_GAME, ({ room }) => {
     const { currentGame, gameError } = getGame(room);
     if (gameError) return;
