@@ -6,6 +6,7 @@ import Footer from '@components/footer/footer';
 import routes from '@components/router/routes';
 import { DeleteVotingModal } from '@components/modals/delete-voting-modal/delete-voting-modal';
 import { NotificationModal } from '@components/modals/notification-modal/notification-modal';
+import { AdmitModal } from '@components/modals/admit-modal/admit-modal';
 
 import config from './config.json';
 
@@ -31,6 +32,7 @@ const App = () => {
         </CSSTransition>
       </TransitionGroup>
       <Footer />
+      <AdmitModal />
       <DeleteVotingModal />
       <NotificationModal />
     </div>

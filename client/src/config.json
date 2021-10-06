@@ -37,6 +37,11 @@
   "REQ_CLEAR_VOTING": "req-clear-voting",
   "REQ_FINISH_GAME": "req-finish-game",
   "RES_FINISH_GAME": "res-finish-game",
+  "REQ_USER_GAME_JOIN": "req-user-game-join",
+  "RES_USER_ADMIT": "res-user-admit",
+  "REQ_USER_ADMIT": "req-user-admit",
+  "RES_USER_REJECTED": "res-user-rejected",
+  "RES_USER_ADMITTED": "res-user-admitted",
   "KICKED_NOTIFICATION": "Sorry, you have been kicked from the game!",
   "GAME_CANCEL_USER_NOTIFICATION": "Dealer has cancelled the game!",
   "GAME_CANCEL_DEALER_NOTIFICATION": "You have successfully cancelled the game!",
@@ -45,8 +50,9 @@
   "MEMBER": "member",
   "OBSERVER": "observer",
   "USER_DELETE_QUORUM": 3,
-  "SERVER_BASE_URL": "https://pointing-poker-brest.herokuapp.com/",
+  "SERVER_BASE_URL": "http://localhost:8000/",
   "SERVER_HOME_URL": "http://localhost:8000/",
+  "SERVER_HEROKU_URL": "https://pointing-poker-brest.herokuapp.com/",
   "CONNECT_ERROR_MESSAGE": "Error! Server is not connected!",
   "NO_ROOM_ERROR_MESSAGE": "Error! Game not found!",
   "POKER": "poker",
@@ -73,7 +79,7 @@
   "defaultSettings": {
     "dealerAsPlayer": false,
     "isTimerNeeded": false,
-    "timerMins": 0,
+    "timerMins": 2,
     "timerSecs": 20
   }
 }

@@ -531,7 +531,7 @@ export interface IGame {
   /*
    * Game settings
    */
-  settings: IGameSettings;
+  settings: ILobbySettings;
   /*
    * Game status
    */
@@ -563,8 +563,6 @@ export enum GameStatus {
   POKER = 'poker',
   CANCEL = 'cancelGame',
 }
-
-export interface IGameSettings {}
 
 export interface IScramMasterCard {
   id?: number;
@@ -899,4 +897,19 @@ export interface IResult {
    * Score of the solved issue
    */
   score: string;
+}
+
+export interface IUserAdmitData {
+  /*
+   * Room ID
+   */
+  roomID: string;
+  /*
+   * User to be admitted by Dealer
+   */
+  user: IUser;
+  /*
+   * current Game object
+   */
+  isAdmitted: boolean;
 }

@@ -24,6 +24,8 @@ import {
   setIsFlipped,
   setRoundVoteResults,
   setIssueScore,
+  setAdmitOpen,
+  setAdmitUser,
 } from '@src/redux/actions';
 
 import {
@@ -45,6 +47,7 @@ import {
   IFlipCards,
   IIssueScoreData,
   Role,
+  IUserAdmitData,
 } from './types';
 import config from '../config.json';
 
@@ -139,6 +142,12 @@ export default ({ children }: { children: ReactChild[] }) => {
     });
   };
 
+  const requestUserAdmit = (user: IUser) => {
+    console.log(`User admit requested...${JSON.stringify(user)}`);
+    socket?.emit(config.REQ_USER_GAME_JOIN, user);
+    setNotification('Please wait for the dealer to admit...');
+  };
+
   const requestUserJoin = (userData: IUser) => {
     socket?.emit(config.REQ_USER_JOIN, userData, (res: IGame) => {
       console.log(`User ${userData.firstName} ${userData.lastName} join requested...`);
@@ -149,6 +158,13 @@ export default ({ children }: { children: ReactChild[] }) => {
       dispatch(setGame(res));
       dispatch(setIsDealerLobby(false));
       dispatch(setGameStatus(res.gameStatus));
+
+      const isGame: boolean = res.gameStatus === GameStatus.POKER;
+      const isAdmit: boolean = res.settings.isFreeConnectionToGameForNewUsers;
+      if (isGame && isAdmit) {
+        requestUserAdmit(userData);
+        return;
+      }
 
       if (res.gameStatus === GameStatus.LOBBY) {
         history.push('/lobby');
@@ -287,6 +303,12 @@ export default ({ children }: { children: ReactChild[] }) => {
     socket?.emit(config.REQ_FINISH_GAME, currentGame.room);
   };
 
+  const requestAdmit = (admitData: IUserAdmitData) => {
+    console.log(`Send admission result... ${admitData}`);
+
+    socket?.emit(config.REQ_USER_ADMIT, admitData);
+  };
+
   socket.on('connect', () => {
     dispatch(setSocketConnected());
     console.log('Server connected...');
@@ -304,7 +326,7 @@ export default ({ children }: { children: ReactChild[] }) => {
 
   socket.on(config.RES_USER_JOINED, (user: IUser) => {
     dispatch(addUser(user));
-    console.log(`User id${user.firstName} ${user.lastName} joined...`);
+    console.log(`User ${user.firstName} ${user.lastName} joined...`);
   });
 
   socket.on(config.RES_USER_DELETED, (deletedUserID: string) => {
@@ -398,6 +420,30 @@ export default ({ children }: { children: ReactChild[] }) => {
     finishGame();
   });
 
+  socket.on(config.RES_USER_ADMIT, (user: IUser) => {
+    console.log(`User admission request received: ${JSON.stringify(user)}`);
+    if (client.role === Role.DEALER) {
+      dispatch(setAdmitOpen(true));
+      dispatch(setAdmitUser(user));
+    }
+  });
+
+  socket.on(config.RES_USER_REJECTED, (rejectedUser: IUser) => {
+    console.log(`User ${rejectedUser} is rejected`);
+    if (rejectedUser.id === client.id) {
+      resetClient();
+      dispatch(setNotification('Sorry, you have been rejected by dealer :('));
+    }
+  });
+
+  socket.on(config.RES_USER_ADMITTED, (user: IUser) => {
+    dispatch(addUser(user));
+    if (user.id === client.id) {
+      history.push('/game');
+    }
+    console.log(`User id${user.firstName} ${user.lastName} admitted and joined...`);
+  });
+
   const ws: any = {
     socket,
     requestStartGame,
@@ -423,6 +469,7 @@ export default ({ children }: { children: ReactChild[] }) => {
     requestSetScore,
     requestClearVoting,
     requestGameFinish,
+    requestAdmit,
   };
 
   return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>;

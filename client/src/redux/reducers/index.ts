@@ -5,6 +5,7 @@ import { socketReducer } from './socket-reducer';
 import { deleteVotingReducer } from './delete-voting-reducer';
 import { chatReducer } from './chat-reducer';
 import { types } from '../actions';
+import { admitReducer } from './admit-reducer';
 
 const appReducer = combineReducers({
   socket: socketReducer,
@@ -12,6 +13,7 @@ const appReducer = combineReducers({
   client: clientReducer,
   deleteVoting: deleteVotingReducer,
   chat: chatReducer,
+  admit: admitReducer,
 });
 
 const rootReducer = (state, action) => {

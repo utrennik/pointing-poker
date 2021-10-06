@@ -94,8 +94,8 @@ const WelcomePage = () => {
         <AlertTitle>Warning</AlertTitle>
         <strong>Dear USER!!</strong> If you are using the deployed version! <br />
         The backend part is deployed on heroku. Sometimes (usually at evening) the service loses the
-        socket connection! If something does not work, please wait or reload the page and try again!
-        Thank You for understanding!
+        socket connection! If something does not work,{' '}
+        <strong>please wait or reload the page and try again!</strong> Thank You for understanding!
       </Alert>
 
       <ConnectModal

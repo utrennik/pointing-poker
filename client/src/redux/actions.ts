@@ -32,6 +32,8 @@ export const types = {
   SET_ROUND_VOTE_RESULTS: 'SET_ROUND_VOTE_RESULTS',
   SET_IS_FLIPPED: 'SET_IS_FLIPPED',
   SET_ISSUE_SCORE: 'SET_ISSUE_SCORE',
+  SET_ADMIT_OPEN: 'SET_ADMIT_OPEN',
+  SET_ADMIT_USER: 'SET_ADMIT_USER',
 };
 
 export const setSocketConnected = () => ({
@@ -133,4 +135,14 @@ export const setIsFlipped = (isFlipped: boolean) => ({
 export const setIssueScore = (scoreData: IIssueScoreData) => ({
   type: types.SET_ISSUE_SCORE,
   payload: { scoreData },
+});
+
+export const setAdmitOpen = (isOpen: boolean) => ({
+  type: types.SET_ADMIT_OPEN,
+  payload: isOpen,
+});
+
+export const setAdmitUser = (admitUser: IUser) => ({
+  type: types.SET_ADMIT_USER,
+  payload: { admitUser },
 });

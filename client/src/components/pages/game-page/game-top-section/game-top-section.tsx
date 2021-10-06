@@ -19,7 +19,7 @@ export const GameTopSection = ({ timerSecs, client }: IGameTopSection) => {
 
   const handleStopExitGame = () => {
     if (isClientDealer) ws.requestCancelGame();
-    else ws.requestUserDelete(client.id);
+    else ws.clientExit();
   };
 
   return (
