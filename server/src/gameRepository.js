@@ -87,6 +87,7 @@ export default ({ socket, io }) => {
   socket.on("disconnect", () => {
     const user = games.filter((game) => game.users.id === socket.id);
     if (user) {
+      console.log(`${user.firstName} left the room: ${room}`)
       io.in(user.room).emit(
         EVENTS.NOTIFICATIONS,
         `${user.firstName} left the room: ${room}`
@@ -102,7 +103,7 @@ export default ({ socket, io }) => {
     io.emit(EVENTS.NOTIFICATIONS, { message: "Current game cancelled." });
     currentGame.gameStatus = "cancelGame";
     const gameStatus = currentGame.gameStatus;
-    console.log(`In room: ${room} cancel game`)
+    console.log(`In room: ${room} canceled the game`)
     io.in(room).emit(EVENTS.RES_CANCEL_GAME, { gameStatus });
     deleteGame(room);
   });

@@ -66,7 +66,7 @@ export default ({ socket, io }) => {
       io.in(room).emit(EVENTS.NOTIFICATIONS, {
         message: `${user.firstName} just entered the room`,
       });
-      console.log(`user join the room: ${room}`)
+      console.log(`user ${id} join the room: ${room}`)
       io.in(room).emit(EVENTS.RES_USER_JOINED, user);
       callback(currentGame);
     }
@@ -79,7 +79,7 @@ export default ({ socket, io }) => {
       return callback(new Error("Only scrum master can delete user"));
     const { deletedUser, userDeleteError } = deleteUser(room, userID);
     if (userDeleteError) return callback(userDeleteError);
-    console.log(`user delete from the room: ${room}`)
+    console.log(`${userID} user delete from the room: ${room}`)
     io.in(room).emit(EVENTS.RES_USER_DELETED, deletedUser.id);
     io.in(room).emit(EVENTS.NOTIFICATIONS, `${deletedUser} just left the room`);
     callback(deletedUser);
@@ -100,6 +100,7 @@ export default ({ socket, io }) => {
       const deleteUserFullName = deleteUser.lastName
         ? `${deleteUser.firstName} ${deleteUser.lastName}`
         : deleteUser.firstName;
+      console.log(`${removerUserID} propose delete ${deleteUserID} from ${room} room`)
       socket.in(currentGame.room).emit(EVENTS.RES_START_VOTE, {
         removerUserID,
         removerUserFullName,
@@ -127,7 +128,7 @@ export default ({ socket, io }) => {
       const { deletedUser } = deleteUser(room, currentGame.voting.candidat);
       const deletedUserID = deletedUser.id;
       isDeleted = true;
-      console.log(`user deleted by voting from  the room: ${room}`)
+      console.log(`${deletedUserID} user deleted by voting from  the room: ${room}`)
       io.in(room).emit(EVENTS.RES_RESULT_VOTE, { deletedUserID, isDeleted });
       io.in(room).emit(
         EVENTS.NOTIFICATIONS,
@@ -141,7 +142,7 @@ export default ({ socket, io }) => {
       currentGame.voting.results = [];
       isDeleted = false;
       const deletedUserID = currentGame.voting.candidat;
-      console.log(`user stay in  the room: ${room}`)
+      console.log(` ${deletedUserID} user stay in  the room: ${room}`)
       io.in(room).emit(EVENTS.RES_RESULT_VOTE, { deletedUserID, isDeleted });
       io.in(room).emit(EVENTS.NOTIFICATIONS, `user stay in the room `);
     }

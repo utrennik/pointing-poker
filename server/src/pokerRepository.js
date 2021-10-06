@@ -45,7 +45,7 @@ export default ({ socket, io }) => {
     currentGame.settings = data;
     addPokerGame(data.room);
     const selectID = checkCurrentIssue(data.room);
-    console.log(`start poker game it the room: ${data.room}`)
+    console.log(`dealer start poker game it the room: ${data.room}`)
     io.in(data.room).emit(EVENTS.RES_SELECT_ISSUE,selectID)
     io.in(data.room).emit(EVENTS.RES_START_POKER, data);
   });
@@ -87,7 +87,7 @@ export default ({ socket, io }) => {
     const {issue} = getIssue(roomID,issueID);
     const updatedIssue = {...issue,score};
     const {updIssue} = updateIssue(roomID,updatedIssue);
-    console.log(`user set score in the room: ${roomID}`)
+    console.log(`dealer set score for ${issueID} issue in the room: ${roomID}`)
     io.in(roomID).emit(EVENTS.RES_SET_SCORE, scoreToRound);
   });
 
@@ -126,7 +126,7 @@ export default ({ socket, io }) => {
         issueID,
         score: currentPokerGame.round.results
       }
-      console.log(`user make choice in poker game in the room ${roomID}`)
+      console.log(`${userScore.userID} user make choice in poker game in the room ${roomID}`)
       io.in(roomID).emit(EVENTS.RES_ROUND_VOTE, res);
     }
   });
