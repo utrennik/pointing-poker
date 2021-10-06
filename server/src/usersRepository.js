@@ -54,11 +54,12 @@ export default ({ socket, io }) => {
     ) => {
       const { currentGame } = getGame(room);
       socket.join(room);
+      callback(currentGame);
       if (
-        currentGame.settings.gameStatus === "poker" &&
+        currentGame.gameStatus === "poker" &&
         currentGame.settings.isFreeConnectionToGameForNewUsers
       ) {
-        callback(currentGame);
+        return ;
       }
       const { user, userError } = addUser({
         firstName,
@@ -76,7 +77,6 @@ export default ({ socket, io }) => {
       // });
       console.log(`user ${id} join the room: ${room}`);
       io.in(room).emit(EVENTS.RES_USER_JOINED, user);
-      callback(currentGame);
     }
   );
 
