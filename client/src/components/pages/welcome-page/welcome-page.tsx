@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
 import { WebSocketContext } from '@models/web-socket';
 import { Button } from '@material-ui/core';
+import { Alert, AlertTitle } from '@mui/material';
 import InputButton from '@components/ui/input-button/input-button';
 import ConnectModal from '@components/modals/connect-modal/connect-modal';
 import StartModal from '@components/modals/start-modal/start-modal';
@@ -88,6 +89,14 @@ const WelcomePage = () => {
           </div>
         </div>
       </div>
+
+      <Alert severity="warning">
+        <AlertTitle>Warning</AlertTitle>
+        <strong>Dear USER!!</strong> If you are using the deployed version! <br />
+        The backend part is deployed on heroku. Sometimes (usually at evening) the service loses the
+        socket connection! If something does not work, please wait or reload the page and try again!
+        Thank You for understanding!
+      </Alert>
 
       <ConnectModal
         isOpen={connectModalOpen}

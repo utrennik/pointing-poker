@@ -308,7 +308,7 @@ export interface IMemberCard {
   /*
    * job Position  ( we has a little slip with naming )
    */
-  role: string;
+  role?: string;
   /*
    * avatar image
    */
@@ -335,7 +335,7 @@ export interface IMemberCard {
   /*
    * role in the game
    */
-  gameRole: 'dealer' | 'member' | 'observer';
+  gameRole?: 'dealer' | 'member' | 'observer';
 }
 
 export interface IMessage {

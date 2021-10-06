@@ -149,7 +149,11 @@ export const GameRoundSection = ({
 
       <div className="current-issue-details current-issue-score">
         <span>Score: </span>
-        {currentIssue.score || '---'}
+        <div className="current-issue-score-value">
+          {currentIssue.score
+            ? `${currentIssue.score} ${settings.unitsOfEstimation.scoreTypeShort}`
+            : '---'}
+        </div>
       </div>
 
       <div className="current-issue-score-input">

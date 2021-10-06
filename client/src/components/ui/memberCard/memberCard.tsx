@@ -110,7 +110,7 @@ export const MemberCard = ({
         className={classes.header}
         title={nameWithoutLastName}
         titleTypographyProps={{ variant: stylesProps.titleTypography as Variant }}
-        subheader={truncateString(role, stylesProps.roleTruncate)}
+        subheader={role ? truncateString(role, stylesProps.roleTruncate) : ''}
         subheaderTypographyProps={{ variant: stylesProps.subtitleTypography as Variant }}
       />
       <IconButton
@@ -121,7 +121,7 @@ export const MemberCard = ({
       <Dialog className="modal-dialog" open={deleteUserModalOpen} onClose={handleDelete}>
         <DialogTitle className={classes.dialogTitle}>Kick player?</DialogTitle>
         <DialogContent>
-          Are you really want to remove {nameWithoutLastName} from game session?
+          Are you really want to remove {`${firstName} ${lastName}`} from game session?
         </DialogContent>
         <DialogActions className={classes.dialogActions}>
           <Button variant="contained" onClick={handleDelete}>

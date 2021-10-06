@@ -44,6 +44,7 @@ import {
   IRoundVoteData,
   IFlipCards,
   IIssueScoreData,
+  Role,
 } from './types';
 import config from '../config.json';
 
@@ -352,8 +353,12 @@ export default ({ children }: { children: ReactChild[] }) => {
 
   socket.on(config.RES_CANCEL_GAME, (gameStatusData: IGameStatus) => {
     console.log(`Game canceled ! ${gameStatusData}`);
-
+    const isDealer: boolean = client.role === Role.DEALER;
+    const message: string = isDealer
+      ? config.GAME_CANCEL_DEALER_NOTIFICATION
+      : config.GAME_CANCEL_USER_NOTIFICATION;
     resetClient();
+    setNotification(message);
   });
 
   socket.on(config.RES_SELECT_ISSUE, (issueID: string) => {
