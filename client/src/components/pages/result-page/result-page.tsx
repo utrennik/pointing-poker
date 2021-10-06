@@ -6,11 +6,11 @@ import '@styles/page.sass';
 import '../game-page/game-top-section/game-top-section.sass';
 
 const ResultPage = () => {
-  const gameTitle: string =
-    useSelector((state: RootState) => state.game.title) || 'Test Game title';
+  const gameTitle: string = useSelector((state: RootState) => state.game.title);
+
   return (
     <main className="main">
-      <div className="container content-wrapper">
+      <div className="content-wrapper">
         <div className="game-top-section-title">{gameTitle}</div>
         <GameResultsSave />
         <GameResults />

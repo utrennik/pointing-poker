@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     alignItems: 'flex-start',
     columnGap: '10px',
     padding: '5px 0px',
-    maxWidth: '300px',
+    width: '300px',
   },
   header: {
     fontWeight: 700,
@@ -31,6 +31,9 @@ export const GameResults = () => {
   const descriptionStyles = classes.description;
 
   const issues: IIssue[] = useSelector((state: RootState) => state.game.issues as IIssue[]);
+  const scoreTypeShort: string = useSelector(
+    (state: RootState) => state.game.settings.unitsOfEstimation.scoreTypeShort
+  );
 
   return (
     <div className="results-container">
@@ -51,7 +54,7 @@ export const GameResults = () => {
                     }}
                   />
                   <Typography className={descriptionStyles} variant="h4" color="primary">
-                    {issue.score}
+                    {`${issue.score} ${scoreTypeShort}`}
                   </Typography>
                   <Typography className={descriptionStyles} variant="body2">
                     {issue.description}
