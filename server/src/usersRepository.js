@@ -52,7 +52,16 @@ export default ({ socket, io }) => {
       { firstName, id, room, role, lastName, jobPosition, avatar },
       callback
     ) => {
-      const { user, currentGame, userError } = addUser({
+      const { currentGame } = getGame(room);
+      socket.join(room);
+      callback(currentGame);
+      if (
+        currentGame.gameStatus === "poker" &&
+        currentGame.settings.isFreeConnectionToGameForNewUsers
+      ) {
+        return ;
+      }
+      const { user, userError } = addUser({
         firstName,
         id,
         room,
@@ -62,13 +71,12 @@ export default ({ socket, io }) => {
         avatar,
       });
       if (userError) return callback(userError);
-      socket.join(room);
-      io.in(room).emit(EVENTS.NOTIFICATIONS, {
-        message: `${user.firstName} just entered the room`,
-      });
-      console.log(`user ${id} join the room: ${room}`)
+
+      // io.in(room).emit(EVENTS.NOTIFICATIONS, {
+      //   message: `${user.firstName} just entered the room`,
+      // });
+      console.log(`user ${id} join the room: ${room}`);
       io.in(room).emit(EVENTS.RES_USER_JOINED, user);
-      callback(currentGame);
     }
   );
 
@@ -79,7 +87,7 @@ export default ({ socket, io }) => {
       return callback(new Error("Only scrum master can delete user"));
     const { deletedUser, userDeleteError } = deleteUser(room, userID);
     if (userDeleteError) return callback(userDeleteError);
-    console.log(`${userID} user delete from the room: ${room}`)
+    console.log(`${userID} user delete from the room: ${room}`);
     io.in(room).emit(EVENTS.RES_USER_DELETED, deletedUser.id);
     io.in(room).emit(EVENTS.NOTIFICATIONS, `${deletedUser} just left the room`);
     callback(deletedUser);
@@ -100,7 +108,9 @@ export default ({ socket, io }) => {
       const deleteUserFullName = deleteUser.lastName
         ? `${deleteUser.firstName} ${deleteUser.lastName}`
         : deleteUser.firstName;
-      console.log(`${removerUserID} propose delete ${deleteUserID} from ${room} room`)
+      console.log(
+        `${removerUserID} propose delete ${deleteUserID} from ${room} room`
+      );
       socket.in(currentGame.room).emit(EVENTS.RES_START_VOTE, {
         removerUserID,
         removerUserFullName,
@@ -109,8 +119,6 @@ export default ({ socket, io }) => {
       });
     }
   });
-
-
 
   socket.on(EVENTS.REQ_RESULT_VOTE, ({ room, result }) => {
     const { currentGame, gameError } = getGame(room);
@@ -128,7 +136,9 @@ export default ({ socket, io }) => {
       const { deletedUser } = deleteUser(room, currentGame.voting.candidat);
       const deletedUserID = deletedUser.id;
       isDeleted = true;
-      console.log(`${deletedUserID} user deleted by voting from  the room: ${room}`)
+      console.log(
+        `${deletedUserID} user deleted by voting from  the room: ${room}`
+      );
       io.in(room).emit(EVENTS.RES_RESULT_VOTE, { deletedUserID, isDeleted });
       io.in(room).emit(
         EVENTS.NOTIFICATIONS,
@@ -142,7 +152,7 @@ export default ({ socket, io }) => {
       currentGame.voting.results = [];
       isDeleted = false;
       const deletedUserID = currentGame.voting.candidat;
-      console.log(` ${deletedUserID} user stay in  the room: ${room}`)
+      console.log(` ${deletedUserID} user stay in  the room: ${room}`);
       io.in(room).emit(EVENTS.RES_RESULT_VOTE, { deletedUserID, isDeleted });
       io.in(room).emit(EVENTS.NOTIFICATIONS, `user stay in the room `);
     }

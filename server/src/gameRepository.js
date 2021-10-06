@@ -7,7 +7,9 @@ export const addGame = () => {
   const room = uuidv4();
   const users = [];
   const issues = [];
-  const settings = {};
+  const settings = {
+    isFreeConnectionToGameForNewUsers:false,
+  };
   const title = "";
   const dealer = {};
   const gameStatus = "lobby";
