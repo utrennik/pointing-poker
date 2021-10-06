@@ -60,7 +60,7 @@ export default ({ socket, io }) => {
       ) {
         callback(currentGame);
       }
-      const { user, currentGame, userError } = addUser({
+      const { user, userError } = addUser({
         firstName,
         id,
         room,
