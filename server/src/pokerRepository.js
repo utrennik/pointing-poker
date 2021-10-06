@@ -105,7 +105,7 @@ export default ({ socket, io }) => {
     if (isAdmitted) {
       addUser(user);
       console.log(`Dealer admit to jon game ${user.id} user in ${roomID} room`)
-      io.in(roomID).emit(EVENTS.RES_USER_JOINED, user);
+      io.in(roomID).emit(EVENTS.RES_USER_ADMITTED, user);
     }
     if (!isAdmitted) {
       console.log(`Dealer cancel to jon game ${user.id} user in ${roomID} room`)

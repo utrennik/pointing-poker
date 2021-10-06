@@ -49,5 +49,6 @@ const EVENTS = {
   REQ_FINISH_GAME: 'req-finish-game',
   RES_FINISH_GAME: 'res-finish-game',
   REQ_CLEAR_VOTING: 'req-clear-voting',
+  RES_USER_ADMITTED:'res-user-admitted'
 }
 export default EVENTS;
