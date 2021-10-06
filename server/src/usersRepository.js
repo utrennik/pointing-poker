@@ -73,8 +73,8 @@ export default ({ socket, io }) => {
         // });
         console.log(`user ${id} join the room: ${room}`);
         io.in(room).emit(EVENTS.RES_USER_JOINED, user);
-        callback(currentGame);
       }
+      callback(currentGame);
     }
   );
 
