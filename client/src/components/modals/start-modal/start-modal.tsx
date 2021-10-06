@@ -152,6 +152,7 @@ const StartModal = ({ isOpen, onClose }: IModalWindow) => {
           </label>
         </div>
       </div>
+      <div className="modal-hint">Please use image files with size below 1mB!</div>
     </div>
   );
 
