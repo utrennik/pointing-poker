@@ -24,6 +24,8 @@ export const types = {
   RESET_DELETE_VOTING: 'RESET_DELETE_VOTING',
   SET_DELETE_VOTING_MODAL_OPEN: 'SET_DELETE_VOTING_MODAL_OPEN',
   SET_MESSAGES: 'SET_MESSAGES',
+  RESET_UNREAD_MESSAGES: 'SET_UNREAD_MESSAGES',
+  SET_CHAT_ISOPEN: 'SET_CHAT_ISOPEN',
   SET_ISSUES: 'SET_ISSUES',
   SET_CURRENT_ISSUE: 'SET_CURRENT_ISSUE',
   SET_GAME_STATUS: 'SET_GAME_STATUS',
@@ -95,6 +97,15 @@ export const resetDeleteVoting = () => ({
 export const setMessages = (messages: IMessage[]) => ({
   type: types.SET_MESSAGES,
   payload: { messages },
+});
+
+export const resetUnreadMessages = () => ({
+  type: types.RESET_UNREAD_MESSAGES,
+});
+
+export const setChatIsOpen = (isOpen: boolean) => ({
+  type: types.SET_CHAT_ISOPEN,
+  payload: { isOpen },
 });
 
 export const setIssues = (issues: IIssue[]) => ({
