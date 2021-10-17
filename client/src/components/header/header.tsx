@@ -13,9 +13,12 @@ const Header = () => {
   const isLoggedIn: boolean = useSelector((state: RootState) => !!state.game.gameStatus);
   const dispatch = useDispatch();
   const chatRef = useRef(null);
+  const chatButtonRef = useRef(null);
 
   const handleOutsideClick = (e) => {
-    if (chatRef && !chatRef.current.contains(e.target)) {
+    if (chatButtonRef && chatButtonRef.current && chatButtonRef.current.contains(e.target)) return;
+
+    if (chatRef && chatRef.current && !chatRef.current.contains(e.target)) {
       dispatch(setChatIsOpen(false));
     }
   };
@@ -49,6 +52,7 @@ const Header = () => {
                 onClick={onChatClickHandler}
                 onKeyDown={onChatClickHandler}
                 tabIndex={0}
+                ref={chatButtonRef}
               >
                 <div className="chat-icon">
                   {!!unreadMessages && (
