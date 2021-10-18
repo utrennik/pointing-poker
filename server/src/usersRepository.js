@@ -71,12 +71,9 @@ export default ({ socket, io }) => {
         avatar,
       });
       if (userError) return callback(userError);
-
-      // io.in(room).emit(EVENTS.NOTIFICATIONS, {
-      //   message: `${user.firstName} just entered the room`,
-      // });
       console.log(`user ${id} join the room: ${room}`);
       io.in(room).emit(EVENTS.RES_USER_JOINED, user);
+      io.in(room).emit(EVENTS.RES_MESSAGES_GET,currentGame.messages);
     }
   );
 

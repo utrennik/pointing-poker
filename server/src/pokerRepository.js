@@ -101,11 +101,12 @@ export default ({ socket, io }) => {
   });
 
   socket.on(EVENTS.REQ_USER_ADMIT, ({ roomID, user, isAdmitted }) => {
-    // const { currentGame } = getGame(roomID);
+    const { currentGame } = getGame(roomID);
     if (isAdmitted) {
       addUser(user);
       console.log(`Dealer admit to jon game ${user.id} user in ${roomID} room`)
       io.in(roomID).emit(EVENTS.RES_USER_ADMITTED, user);
+      io.in(room).emit(EVENTS.RES_MESSAGES_GET,currentGame.messages);
     }
     if (!isAdmitted) {
       console.log(`Dealer cancel to jon game ${user.id} user in ${roomID} room`)
