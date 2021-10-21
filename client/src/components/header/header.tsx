@@ -1,13 +1,42 @@
 import { NavLink } from 'react-router-dom';
-
-import '@styles/header.sass';
+import { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@src/redux/store';
+import { resetUnreadMessages, setChatIsOpen } from '@src/redux/actions';
 import Chat from '@components/ui/chat-component/chat-component';
-import { useState } from 'react';
+import config from '@src/config';
+import './header.sass';
 
 const Header = () => {
-  const [isChatOpen, setIsChatOpen] = useState(false);
+  const unreadMessages: number = useSelector((state: RootState) => state.chat.unreadMessages);
+  const isChatOpen: number = useSelector((state: RootState) => state.chat.isOpen);
+  const isLoggedIn: boolean = useSelector((state: RootState) => !!state.game.gameStatus);
+  const dispatch = useDispatch();
+  const chatRef = useRef(null);
+  const chatButtonRef = useRef(null);
+
+  const handleOutsideClick = (e) => {
+    if (chatButtonRef && chatButtonRef.current && chatButtonRef.current.contains(e.target)) return;
+
+    if (chatRef && chatRef.current && !chatRef.current.contains(e.target)) {
+      dispatch(setChatIsOpen(false));
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick, false);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick, false);
+    };
+  }, []);
+
   const onChatClickHandler = () => {
-    setIsChatOpen(!isChatOpen);
+    if (!isChatOpen) {
+      dispatch(setChatIsOpen(true));
+      dispatch(resetUnreadMessages());
+    } else {
+      dispatch(setChatIsOpen(false));
+    }
   };
 
   return (
@@ -15,16 +44,27 @@ const Header = () => {
       <header className="header">
         <div className="header-up">
           <div className="container header-up-wrapper">
-            <div className="chat-wrapper">
+            {isLoggedIn && (
               <div
-                tabIndex={0}
+                className="chat-wrapper"
                 role="button"
-                className="chat-icon"
                 aria-label="Open chat"
                 onClick={onChatClickHandler}
                 onKeyDown={onChatClickHandler}
-              />
-            </div>
+                tabIndex={0}
+                ref={chatButtonRef}
+              >
+                <div className="chat-icon">
+                  {!!unreadMessages && (
+                    <div className="messages-badge">
+                      {unreadMessages > config.MAX_UNREAD_MESSAGES_BADGE
+                        ? `${config.MAX_UNREAD_MESSAGES_BADGE}+`
+                        : unreadMessages}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <div className="header-down">
@@ -32,7 +72,8 @@ const Header = () => {
             <NavLink exact className="logo" to="/" />
           </div>
         </div>
-        {isChatOpen && <Chat />}
+
+        <div ref={chatRef}>{isChatOpen && <Chat />}</div>
       </header>
     </>
   );

@@ -1,6 +1,31 @@
 @import '@styles/variables'
-.message-item-container
-  padding: 5px 0
+
+.message-item
+  margin-bottom: 10px
+  padding: 10px
+  border-radius: 5px
+  font-size: 14px
+  border: 1px solid $light
+
+.message-item-current
+  background-color: $light
 
 .message-user
   display: flex
+  align-items: center
+  gap: 10px
+
+.messages.list-container
+  margin-bottom: 10px
+
+
+.message-data
+  flex: 1 0 150px
+
+.message-user-name
+  font-weight: 700
+
+.message-user-time
+  flex: 0 0 auto
+  margin-right: 5px
+  font-size: 12px

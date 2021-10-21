@@ -1,4 +1,4 @@
-@import 'variables'
+@import '@styles/variables'
 
 .header
   display: flex
@@ -10,12 +10,13 @@
     display: flex
     justify-content: flex-end
     background-color: $header-up-bg
-    padding: 15px 0
+    height: 50px
     width: 100%
 
     &-wrapper
       display: flex
-      gap: 100px
+      justify-content: end
+      align-items: center
 
   &-down
     background-color: $header-down-bg
@@ -32,29 +33,45 @@
     width: 70px
     top: -32px
     left: 65px
-    background-image: url('../assets/icons/logo.svg')
+    background-image: url('../../assets/icons/logo.svg')
     background-size: contain
     background-repeat: no-repeat
     background-position: center
 
   .chat-wrapper
     display: flex
-    justify-content: flex-end
     align-items: center
-    width: 100%
+    justify-content: center
+    height: 100%
+    width: 40px
+    margin-right: 30px
+    cursor: pointer
 
   .chat-icon
     height: 20px
     width: 20px
-    background-image: url('../assets/icons/chat.svg')
+    background-image: url('../../assets/icons/chat.svg')
     background-size: contain
     background-repeat: no-repeat
     background-position: center
     cursor: pointer
     transition: all 0.3s ease
+    position: relative
 
-    &:hover
-      transform: scale(1.15)
+  .messages-badge
+    position: absolute
+    right: -22px
+    top: -12px
+    background-color: $error-red
+    width: 20px
+    height: 20px
+    border-radius: 50%
+    font-weight: 700
+    display: flex
+    align-items: center
+    justify-content: center
+    color: $white
+    font-size: 12px
 
   .nav-wrapper
     display: flex

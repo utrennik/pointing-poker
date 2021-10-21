@@ -26,7 +26,9 @@ const MessageInputButton = () => {
     const today = new Date();
     const hours = today.getHours();
     const minutes = today.getMinutes();
-    const messageTime = `${hours}:${minutes}`;
+    const messageTime = `${hours < 10 ? `0${hours}` : hours}:${
+      minutes < 10 ? `0${minutes}` : minutes
+    }`;
     const newMessage: IMessage = {
       messageID,
       messageTime,

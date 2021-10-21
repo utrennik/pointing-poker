@@ -1,35 +1,6 @@
 import { CustomAvatar } from '@components/ui/customAvatar/customAvatar';
-import { Card, CardHeader, makeStyles, Typography } from '@material-ui/core';
 import { IMessageCard } from '@models/types';
-import '@styles/variables';
 import './message-item.sass';
-
-interface StyleProps {
-  isCurrentUser: boolean;
-}
-
-const useStyles = makeStyles({
-  card: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    columnGap: '10px',
-    padding: '5px',
-    height: 'auto',
-    width: 'auto',
-    backgroundColor: ({ isCurrentUser }: StyleProps) => (isCurrentUser ? '#ffc482' : '#fff'),
-  },
-  content: {
-    padding: '5px',
-    wordBreak: 'break-all',
-  },
-  header: {
-    width: '200px',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    padding: '8px',
-  },
-});
 
 const MessageItem = ({
   firstName,
@@ -41,29 +12,22 @@ const MessageItem = ({
 }: IMessageCard) => {
   const nameWithoutLastName = lastName ? `${firstName} ${lastName}` : firstName;
 
-  const classes = useStyles({ isCurrentUser });
-
-  const messageCardStyles = `issue-card ${classes.card}`;
-  const messageHeaderStyles = classes.header;
-  const messageContentStyles = classes.content;
+  const itemClasses = isCurrentUser ? 'message-item message-item-current' : 'message-item';
 
   return (
     <div className="message-item-container">
-      <Card className={messageCardStyles}>
+      <div className={itemClasses}>
         <div className="message-user">
           <CustomAvatar firstName={firstName} lastName={lastName} avatarImage={avatarImage} />
-          <CardHeader
-            className={messageHeaderStyles}
-            title={nameWithoutLastName}
-            subheader={messageTime}
-          />
+          <div className="message-data">
+            <div className="message-user-name">
+              {isCurrentUser ? 'You:' : `${nameWithoutLastName}:`}
+            </div>
+            <div className="message-user-message">{message}</div>
+          </div>
+          <div className="message-user-time">{messageTime}</div>
         </div>
-        <div className="message-msg">
-          <Typography className={messageContentStyles} variant="body2">
-            {message}
-          </Typography>
-        </div>
-      </Card>
+      </div>
     </div>
   );
 };
