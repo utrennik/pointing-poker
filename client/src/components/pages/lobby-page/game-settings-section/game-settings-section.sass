@@ -1,0 +1,70 @@
+@import '@styles/variables'
+.lobby-content-game-settings
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.cover-card-container
+  display: flex
+  flex-wrap: wrap
+  gap: 15px
+
+.welcome-header
+  font-size: 48px
+  font-weight: 700
+  color: $cadet-blue
+  margin-bottom: 50px
+  @media (max-width: 700px)
+    font-size: 40px
+
+.action-title
+  font-size: 23px
+  font-weight: 300
+  span
+    font-weight: 700
+    color: $cadet-blue
+
+.input-lobby-container
+  margin-bottom: 30px
+
+.switch-lobby
+  display: flex
+  align-items: baseline
+  justify-content: space-between
+  gap: 40px
+  margin: 10px 0
+
+.switch-lobby-label,
+.select-lobby-label
+  margin: 0.33em 0
+  font-size: 16px
+
+.timer-lobby
+  display: flex
+  flex-direction: column
+  gap: 10px
+  margin: 10px 0
+
+.select-lobby
+  display: flex
+  justify-content: space-between
+  flex-direction: column
+  align-items: center
+  margin: 10px 0
+  gap: 10px
+
+.error
+  position: absolute
+  left: 0
+  bottom: -20px
+  font-size: 12px
+  font-weight: 400
+  color: $error
+
+.lobby-settings-body
+  width: 100%
+  display: flex
+  gap: 30px
+  flex-wrap: wrap
+  flex-direction: row
+  justify-content: center
