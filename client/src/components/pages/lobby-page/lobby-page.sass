@@ -1,0 +1,33 @@
+@import '@styles/variables'
+
+.lobby-page
+  margin: 0 auto
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  padding: 0 30px
+  margin-bottom: 50px
+
+.lobby-content
+  width: 100%
+  max-width: 930px
+  .section-header
+    text-align: center
+    margin: 50px 0
+
+.master-lobby
+  margin-bottom: 35px
+  @media (min-width: 720px)
+    .members-lobby,
+    .issues-lobby
+      grid-template-columns: repeat(2, 1fr)
+    .switch-lobby
+      width: 60%
+
+  @media (min-width: 1050px)
+    .members-lobby,
+    .issues-lobby
+      grid-template-columns: repeat(3, 1fr)
+    .switch-lobby
+      width: 40%

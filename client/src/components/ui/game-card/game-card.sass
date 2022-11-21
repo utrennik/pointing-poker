@@ -1,0 +1,46 @@
+@import '@styles/variables'
+
+.game-card
+  position: relative
+  width: 80px
+  height: 120px
+  display: flex
+  align-items: center
+  column-gap: 10px
+  justify-content: center
+  transition: all 0.4s ease-out !important
+  cursor: pointer
+  &:hover
+    transition: all 0.2s ease-out !important
+    transform: translateY(-10%)
+
+
+  &-name
+    position: absolute
+    top: 10%
+    left: 20%
+    transform: translate(-50%, -50%)
+
+  &-value
+    max-width: 80px
+    font-size: 20px
+    font-weight: 700
+
+  &-select-bg-color
+    position: absolute
+    top: 0
+    right: 0
+    left: 0
+    bottom: 0
+    background-color: $green-select
+
+  &-select-icon
+    position: absolute
+    top: 5px
+    right: 5px
+    background: url('../../../assets/icons/checked-card.svg') center / contain
+    width: 30px
+    height: 30px
+
+.card-icon
+  width: 30px

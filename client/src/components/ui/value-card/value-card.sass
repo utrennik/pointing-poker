@@ -1,0 +1,40 @@
+@import '@styles/variables'
+
+.value-card
+  position: relative
+  width: 100px
+  height: 160px
+  display: flex
+  align-items: center
+  column-gap: 10px
+  justify-content: center
+
+  &-name
+    position: absolute
+    top: 10%
+    left: 20%
+    transform: translate(-50%, -50%)
+
+  &-value
+    max-width: 80px
+
+  &-edit-delete
+    position: absolute
+    top: 85%
+    left: 50%
+    transform: translate(-50%, -50%)
+
+  &-edit-btn
+    width: 30px
+    height: 30px
+    background: url('../../../assets/icons/editIssue.svg') center / contain
+
+  &-delete-btn
+    width: 30px
+    height: 30px
+    background: url('../../../assets/icons/deleteIssue.svg') center / contain
+
+  &-add-btn
+    width: 30px
+    height: 30px
+    background: url('../../../assets/icons/add-card.svg') center / contain
